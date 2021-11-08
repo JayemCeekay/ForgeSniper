@@ -3,43 +3,41 @@ package com.jayemceekay.forgesniper.brush.type.performer;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
 import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
-import com.jayemceekay.forgesniper.util.painter.Painters;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.world.block.BlockState;
-
 import java.util.List;
 import java.util.stream.Stream;
-
 import net.minecraft.util.text.TextFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
-public class BallBrush extends AbstractPerformerBrush {
-    private boolean trueCircle;
+public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
+    private boolean useWorldCoordinates = true;
 
-    public BallBrush() {
+    public CheckerVoxelDiscBrush() {
     }
 
     public void loadProperties() {
     }
 
-    @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
+        String[] var4 = parameters;
+        int var5 = parameters.length;
 
-        for (String parameter : parameters) {
+        for(int var6 = 0; var6 < var5; ++var6) {
+            String parameter = var4[var6];
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Ball Brush Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b b [true|false] -- Uses a true sphere algorithm instead of the skinnier version with classic sniper nubs. Default is false.");
+                messenger.sendMessage(TextFormatting.GOLD + "CheckerVoxelDisc Brush Parameters:");
+                messenger.sendMessage(TextFormatting.AQUA + "/b cvd [true|false] -- Enables or disables using World Coordinates.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("true")) {
-                this.trueCircle = true;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
+                this.useWorldCoordinates = true;
+                messenger.sendMessage(TextFormatting.AQUA + "Enabled using World Coordinates.");
             } else if (parameter.equalsIgnoreCase("false")) {
-                this.trueCircle = false;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
+                this.useWorldCoordinates = false;
+                messenger.sendMessage(TextFormatting.AQUA + "Disabled using World Coordinates.");
             } else {
                 messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
@@ -47,7 +45,6 @@ public class BallBrush extends AbstractPerformerBrush {
 
     }
 
-    @Override
     public List<String> handleCompletions(String[] parameters) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
@@ -57,34 +54,35 @@ public class BallBrush extends AbstractPerformerBrush {
         }
     }
 
-    @Override
     public void handleArrowAction(Snipe snipe) {
         BlockVector3 targetBlock = this.getTargetBlock();
-        this.ball(snipe, targetBlock);
+        this.applyBrush(snipe, targetBlock);
     }
 
-    @Override
     public void handleGunpowderAction(Snipe snipe) {
         BlockVector3 lastBlock = this.getLastBlock();
-        this.ball(snipe, lastBlock);
+        this.applyBrush(snipe, lastBlock);
     }
 
-    private void ball(Snipe snipe, BlockVector3 targetBlock) {
+    private void applyBrush(Snipe snipe, BlockVector3 target) {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        Painters.sphere().center(targetBlock).radius(brushSize).trueCircle(this.trueCircle).blockSetter((position) -> {
-            BlockState block = this.clampY(position);
 
-            try {
-                this.performer.perform(this.getEditSession(), position.getX(), this.clampY(position.getY()), position.getZ(), block);
-            } catch (MaxChangedBlocksException e) {
-                e.printStackTrace();
+        for(int x = brushSize; x >= -brushSize; --x) {
+            for(int y = brushSize; y >= -brushSize; --y) {
+                int sum = this.useWorldCoordinates ? target.getX() + x + target.getZ() + y : x + y;
+                if (sum % 2 != 0) {
+                    try {
+                        this.performer.perform(this.getEditSession(), target.getX() + x, this.clampY(target.getY()), target.getZ() + y, this.clampY(target.getX() + x, target.getY(), target.getZ() + y));
+                    } catch (MaxChangedBlocksException var9) {
+                        var9.printStackTrace();
+                    }
+                }
             }
+        }
 
-        }).paint();
     }
 
-    @Override
     public void sendInfo(Snipe snipe) {
         snipe.createMessageSender().brushNameMessage().brushSizeMessage().send();
     }

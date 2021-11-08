@@ -145,6 +145,10 @@ public abstract class AbstractBrush implements Brush {
         this.setBlockData(BlockVector3.at(x, y, z), type.getDefaultState());
     }
 
+    public void setBlockData(int x, int y, int z, BlockState blockState) throws MaxChangedBlocksException {
+        this.editSession.setBlock(BlockVector3.at(x,y,z), blockState);
+    }
+
     public void setBlockData(BlockVector3 position, BlockState blockState) throws MaxChangedBlocksException {
         this.editSession.setBlock(position, blockState);
     }

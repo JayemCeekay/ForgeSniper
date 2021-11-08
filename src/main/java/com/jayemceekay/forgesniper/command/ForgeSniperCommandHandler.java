@@ -24,8 +24,10 @@ import com.sk89q.worldedit.registry.state.Property;
 import com.sk89q.worldedit.world.block.BaseBlock;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
+
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import com.sk89q.worldedit.world.block.BlockTypes;
@@ -52,95 +54,95 @@ public class ForgeSniperCommandHandler {
 
         event.getDispatcher().register((Commands.literal("b").requires((commandSource) -> commandSource.hasPermissionLevel(2)))
                 .then((Commands.argument("brush/size", StringArgumentType.string()).suggests((context, builder) -> {
-            try {
-                String argument = StringArgumentType.getString(context, "brush/size");
-                if (context.getArgument("brush/size", String.class).matches("\\d+")) {
-                    for(int i = 0; i < 10; ++i) {
-                        builder.suggest(argument + i);
+                    try {
+                        String argument = StringArgumentType.getString(context, "brush/size");
+                        if (context.getArgument("brush/size", String.class).matches("\\d+")) {
+                            for (int i = 0; i < 10; ++i) {
+                                builder.suggest(argument + i);
+                            }
+                        } else {
+                            SuggestionHelper.limitByPrefix(ForgeSniper.brushRegistry.getBrushProperties().keySet().stream(), context.getArgument("brush/size", String.class)).forEach(builder::suggest);
+                        }
+                    } catch (Exception e) {
+                        SuggestionHelper.limitByPrefix(ForgeSniper.brushRegistry.getBrushProperties().keySet().stream(), "").forEach(builder::suggest);
                     }
-                } else {
-                    SuggestionHelper.limitByPrefix(ForgeSniper.brushRegistry.getBrushProperties().keySet().stream(), context.getArgument("brush/size", String.class)).forEach(builder::suggest);
-                }
-            } catch (Exception e) {
-                SuggestionHelper.limitByPrefix(ForgeSniper.brushRegistry.getBrushProperties().keySet().stream(), "").forEach(builder::suggest);
-            }
 
-            return builder.buildFuture();
-        }).executes((context) -> {
-            String brushName = StringArgumentType.getString(context, "brush/size");
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
-            if (brushName.matches("\\d+")) {
-                try {
-                    sniper.getCurrentToolkit().getProperties().setBrushSize(Integer.parseInt(brushName));
-                    sniper.sendInfo(sniper.getPlayer());
-                } catch (Exception e) {
-                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid brush size!").send();
-                }
-            } else {
-                try {
-                    BrushProperties brushProperties = ForgeSniper.brushRegistry.getBrushProperties().get(brushName);
-                    sniper.getCurrentToolkit().useBrush(brushProperties);
-                    sniper.sendInfo(sniper.getPlayer());
-                } catch (Exception e) {
-                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid brush name!").send();
-                }
-            }
-
-            return 0;
-        })).then(Commands.argument("args", StringArgumentType.greedyString()).suggests((context, builder) -> {
-            try {
-                BrushProperties properties = ForgeSniper.brushRegistry.getBrushProperties(StringArgumentType.getString(context, "brush/size"));
-                if (properties == null) {
                     return builder.buildFuture();
-                }
+                }).executes((context) -> {
+                    String brushName = StringArgumentType.getString(context, "brush/size");
+                    Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
+                    if (brushName.matches("\\d+")) {
+                        try {
+                            sniper.getCurrentToolkit().getProperties().setBrushSize(Integer.parseInt(brushName));
+                            sniper.sendInfo(sniper.getPlayer());
+                        } catch (Exception e) {
+                            (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid brush size!").send();
+                        }
+                    } else {
+                        try {
+                            BrushProperties brushProperties = ForgeSniper.brushRegistry.getBrushProperties().get(brushName);
+                            sniper.getCurrentToolkit().useBrush(brushProperties);
+                            sniper.sendInfo(sniper.getPlayer());
+                        } catch (Exception e) {
+                            (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid brush name!").send();
+                        }
+                    }
 
-                Brush brush = properties.getCreator().create();
+                    return 0;
+                })).then(Commands.argument("args", StringArgumentType.greedyString()).suggests((context, builder) -> {
+                    try {
+                        BrushProperties properties = ForgeSniper.brushRegistry.getBrushProperties(StringArgumentType.getString(context, "brush/size"));
+                        if (properties == null) {
+                            return builder.buildFuture();
+                        }
 
-                try {
-                    String[] args = StringUtils.splitByWholeSeparatorPreserveAllTokens(StringArgumentType.getString(context, "args"), " ");
-                    brush.handleCompletions(args).stream().filter((s) -> Arrays.stream(args).noneMatch((s1) -> StringUtils.startsWith(s1, s))).forEach((s) -> {
-                        builder.suggest(context.getArgument("args", String.class) + s.replaceFirst(args[args.length - 1], ""));
-                    });
-                } catch (Exception var5) {
-                    brush.handleCompletions(new String[0]).forEach(builder::suggest);
-                }
-            } catch (Exception ignored) {
-            }
+                        Brush brush = properties.getCreator().create();
 
-            return builder.buildFuture();
-        }).executes((ctx) -> {
-            String brushName = StringArgumentType.getString(ctx, "brush/size");
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(ctx.getSource().asPlayer().getUniqueID());
+                        try {
+                            String[] args = StringUtils.splitByWholeSeparatorPreserveAllTokens(StringArgumentType.getString(context, "args"), " ");
+                            brush.handleCompletions(args).stream().filter((s) -> Arrays.stream(args).noneMatch((s1) -> StringUtils.startsWith(s1, s))).forEach((s) -> {
+                                builder.suggest(context.getArgument("args", String.class) + s.replaceFirst(args[args.length - 1], ""));
+                            });
+                        } catch (Exception var5) {
+                            brush.handleCompletions(new String[0]).forEach(builder::suggest);
+                        }
+                    } catch (Exception ignored) {
+                    }
 
-            try {
-                BrushProperties brushProperties = ForgeSniper.brushRegistry.getBrushProperties().get(brushName);
-                String[] args = StringUtils.splitByWholeSeparatorPreserveAllTokens(StringArgumentType.getString(ctx, "args"), " ");
-                sniper.getCurrentToolkit().useBrush(brushProperties);
-                Brush brush = sniper.getCurrentToolkit().getCurrentBrush();
-                Snipe snipe = new Snipe(sniper, sniper.getCurrentToolkit(), sniper.getCurrentToolkit().getProperties(), brushProperties, brush);
-                if (brush instanceof AbstractPerformerBrush) {
-                    AbstractPerformerBrush performerBrush = (AbstractPerformerBrush)brush;
-                    performerBrush.handlePerformerCommand(args, snipe, ForgeSniper.performerRegistry);
-                } else {
-                    sniper.sendInfo(sniper.getPlayer());
-                    brush.handleCommand(args, snipe);
-                }
-            } catch (Exception var8) {
-                (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid brush name!").send();
-            }
+                    return builder.buildFuture();
+                }).executes((ctx) -> {
+                    String brushName = StringArgumentType.getString(ctx, "brush/size");
+                    Sniper sniper = ForgeSniper.sniperRegistry.getSniper(ctx.getSource().asPlayer().getUniqueID());
 
-            return 0;
-        }))));
+                    try {
+                        BrushProperties brushProperties = ForgeSniper.brushRegistry.getBrushProperties().get(brushName);
+                        String[] args = StringUtils.splitByWholeSeparatorPreserveAllTokens(StringArgumentType.getString(ctx, "args"), " ");
+                        sniper.getCurrentToolkit().useBrush(brushProperties);
+                        Brush brush = sniper.getCurrentToolkit().getCurrentBrush();
+                        Snipe snipe = new Snipe(sniper, sniper.getCurrentToolkit(), sniper.getCurrentToolkit().getProperties(), brushProperties, brush);
+                        if (brush instanceof AbstractPerformerBrush) {
+                            AbstractPerformerBrush performerBrush = (AbstractPerformerBrush) brush;
+                            performerBrush.handlePerformerCommand(args, snipe, ForgeSniper.performerRegistry);
+                        } else {
+                            sniper.sendInfo(sniper.getPlayer());
+                            brush.handleCommand(args, snipe);
+                        }
+                    } catch (Exception var8) {
+                        (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid brush name!").send();
+                    }
 
+                    return 0;
+                }))));
 
 
         event.getDispatcher().register(Commands.literal("v").requires((commandSource) -> commandSource.hasPermissionLevel(2)).then(Commands.argument("voxel", StringArgumentType.greedyString()).suggests((context, builder) -> {
 
-            try{
-                BlockType blockType = BlockTypes.get(StringArgumentType.getString(context, "voxel"));
-                com.sk89q.worldedit.command.util.SuggestionHelper.getBlockPropertySuggestions(blockType.getId(), "").forEach(builder::suggest);
+            try {
+                BlockType blockType = BlockTypes.get(StringArgumentType.getString(context, "voxel").split("\\[")[0]);
+                String dataString = StringArgumentType.getString(context, "voxel").replace(blockType.getName(), "").replace("[", "").replace("]", "").toLowerCase(Locale.ROOT);
+                com.sk89q.worldedit.command.util.SuggestionHelper.getBlockPropertySuggestions(blockType.getId(), dataString).forEach(builder::suggest);
 
-            } catch(Exception e){
+            } catch (Exception e) {
                 BlockType.REGISTRY.keySet().forEach(builder::suggest);
             }
 
@@ -166,7 +168,7 @@ public class ForgeSniperCommandHandler {
             if (sniper != null && sniper.getCurrentToolkit() != null) {
                 try {
                     PlayerEntity player = sniper.getPlayer();
-                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double)sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos());
+                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos());
                     BlockState state = ForgeAdapter.adapt(player.world).getBlock(targetRayTraceResult);
                     sniper.getCurrentToolkit().getProperties().setBlockType(state.getBlockType());
                     (new MessageSender(sniper.getPlayer())).blockTypeMessage(state.getBlockType()).send();
@@ -178,22 +180,22 @@ public class ForgeSniperCommandHandler {
             return 0;
         }));
 
-/*
-        event.getDispatcher().register((LiteralArgumentBuilder)((LiteralArgumentBuilder)((LiteralArgumentBuilder)Commands.literal("vr").requires((commandSource) -> {
+
+        event.getDispatcher().register(Commands.literal("vr").requires((commandSource) -> {
             return commandSource.hasPermissionLevel(2);
-        })).then(Commands.argument("voxelReplace", StringArgumentType.greedyString()).suggests((context, builder) -> {
+        }).then(Commands.argument("voxelReplace", StringArgumentType.greedyString()).suggests((context, builder) -> {
             if (builder.getInput().contains("[")) {
-                String newInput = (String)context.getArgument("voxelReplace", String.class);
+                String newInput = context.getArgument("voxelReplace", String.class);
                 String typeString = newInput.substring(0, newInput.indexOf("["));
                 String dataString = newInput.substring(newInput.indexOf("[") + 1);
                 if (BlockType.REGISTRY.get(typeString) != null) {
-                    BlockType type = (BlockType)BlockType.REGISTRY.get(typeString);
+                    BlockType type = BlockType.REGISTRY.get(typeString);
                     HashMap<String, String> dataMap = new HashMap();
                     String[] data = dataString.split("(,+)");
                     String[] var8 = data;
                     int var9 = data.length;
 
-                    for(int var10 = 0; var10 < var9; ++var10) {
+                    for (int var10 = 0; var10 < var9; ++var10) {
                         String s = var8[var10];
                         String[] keyValue = s.split("=");
                         if (keyValue.length == 2) {
@@ -211,10 +213,10 @@ public class ForgeSniperCommandHandler {
                         });
                     } else if (data[data.length - 1].contains("=")) {
                         String currentKey = data[data.length - 1].substring(0, data[data.length - 1].indexOf("="));
-                        ((Property)type.getPropertyMap().get(currentKey)).getValues().stream().map(Object::toString).filter((sx) -> {
-                            return StringUtils.startsWith(sx, (CharSequence)dataMap.get(currentKey));
+                        (type.getPropertyMap().get(currentKey)).getValues().stream().map(Object::toString).filter((sx) -> {
+                            return StringUtils.startsWith(sx, dataMap.get(currentKey));
                         }).forEach((sx) -> {
-                            builder.suggest(newInput + sx.replaceFirst((String)dataMap.get(currentKey), ""));
+                            builder.suggest(newInput + sx.replaceFirst(dataMap.get(currentKey), ""));
                         });
                     } else {
                         type.getPropertyMap().keySet().stream().filter((sx) -> {
@@ -230,12 +232,12 @@ public class ForgeSniperCommandHandler {
 
             return builder.buildFuture();
         }).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
             if (sniper != null && sniper.getCurrentToolkit() != null) {
                 try {
                     ParserContext parserContext = new ParserContext();
-                    parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity)sniper.getPlayer()));
-                    BlockState state = ((BaseBlock)WorldEdit.getInstance().getBlockFactory().parseFromInput((String)context.getArgument("voxelReplace", String.class), parserContext)).toImmutableState();
+                    parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity) sniper.getPlayer()));
+                    BlockState state = WorldEdit.getInstance().getBlockFactory().parseFromInput(context.getArgument("voxelReplace", String.class), parserContext).toImmutableState();
                     sniper.getCurrentToolkit().getProperties().setReplaceBlockType(state.getBlockType());
                     (new MessageSender(sniper.getPlayer())).replaceBlockTypeMessage(state.getBlockType()).send();
                 } catch (InputParseException var4) {
@@ -244,106 +246,112 @@ public class ForgeSniperCommandHandler {
             }
 
             return 0;
-        }))).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
-            if (sniper != null && sniper.getCurrentToolkit() != null) {
-                try {
-                    PlayerEntity player = sniper.getPlayer();
-                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.field_70170_p.func_217299_a(new RayTraceContext(player.func_174824_e(1.0F), player.func_174824_e(1.0F).func_178787_e(player.func_70040_Z().func_186678_a((double)sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).func_216350_a());
-                    BlockState state = ForgeAdapter.adapt(player.field_70170_p).getBlock(targetRayTraceResult);
-                    sniper.getCurrentToolkit().getProperties().setReplaceBlockType(state.getBlockType());
-                    (new MessageSender(sniper.getPlayer())).replaceBlockTypeMessage(state.getBlockType()).send();
-                } catch (Exception var5) {
-                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
-                }
-            }
-
-            return 0;
-        }));
-        event.getDispatcher().register((LiteralArgumentBuilder)((LiteralArgumentBuilder)((LiteralArgumentBuilder)Commands.literal("vi").requires((commandSource) -> {
-            return commandSource.func_197034_c(2);
-        })).then(Commands.argument("voxelCombo", StringArgumentType.greedyString()).suggests((context, builder) -> {
-            return builder.buildFuture();
-        }).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
-            if (sniper != null && sniper.getCurrentToolkit() != null) {
-                try {
-                    ParserContext parserContext = new ParserContext();
-                    parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity)sniper.getPlayer()));
-                    BlockState state = ((BaseBlock)WorldEdit.getInstance().getBlockFactory().parseFromInput((String)context.getArgument("voxelCombo", String.class), parserContext)).toImmutableState();
-                    sniper.getCurrentToolkit().getProperties().setBlockData(state);
-                    (new MessageSender(sniper.getPlayer())).blockDataMessage(state).send();
-                } catch (InputParseException var4) {
-                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
-                }
-            }
-
-            return 0;
-        }))).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
-            if (sniper != null && sniper.getCurrentToolkit() != null) {
-                try {
-                    PlayerEntity player = sniper.getPlayer();
-                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.field_70170_p.func_217299_a(new RayTraceContext(player.func_174824_e(1.0F), player.func_174824_e(1.0F).func_178787_e(player.func_70040_Z().func_186678_a((double)sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).func_216350_a());
-                    BlockState state = ForgeAdapter.adapt(player.field_70170_p).getBlock(targetRayTraceResult);
-                    sniper.getCurrentToolkit().getProperties().setBlockData(state);
-                    (new MessageSender(sniper.getPlayer())).blockDataMessage(state).send();
-                } catch (Exception var5) {
-                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
-                }
-            }
-
-            return 0;
-        }));
-        event.getDispatcher().register((LiteralArgumentBuilder)((LiteralArgumentBuilder)((LiteralArgumentBuilder)Commands.literal("vir").requires((commandSource) -> {
-            return commandSource.func_197034_c(2);
-        })).then(Commands.argument("voxelComboReplace", StringArgumentType.greedyString()).suggests((context, builder) -> {
-            return builder.buildFuture();
-        }).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
-            if (sniper != null && sniper.getCurrentToolkit() != null) {
-                try {
-                    ParserContext parserContext = new ParserContext();
-                    parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity)sniper.getPlayer()));
-                    BlockState state = ((BaseBlock)WorldEdit.getInstance().getBlockFactory().parseFromInput((String)context.getArgument("voxelComboReplace", String.class), parserContext)).toImmutableState();
-                    sniper.getCurrentToolkit().getProperties().setReplaceBlockData(state);
-                    (new MessageSender(sniper.getPlayer())).replaceBlockDataMessage(state).send();
-                } catch (InputParseException var4) {
-                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
-                }
-            }
-
-            return 0;
-        }))).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
-            if (sniper != null && sniper.getCurrentToolkit() != null) {
-                try {
-                    PlayerEntity player = sniper.getPlayer();
-                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.field_70170_p.func_217299_a(new RayTraceContext(player.func_174824_e(1.0F), player.func_174824_e(1.0F).func_178787_e(player.func_70040_Z().func_186678_a((double)sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).func_216350_a());
-                    BlockState state = ForgeAdapter.adapt(player.field_70170_p).getBlock(targetRayTraceResult);
-                    sniper.getCurrentToolkit().getProperties().setReplaceBlockData(state);
-                    (new MessageSender(sniper.getPlayer())).replaceBlockDataMessage(state).send();
-                } catch (Exception var5) {
-                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
-                }
-            }
-
-            return 0;
-        }));
-        event.getDispatcher().register((LiteralArgumentBuilder)((LiteralArgumentBuilder)Commands.literal("d").requires((commandSource) -> {
-            return commandSource.func_197034_c(2);
         })).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper((context.getSource()).asPlayer().getUniqueID());
+            if (sniper != null && sniper.getCurrentToolkit() != null) {
+                try {
+                    PlayerEntity player = sniper.getPlayer();
+                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos());
+                    BlockState state = ForgeAdapter.adapt(player.world).getBlock(targetRayTraceResult);
+                    sniper.getCurrentToolkit().getProperties().setReplaceBlockType(state.getBlockType());
+                    (new MessageSender(sniper.getPlayer())).replaceBlockTypeMessage(state.getBlockType()).send();
+                } catch (Exception var5) {
+                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
+                }
+            }
+
+            return 0;
+        }));
+
+
+        event.getDispatcher().register(Commands.literal("vi").requires((commandSource) -> {
+            return commandSource.hasPermissionLevel(2);
+        }).then(Commands.argument("voxelCombo", StringArgumentType.greedyString()).suggests((context, builder) -> {
+            return builder.buildFuture();
+        }).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
+            if (sniper != null && sniper.getCurrentToolkit() != null) {
+                try {
+                    ParserContext parserContext = new ParserContext();
+                    parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity) sniper.getPlayer()));
+                    BlockState state = WorldEdit.getInstance().getBlockFactory().parseFromInput(context.getArgument("voxelCombo", String.class), parserContext).toImmutableState();
+                    sniper.getCurrentToolkit().getProperties().setBlockData(state);
+                    (new MessageSender(sniper.getPlayer())).blockDataMessage(state).send();
+                } catch (InputParseException var4) {
+                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
+                }
+            }
+
+            return 0;
+        })).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
+            if (sniper != null && sniper.getCurrentToolkit() != null) {
+                try {
+                    PlayerEntity player = sniper.getPlayer();
+                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos());
+                    BlockState state = ForgeAdapter.adapt(player.world).getBlock(targetRayTraceResult);
+                    sniper.getCurrentToolkit().getProperties().setBlockData(state);
+                    (new MessageSender(sniper.getPlayer())).blockDataMessage(state).send();
+                } catch (Exception var5) {
+                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
+                }
+            }
+
+            return 0;
+        }));
+
+
+        event.getDispatcher().register(Commands.literal("vir").requires((commandSource) -> {
+            return commandSource.hasPermissionLevel(2);
+        }).then(Commands.argument("voxelComboReplace", StringArgumentType.greedyString()).suggests((context, builder) -> {
+            return builder.buildFuture();
+        }).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
+            if (sniper != null && sniper.getCurrentToolkit() != null) {
+                try {
+                    ParserContext parserContext = new ParserContext();
+                    parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity) sniper.getPlayer()));
+                    BlockState state = WorldEdit.getInstance().getBlockFactory().parseFromInput(context.getArgument("voxelComboReplace", String.class), parserContext).toImmutableState();
+                    sniper.getCurrentToolkit().getProperties().setReplaceBlockData(state);
+                    (new MessageSender(sniper.getPlayer())).replaceBlockDataMessage(state).send();
+                } catch (InputParseException var4) {
+                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
+                }
+            }
+
+            return 0;
+        })).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
+            if (sniper != null && sniper.getCurrentToolkit() != null) {
+                try {
+                    PlayerEntity player = sniper.getPlayer();
+                    BlockVector3 targetRayTraceResult = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) sniper.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos());
+                    BlockState state = ForgeAdapter.adapt(player.world).getBlock(targetRayTraceResult);
+                    sniper.getCurrentToolkit().getProperties().setReplaceBlockData(state);
+                    (new MessageSender(sniper.getPlayer())).replaceBlockDataMessage(state).send();
+                } catch (Exception var5) {
+                    (new MessageSender(sniper.getPlayer())).message(TextFormatting.RED + "Invalid Item!").send();
+                }
+            }
+
+            return 0;
+        }));
+
+
+        event.getDispatcher().register((Commands.literal("d").requires((commandSource) -> {
+            return commandSource.hasPermissionLevel(2);
+        })).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
             if (sniper != null && sniper.getCurrentToolkit() != null) {
                 sniper.getCurrentToolkit().reset();
-                ((CommandSource)context.getSource()).func_197030_a(new StringTextComponent(TextFormatting.AQUA + "Brush settings reset to their default values."), false);
+                context.getSource().sendFeedback(new StringTextComponent(TextFormatting.AQUA + "Brush settings reset to their default values."), false);
             }
 
             return 0;
         }));
-        event.getDispatcher().register((LiteralArgumentBuilder)((LiteralArgumentBuilder)((LiteralArgumentBuilder)Commands.literal("vs").requires((commandSource) -> {
-            return commandSource.func_197034_c(2);
-        })).then(Commands.argument("voxelsniper", StringArgumentType.greedyString()).suggests((context, builder) -> {
+        event.getDispatcher().register(Commands.literal("vs").requires((commandSource) -> {
+            return commandSource.hasPermissionLevel(2);
+        }).then(Commands.argument("voxelsniper", StringArgumentType.greedyString()).suggests((context, builder) -> {
             builder.suggest("enable");
             builder.suggest("disable");
             builder.suggest("brushes");
@@ -352,7 +360,7 @@ public class ForgeSniperCommandHandler {
             builder.suggest("perflong");
             return builder.buildFuture();
         }).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
             String[] arguments = StringUtils.splitByWholeSeparatorPreserveAllTokens(StringArgumentType.getString(context, "voxelsniper"), " ");
             SnipeMessenger sender = new SnipeMessenger(sniper.getCurrentToolkit().getProperties(), sniper.getCurrentToolkit().getCurrentBrushProperties(), sniper.getPlayer());
             if (arguments.length >= 1) {
@@ -361,8 +369,8 @@ public class ForgeSniperCommandHandler {
                 if (firstArgument.equalsIgnoreCase("brushes")) {
                     toolkit = sniper == null ? null : sniper.getCurrentToolkit();
                     BrushProperties brushProperties = toolkit == null ? null : toolkit.getCurrentBrushProperties();
-                    sender.sendMessage((String)ForgeSniper.brushRegistry.getBrushProperties().entrySet().stream().map((entry) -> {
-                        return (entry.getValue() == brushProperties ? TextFormatting.GOLD : TextFormatting.GRAY) + (String)entry.getKey();
+                    sender.sendMessage(ForgeSniper.brushRegistry.getBrushProperties().entrySet().stream().map((entry) -> {
+                        return (entry.getValue() == brushProperties ? TextFormatting.GOLD : TextFormatting.GRAY) + entry.getKey();
                     }).sorted().collect(Collectors.joining(TextFormatting.WHITE + ", ", TextFormatting.AQUA + "Available brushes: ", "")));
                     return 0;
                 }
@@ -406,14 +414,14 @@ public class ForgeSniperCommandHandler {
                 }
 
                 if (firstArgument.equalsIgnoreCase("perf")) {
-                    sender.sendMessage((String)ForgeSniper.performerRegistry.getPerformerProperties().keySet().stream().map((alias) -> {
+                    sender.sendMessage(ForgeSniper.performerRegistry.getPerformerProperties().keySet().stream().map((alias) -> {
                         return TextFormatting.GRAY + alias;
                     }).sorted().collect(Collectors.joining(TextFormatting.WHITE + ", ", TextFormatting.AQUA + "Available performers (abbreviated): ", "")));
                     return 0;
                 }
 
                 if (firstArgument.equalsIgnoreCase("perflong")) {
-                    sender.sendMessage((String)ForgeSniper.performerRegistry.getPerformerProperties().values().stream().map((properties) -> {
+                    sender.sendMessage(ForgeSniper.performerRegistry.getPerformerProperties().values().stream().map((properties) -> {
                         return TextFormatting.GRAY + properties.getName();
                     }).sorted().collect(Collectors.joining(TextFormatting.WHITE + ", ", TextFormatting.AQUA + "Available performers: ", "")));
                     return 0;
@@ -429,8 +437,8 @@ public class ForgeSniperCommandHandler {
             }
 
             return 0;
-        }))).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
+        })).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
             if (sniper != null) {
                 SnipeMessenger sender = new SnipeMessenger(sniper.getCurrentToolkit().getProperties(), sniper.getCurrentToolkit().getCurrentBrushProperties(), sniper.getPlayer());
                 sender.sendMessage(TextFormatting.DARK_RED + "ForgeSniper - Current Brush Settings:");
@@ -439,8 +447,10 @@ public class ForgeSniperCommandHandler {
 
             return 0;
         }));
-        event.getDispatcher().register((LiteralArgumentBuilder)Commands.literal("vc").then(Commands.argument("center", IntegerArgumentType.integer()).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
+
+
+        event.getDispatcher().register(Commands.literal("vc").then(Commands.argument("center", IntegerArgumentType.integer()).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
             SnipeMessenger sender = new SnipeMessenger(sniper.getCurrentToolkit().getProperties(), sniper.getCurrentToolkit().getCurrentBrushProperties(), sniper.getPlayer());
             Toolkit toolkit = sniper.getCurrentToolkit();
             if (toolkit == null) {
@@ -465,8 +475,9 @@ public class ForgeSniperCommandHandler {
                 }
             }
         })));
-        event.getDispatcher().register((LiteralArgumentBuilder)Commands.literal("vh").then(Commands.argument("height", IntegerArgumentType.integer()).executes((context) -> {
-            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(((CommandSource)context.getSource()).asPlayer().getUniqueID());
+
+        event.getDispatcher().register(Commands.literal("vh").then(Commands.argument("height", IntegerArgumentType.integer()).executes((context) -> {
+            Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
             SnipeMessenger sender = new SnipeMessenger(sniper.getCurrentToolkit().getProperties(), sniper.getCurrentToolkit().getCurrentBrushProperties(), sniper.getPlayer());
             if (sniper == null) {
                 return 0;
@@ -494,6 +505,6 @@ public class ForgeSniperCommandHandler {
                     }
                 }
             }
-        })));*/
+        })));
     }
 }

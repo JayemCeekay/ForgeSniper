@@ -2,7 +2,17 @@ package com.jayemceekay.forgesniper;
 
 import com.jayemceekay.forgesniper.brush.BrushRegistry;
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
-import com.jayemceekay.forgesniper.brush.type.performer.SnipeBrush;
+import com.jayemceekay.forgesniper.brush.type.*;
+import com.jayemceekay.forgesniper.brush.type.blend.BlendBallBrush;
+import com.jayemceekay.forgesniper.brush.type.blend.BlendDiscBrush;
+import com.jayemceekay.forgesniper.brush.type.blend.BlendVoxelBrush;
+import com.jayemceekay.forgesniper.brush.type.blend.BlendVoxelDiscBrush;
+import com.jayemceekay.forgesniper.brush.type.performer.*;
+import com.jayemceekay.forgesniper.brush.type.performer.disc.DiscBrush;
+import com.jayemceekay.forgesniper.brush.type.performer.disc.DiscFaceBrush;
+import com.jayemceekay.forgesniper.brush.type.performer.disc.VoxelDiscBrush;
+import com.jayemceekay.forgesniper.brush.type.performer.disc.VoxelDiscFaceBrush;
+import com.jayemceekay.forgesniper.brush.type.performer.splatter.*;
 
 
 public class BrushRegistrar {
@@ -16,7 +26,7 @@ public class BrushRegistrar {
 
     public void registerBrushes() {
 
-        /*
+
         this.registerBallBrush();
         this.registerBlendBallBrush();
         this.registerBlendDiscBrush();
@@ -57,9 +67,9 @@ public class BrushRegistrar {
         this.registerSplineBrush();
         this.registerTriangleBrush();
         this.registerUnderlayBrush();
-        this.registerVoxelBrush();*/
+        this.registerVoxelBrush();
     }
-    /*
+
     private void registerBallBrush() {
         BrushProperties properties = BrushProperties.builder().name("Ball").alias("b").alias("ball").creator(BallBrush::new).build();
         this.registry.register(properties);
@@ -257,5 +267,5 @@ public class BrushRegistrar {
     private void registerVoxelDiscFaceBrush() {
         BrushProperties properties = BrushProperties.builder().name("Voxel Disc Face").alias("vdf").alias("voxeldiscface").alias("voxel_disc_face").creator(VoxelDiscFaceBrush::new).build();
         this.registry.register(properties);
-    }*/
+    }
 }

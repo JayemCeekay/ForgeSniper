@@ -1,5 +1,6 @@
 package com.jayemceekay.forgesniper.sniper;
 
+import com.jayemceekay.forgesniper.ForgeSniper;
 import com.jayemceekay.forgesniper.brush.Brush;
 import com.jayemceekay.forgesniper.brush.PerformerBrush;
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
@@ -30,6 +31,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Sniper {
@@ -104,55 +106,56 @@ public class Sniper {
     }
 
     public synchronized void snipeOnCurrentThread(PlayerEntity player, PlayerInteractEvent action, @Nullable BlockVector3 clickedBlock, Toolkit toolkit, ToolAction toolAction, BrushProperties currentBrushProperties) {
-        LocalSession session = WorldEdit.getInstance().getSessionManager().findByName(player.getDisplayName().getString());
 
-        assert session != null;
-        EditSession editSession = session.createEditSession(ForgeAdapter.adaptPlayer((ServerPlayerEntity) player));
+        LocalSession session = WorldEdit.getInstance().getSessionManager().findByName(player.getName().getString());
 
-        try {
-            ToolkitProperties toolkitProperties = toolkit.getProperties();
-            BlockVector3 rayTraceTargetBlock = null;
-            BlockVector3 rayTraceLastBlock = null;
-            BlockVector3 targetBlock;
-            if (clickedBlock == null) {
-                targetBlock = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) this.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos());
-                if (targetBlock != null) {
-                    rayTraceTargetBlock = targetBlock;
+        if (session != null) {
+            EditSession editSession = session.createEditSession(ForgeAdapter.adaptPlayer((ServerPlayerEntity) player));
+
+            try {
+                ToolkitProperties toolkitProperties = toolkit.getProperties();
+                BlockVector3 rayTraceTargetBlock = null;
+                BlockVector3 rayTraceLastBlock = null;
+                BlockVector3 targetBlock;
+                if (clickedBlock == null) {
+                    targetBlock = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) this.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos());
+                    if (targetBlock != null) {
+                        rayTraceTargetBlock = targetBlock;
+                    }
                 }
+
+                Direction lastRayTraceResultFace = player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) this.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getFace();
+                BlockVector3 lastRayTraceResult = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) this.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos().offset(lastRayTraceResultFace));
+                if (lastRayTraceResult != null) {
+                    rayTraceLastBlock = lastRayTraceResult;
+                }
+
+                targetBlock = clickedBlock == null ? rayTraceTargetBlock : clickedBlock;
+                if (action instanceof RightClickItem) {
+                    if (targetBlock.getY() < editSession.getWorld().getMinY() && Materials.isEmpty(editSession.getBlock(BlockVector3.at(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ())).getBlockType())) {
+                        player.sendMessage(new StringTextComponent(TextFormatting.RED + "Snipe target block must be visible."), player.getUniqueID());
+                        return;
+                    }
+
+                    Brush currentBrush = toolkit.getCurrentBrush();
+                    if (currentBrush == null) {
+                        return;
+                    }
+
+                    Snipe snipe = new Snipe(this, toolkit, toolkitProperties, currentBrushProperties, currentBrush);
+                    if (currentBrush instanceof PerformerBrush) {
+                        PerformerBrush performerBrush = (PerformerBrush) currentBrush;
+                        performerBrush.initialize(snipe);
+                    }
+
+                    currentBrush.perform(snipe, toolAction, editSession, targetBlock, rayTraceLastBlock);
+                }
+            } finally {
+                session.remember(editSession);
+                editSession.flushSession();
+                editSession.close();
             }
-
-            Direction lastRayTraceResultFace = player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) this.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getFace();
-            BlockVector3 lastRayTraceResult = ForgeAdapter.adapt(player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(1.0F), player.getEyePosition(1.0F).add(player.getLookVec().scale((double) this.getCurrentToolkit().getProperties().getBlockTracerRange())), BlockMode.OUTLINE, FluidMode.NONE, player)).getPos().offset(lastRayTraceResultFace));
-            if (lastRayTraceResult != null) {
-                rayTraceLastBlock = lastRayTraceResult;
-            }
-
-            targetBlock = clickedBlock == null ? rayTraceTargetBlock : clickedBlock;
-            if (action instanceof RightClickItem) {
-                if (targetBlock.getY() < editSession.getWorld().getMinY() && Materials.isEmpty(editSession.getBlock(BlockVector3.at(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ())).getBlockType())) {
-                    player.sendMessage(new StringTextComponent(TextFormatting.RED + "Snipe target block must be visible."), player.getUniqueID());
-                    return;
-                }
-
-                Brush currentBrush = toolkit.getCurrentBrush();
-                if (currentBrush == null) {
-                    return;
-                }
-
-                Snipe snipe = new Snipe(this, toolkit, toolkitProperties, currentBrushProperties, currentBrush);
-                if (currentBrush instanceof PerformerBrush) {
-                    PerformerBrush performerBrush = (PerformerBrush) currentBrush;
-                    performerBrush.initialize(snipe);
-                }
-
-                currentBrush.perform(snipe, toolAction, editSession, targetBlock, rayTraceLastBlock);
-            }
-        } finally {
-            session.remember(editSession);
-            editSession.flushSession();
-            editSession.close();
         }
-
     }
 
     public void sendInfo(PlayerEntity sender) {

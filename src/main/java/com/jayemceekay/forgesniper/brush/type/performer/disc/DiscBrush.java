@@ -1,44 +1,42 @@
-package com.jayemceekay.forgesniper.brush.type.performer;
+package com.jayemceekay.forgesniper.brush.type.performer.disc;
 
+import com.jayemceekay.forgesniper.brush.type.performer.AbstractPerformerBrush;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
 import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
-import com.jayemceekay.forgesniper.util.painter.Painters;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.world.block.BlockState;
-
 import java.util.List;
 import java.util.stream.Stream;
-
 import net.minecraft.util.text.TextFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
-public class BallBrush extends AbstractPerformerBrush {
-    private boolean trueCircle;
+public class DiscBrush extends AbstractPerformerBrush {
+    private double trueCircle;
 
-    public BallBrush() {
+    public DiscBrush() {
     }
 
     public void loadProperties() {
     }
 
-    @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
+        String[] var4 = parameters;
+        int var5 = parameters.length;
 
-        for (String parameter : parameters) {
+        for(int var6 = 0; var6 < var5; ++var6) {
+            String parameter = var4[var6];
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Ball Brush Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b b [true|false] -- Uses a true sphere algorithm instead of the skinnier version with classic sniper nubs. Default is false.");
-                return;
+                messenger.sendMessage(TextFormatting.GOLD + "Disc Brush Parameters:");
+                messenger.sendMessage(TextFormatting.AQUA + "/b d [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
             }
 
             if (parameter.equalsIgnoreCase("true")) {
-                this.trueCircle = true;
+                this.trueCircle = 0.5D;
                 messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
             } else if (parameter.equalsIgnoreCase("false")) {
-                this.trueCircle = false;
+                this.trueCircle = 0.0D;
                 messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
             } else {
                 messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
@@ -47,7 +45,6 @@ public class BallBrush extends AbstractPerformerBrush {
 
     }
 
-    @Override
     public List<String> handleCompletions(String[] parameters) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
@@ -57,34 +54,39 @@ public class BallBrush extends AbstractPerformerBrush {
         }
     }
 
-    @Override
     public void handleArrowAction(Snipe snipe) {
         BlockVector3 targetBlock = this.getTargetBlock();
-        this.ball(snipe, targetBlock);
+        this.disc(snipe, targetBlock);
     }
 
-    @Override
     public void handleGunpowderAction(Snipe snipe) {
         BlockVector3 lastBlock = this.getLastBlock();
-        this.ball(snipe, lastBlock);
+        this.disc(snipe, lastBlock);
     }
 
-    private void ball(Snipe snipe, BlockVector3 targetBlock) {
+    private void disc(Snipe snipe, BlockVector3 targetBlock) {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        Painters.sphere().center(targetBlock).radius(brushSize).trueCircle(this.trueCircle).blockSetter((position) -> {
-            BlockState block = this.clampY(position);
+        double radiusSquared = ((double)brushSize + this.trueCircle) * ((double)brushSize + this.trueCircle);
+        BlockVector3 currentPoint = targetBlock;
 
-            try {
-                this.performer.perform(this.getEditSession(), position.getX(), this.clampY(position.getY()), position.getZ(), block);
-            } catch (MaxChangedBlocksException e) {
-                e.printStackTrace();
+        for(int x = -brushSize; x <= brushSize; ++x) {
+            currentPoint = currentPoint.withX(targetBlock.getX() + x);
+
+            for(int z = -brushSize; z <= brushSize; ++z) {
+                currentPoint = currentPoint.withZ(targetBlock.getZ() + z);
+                if ((double)targetBlock.distanceSq(currentPoint) <= radiusSquared) {
+                    try {
+                        this.performer.perform(this.getEditSession(), currentPoint.getBlockX(), this.clampY(currentPoint.getBlockY()), currentPoint.getBlockZ(), this.clampY(currentPoint.getBlockX(), currentPoint.getBlockY(), currentPoint.getBlockZ()));
+                    } catch (MaxChangedBlocksException var11) {
+                        var11.printStackTrace();
+                    }
+                }
             }
+        }
 
-        }).paint();
     }
 
-    @Override
     public void sendInfo(Snipe snipe) {
         snipe.createMessageSender().brushNameMessage().brushSizeMessage().send();
     }
