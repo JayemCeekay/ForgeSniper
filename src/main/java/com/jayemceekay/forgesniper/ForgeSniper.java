@@ -38,6 +38,14 @@ public class ForgeSniper {
 
     private void setup(FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(ForgeSniperCommandHandler.class);
+        LOGGER.info("Loading Brushes");
+        brushRegistry = this.loadBrushRegistry();
+        LOGGER.info("Loaded " + brushRegistry.getBrushProperties().values().stream().distinct().count() + " Brushes");
+        LOGGER.info("Loading Performers");
+        performerRegistry = this.loadPerformerRegistry();
+        LOGGER.info("Registering ForgeSniper Events");
+        MinecraftForge.EVENT_BUS.register(new ForgeSniperEventHandler());
+        LOGGER.info("ForgeSniper Events Registered");
     }
 
     private void doClientStuff(FMLClientSetupEvent event) {
@@ -51,14 +59,7 @@ public class ForgeSniper {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        LOGGER.info("Loading Brushes");
-        brushRegistry = this.loadBrushRegistry();
-        LOGGER.info("Loaded " + brushRegistry.getBrushProperties().values().stream().distinct().count() + " Brushes");
-        LOGGER.info("Loading Performers");
-        performerRegistry = this.loadPerformerRegistry();
-        LOGGER.info("Registering ForgeSniper Events");
-        MinecraftForge.EVENT_BUS.register(new ForgeSniperEventHandler());
-        LOGGER.info("ForgeSniper Events Registered");
+
     }
 
     private BrushRegistry loadBrushRegistry() {

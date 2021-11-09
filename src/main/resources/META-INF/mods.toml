@@ -56,3 +56,7 @@ description='''
    versionRange="[1.16.5,1.17)"
    ordering="NONE"
    side="BOTH"
+[[dependencies.forgesniper]]
+    modId="worldedit"
+    mandatory=true
+    versionRange="[7.2.5,)"
