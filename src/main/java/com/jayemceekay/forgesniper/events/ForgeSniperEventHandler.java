@@ -24,7 +24,7 @@ public class ForgeSniperEventHandler {
 
     @SubscribeEvent
     public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        ForgeSniper.sniperRegistry.registerSniper(new Sniper(event.getPlayer()));
+        ForgeSniper.sniperRegistry.getOrRegisterSniper(new Sniper(event.getPlayer()));
         ForgeSniper.sniperRegistry.getSniper(event.getPlayer().getUniqueID()).sendInfo(event.getPlayer());
     }
 

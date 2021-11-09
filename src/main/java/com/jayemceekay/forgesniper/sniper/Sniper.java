@@ -71,9 +71,7 @@ public class Sniper {
 
     @Nullable
     public Toolkit getToolkit(ItemType itemType) {
-        return this.toolkits.stream().filter((toolkit) -> {
-            return toolkit.hasToolAction(itemType);
-        }).findFirst().orElse(null);
+        return this.toolkits.stream().filter((toolkit) -> toolkit.hasToolAction(itemType)).findFirst().orElse(null);
     }
 
     @Nullable

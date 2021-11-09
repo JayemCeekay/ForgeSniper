@@ -8,14 +8,12 @@ public enum ToolAction {
     ARROW,
     GUNPOWDER;
 
-    private ToolAction() {
+    ToolAction() {
     }
 
     @Nullable
     public static ToolAction getToolAction(String name) {
-        return (ToolAction) Arrays.stream(values()).filter((toolAction) -> {
-            return name.equalsIgnoreCase(toolAction.name());
-        }).findFirst().orElse(null);
+        return Arrays.stream(values()).filter((toolAction) -> name.equalsIgnoreCase(toolAction.name())).findFirst().orElse(null);
     }
 }
 

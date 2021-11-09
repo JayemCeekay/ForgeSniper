@@ -15,8 +15,8 @@ import javax.annotation.Nullable;
 public class Toolkit {
     private static final BrushProperties DEFAULT_BRUSH_PROPERTIES;
     private final String toolkitName;
-    private final Map<ItemType, ToolAction> toolActions = new HashMap();
-    private final Map<BrushProperties, Brush> brushes = new HashMap();
+    private final Map<ItemType, ToolAction> toolActions = new HashMap<>();
+    private final Map<BrushProperties, Brush> brushes = new HashMap<>();
     private final ToolkitProperties properties = new ToolkitProperties();
     private BrushProperties currentBrushProperties;
     private BrushProperties previousBrushProperties;

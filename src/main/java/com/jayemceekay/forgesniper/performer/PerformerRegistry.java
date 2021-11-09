@@ -16,10 +16,8 @@ public class PerformerRegistry {
 
     public void register(PerformerProperties properties) {
         List<String> aliases = properties.getAliases();
-        Iterator var3 = aliases.iterator();
 
-        while(var3.hasNext()) {
-            String alias = (String)var3.next();
+        for (String alias : aliases) {
             this.performerProperties.put(alias, properties);
         }
 
@@ -27,7 +25,7 @@ public class PerformerRegistry {
 
     @Nullable
     public PerformerProperties getPerformerProperties(String alias) {
-        return (PerformerProperties)this.performerProperties.get(alias);
+        return this.performerProperties.get(alias);
     }
 
     public Map<String, PerformerProperties> getPerformerProperties() {

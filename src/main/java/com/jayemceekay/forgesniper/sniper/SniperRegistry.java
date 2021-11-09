@@ -5,16 +5,16 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SniperRegistry {
-    private final Map<UUID, Sniper> snipers = new HashMap();
+    private final Map<UUID, Sniper> snipers = new HashMap<>();
 
     public SniperRegistry() {
     }
 
-    public void registerSniper(Sniper sniper) {
-        this.snipers.put(sniper.getPlayer().getUniqueID(), sniper);
+    public void getOrRegisterSniper(Sniper sniper) {
+        this.snipers.putIfAbsent(sniper.getPlayer().getUniqueID(), sniper);
     }
 
     public Sniper getSniper(UUID uuid) {
-        return (Sniper)this.snipers.get(uuid);
+        return this.snipers.get(uuid);
     }
 }
