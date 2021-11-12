@@ -16,6 +16,7 @@ import com.sk89q.worldedit.world.block.BlockType;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public abstract class AbstractBrush implements Brush {
     private EditSession editSession;
     private BlockVector3 targetBlock;
     private BlockVector3 lastBlock;
+    public final HashMap<String, String> settings = new HashMap<>();
 
     @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
@@ -61,7 +63,7 @@ public abstract class AbstractBrush implements Brush {
         this.lastBlock = lastBlock;
         if (action == ToolAction.ARROW) {
             handleArrowAction(snipe);
-        } else if (action == ToolAction.GUNPOWDER) {
+        } else if (action == ToolAction.WAND) {
             handleGunpowderAction(snipe);
         }
 
@@ -211,5 +213,10 @@ public abstract class AbstractBrush implements Brush {
 
     public void setLastBlock(BlockVector3 lastBlock) {
         this.lastBlock = lastBlock;
+    }
+
+    @Override
+    public HashMap<String, String> getSettings() {
+        return this.settings;
     }
 }

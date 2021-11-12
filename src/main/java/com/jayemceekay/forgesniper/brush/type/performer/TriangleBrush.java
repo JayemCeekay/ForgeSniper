@@ -89,13 +89,13 @@ public class TriangleBrush extends AbstractPerformerBrush {
         this.normalVector[0] = this.vectorOne[1] * this.vectorTwo[2] - this.vectorOne[2] * this.vectorTwo[1];
         this.normalVector[1] = this.vectorOne[2] * this.vectorTwo[0] - this.vectorOne[0] * this.vectorTwo[2];
         this.normalVector[2] = this.vectorOne[0] * this.vectorTwo[1] - this.vectorOne[1] * this.vectorTwo[0];
-        double lengthOne = Math.sqrt(IntStream.of(new int[]{0, 1, 2}).mapToDouble((number) -> {
+        double lengthOne = Math.sqrt(IntStream.of(0, 1, 2).mapToDouble((number) -> {
             return MathHelper.square(this.vectorOne[number]);
         }).sum());
-        double lengthTwo = Math.sqrt(IntStream.of(new int[]{0, 1, 2}).mapToDouble((number) -> {
+        double lengthTwo = Math.sqrt(IntStream.of(0, 1, 2).mapToDouble((number) -> {
             return MathHelper.square(this.vectorTwo[number]);
         }).sum());
-        double lengthThree = Math.sqrt(IntStream.of(new int[]{0, 1, 2}).mapToDouble((number) -> {
+        double lengthThree = Math.sqrt(IntStream.of(0, 1, 2).mapToDouble((number) -> {
             return MathHelper.square(this.vectorThree[number]);
         }).sum());
         int brushSize = (int)Math.ceil(Math.max(lengthOne, lengthTwo));
@@ -103,11 +103,11 @@ public class TriangleBrush extends AbstractPerformerBrush {
         double heronBig = 0.25D * Math.sqrt(MathHelper.square(DoubleStream.of(new double[]{lengthOne, lengthTwo, lengthThree}).map(MathHelper::square).sum()) - 2.0D * DoubleStream.of(new double[]{lengthOne, lengthTwo, lengthThree}).map((number) -> {
             return Math.pow(number, 4.0D);
         }).sum());
-        if (lengthOne != 0.0D && lengthTwo != 0.0D && !IntStream.of(new int[]{0, 1, 2}).allMatch((number) -> {
+        if (lengthOne != 0.0D && lengthTwo != 0.0D && !IntStream.of(0, 1, 2).allMatch((number) -> {
             return this.coordinatesOne[number] == 0.0D;
-        }) && !IntStream.of(new int[]{0, 1, 2}).allMatch((number) -> {
+        }) && !IntStream.of(0, 1, 2).allMatch((number) -> {
             return this.coordinatesTwo[number] == 0.0D;
-        }) && !IntStream.of(new int[]{0, 1, 2}).allMatch((number) -> {
+        }) && !IntStream.of(0, 1, 2).allMatch((number) -> {
             return this.coordinatesThree[number] == 0.0D;
         })) {
             double[] cVectorOne = new double[3];
@@ -161,13 +161,13 @@ public class TriangleBrush extends AbstractPerformerBrush {
             cVectorThree[i] = this.currentCoordinates[i] - coordinatesTwo[i];
         }
 
-        double cLengthOne = Math.sqrt(IntStream.of(new int[]{0, 1, 2}).mapToDouble((number) -> {
+        double cLengthOne = Math.sqrt(IntStream.of(0, 1, 2).mapToDouble((number) -> {
             return MathHelper.square(cVectorOne[number]);
         }).sum());
-        double cLengthTwo = Math.sqrt(IntStream.of(new int[]{0, 1, 2}).mapToDouble((number) -> {
+        double cLengthTwo = Math.sqrt(IntStream.of(0, 1, 2).mapToDouble((number) -> {
             return MathHelper.square(cVectorTwo[number]);
         }).sum());
-        double cLengthThree = Math.sqrt(IntStream.of(new int[]{0, 1, 2}).mapToDouble((number) -> {
+        double cLengthThree = Math.sqrt(IntStream.of(0, 1, 2).mapToDouble((number) -> {
             return MathHelper.square(cVectorThree[number]);
         }).sum());
         return 0.25D * Math.sqrt(MathHelper.square(DoubleStream.of(new double[]{cLengthOne, cLengthTwo, cLengthThree}).map(MathHelper::square).sum()) - 2.0D * DoubleStream.of(new double[]{cLengthOne, cLengthTwo, cLengthThree}).map((number) -> {

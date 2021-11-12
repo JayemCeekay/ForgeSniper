@@ -9,7 +9,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public class ToolkitProperties {
-    private final List<BlockState> voxelList = new ArrayList();
+    private final List<BlockState> voxelList = new ArrayList<>();
     private BlockState blockData;
     private BlockState replaceBlockData;
     private int brushSize;

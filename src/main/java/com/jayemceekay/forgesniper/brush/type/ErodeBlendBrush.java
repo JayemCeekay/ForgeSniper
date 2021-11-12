@@ -5,6 +5,7 @@ import com.jayemceekay.forgesniper.sniper.ToolKit.ToolAction;
 import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.math.BlockVector3;
+
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -47,9 +48,9 @@ public class ErodeBlendBrush extends AbstractBrush {
         EditSession editSession = this.getEditSession();
         BlockVector3 targetBlock = this.getTargetBlock();
         BlockVector3 lastBlock = this.getLastBlock();
-        this.erode.perform(snipe, ToolAction.GUNPOWDER, editSession, targetBlock, lastBlock);
+        this.erode.perform(snipe, ToolAction.WAND, editSession, targetBlock, lastBlock);
         this.blendBall.setAirExcluded(false);
-        this.blendBall.perform(snipe, ToolAction.GUNPOWDER, editSession, targetBlock, lastBlock);
+        this.blendBall.perform(snipe, ToolAction.WAND, editSession, targetBlock, lastBlock);
     }
 
     public void sendInfo(Snipe snipe) {

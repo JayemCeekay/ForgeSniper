@@ -5,6 +5,8 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
@@ -24,11 +26,9 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Ellipse Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b elo [true|false] -- Toggles offset. Default is false.");
@@ -49,7 +49,7 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
                 if (parameter.equalsIgnoreCase("x[")) {
                     zRad = NumericParser.parseInteger(parameter.replace("x[", "").replace("]", ""));
                     if (zRad != null) {
-                        this.xRad = (double)zRad;
+                        this.xRad = (double) zRad;
                         messenger.sendMessage(TextFormatting.AQUA + "X radius set to: " + this.xRad);
                     } else {
                         messenger.sendMessage(TextFormatting.RED + "Invalid number.");
@@ -57,7 +57,7 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
                 } else if (parameter.equalsIgnoreCase("y[")) {
                     zRad = NumericParser.parseInteger(parameter.replace("y[", "").replace("]", ""));
                     if (zRad != null) {
-                        this.yRad = (double)zRad;
+                        this.yRad = (double) zRad;
                         messenger.sendMessage(TextFormatting.AQUA + "Y radius set to: " + this.yRad);
                     } else {
                         messenger.sendMessage(TextFormatting.RED + "Invalid number.");
@@ -65,7 +65,7 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
                 } else if (parameter.equalsIgnoreCase("z[")) {
                     zRad = NumericParser.parseInteger(parameter.replace("z[", "").replace("]", ""));
                     if (zRad != null) {
-                        this.zRad = (double)zRad;
+                        this.zRad = (double) zRad;
                         messenger.sendMessage(TextFormatting.AQUA + "Z radius set to: " + this.zRad);
                     } else {
                         messenger.sendMessage(TextFormatting.RED + "Invalid number.");
@@ -76,6 +76,15 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
             }
         }
 
+    }
+
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("xRad", Double.toString(this.xRad));
+        this.settings.put("yRad", Double.toString(this.yRad));
+        this.settings.put("zRad", Double.toString(this.zRad));
+        this.settings.put("offset", Boolean.toString(this.offset));
+        return super.getSettings();
     }
 
     public List<String> handleCompletions(String[] parameters) {

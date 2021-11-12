@@ -71,8 +71,8 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
     protected void setBlocks(Map<BlockVector3, BlockType> blockTypes) throws MaxChangedBlocksException {
 
         for (Entry<BlockVector3, BlockType> entry : blockTypes.entrySet()) {
-            BlockVector3 position = (BlockVector3)entry.getKey();
-            BlockType type = (BlockType)entry.getValue();
+            BlockVector3 position = entry.getKey();
+            BlockType type = entry.getValue();
             if (this.checkExclusions(type)) {
                 BlockType currentBlockType = this.getBlockType(position);
                 if (currentBlockType != type) {
@@ -89,8 +89,8 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
         CommonMaterial commonMaterial = new CommonMaterial();
 
        for(Entry<BlockType, Integer> entry : blockTypesFrequencies.entrySet()) {
-            BlockType type = (BlockType)entry.getKey();
-            int frequency = (Integer)entry.getValue();
+            BlockType type = entry.getKey();
+            int frequency = entry.getValue();
             if (frequency > commonMaterial.getFrequency() && this.checkExclusions(type)) {
                 commonMaterial.setBlockType(type);
                 commonMaterial.setFrequency(frequency);

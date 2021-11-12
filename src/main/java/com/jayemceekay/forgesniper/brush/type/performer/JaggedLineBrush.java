@@ -38,11 +38,9 @@ public class JaggedLineBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.DARK_AQUA + "Right click first point with the arrow. Right click with gunpowder to draw a jagged line to set the second point.");
                 messenger.sendMessage(TextFormatting.GOLD + "Jagged Line Brush Parameters:");

@@ -25,11 +25,9 @@ public class FillDownBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Fill Down Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b fd [true|false] -- Uses a true circle algorithm. Default is false.");
@@ -97,10 +95,10 @@ public class FillDownBrush extends AbstractPerformerBrush {
         BlockVector3 targetBlock = this.getTargetBlock();
 
         for(int x = -brushSize; x <= brushSize; ++x) {
-            double currentXSquared = Math.pow((double)x, 2.0D);
+            double currentXSquared = Math.pow(x, 2.0D);
 
             for(int z = -brushSize; z <= brushSize; ++z) {
-                if (currentXSquared + Math.pow((double)z, 2.0D) <= brushSizeSquared) {
+                if (currentXSquared + Math.pow(z, 2.0D) <= brushSizeSquared) {
                     int y = 0;
                     if (this.fromExisting) {
                         boolean found = false;

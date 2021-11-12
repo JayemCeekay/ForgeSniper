@@ -10,6 +10,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import net.minecraft.util.text.TextFormatting;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -64,6 +65,14 @@ public class SplatterDiscBrush extends AbstractPerformerBrush {
                         "parameter info.");
             }
         }
+    }
+
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("Seed Percent", this.seedPercent / 100 + "");
+        this.settings.put("Growth Percent", this.growthPercent / 100 + "");
+        this.settings.put("Recursions", this.splatterRecursions + "");
+        return super.getSettings();
     }
 
     @Override

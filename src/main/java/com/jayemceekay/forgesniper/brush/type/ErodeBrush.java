@@ -32,11 +32,10 @@ public class ErodeBrush extends AbstractBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
         for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+            String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Erode Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b e e[n] -- Sets erosion faces to n.");
@@ -136,15 +135,14 @@ public class ErodeBrush extends AbstractBrush {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         BlockVector3 targetBlock = this.getTargetBlock();
         BlockChangeTracker blockChangeTracker = new BlockChangeTracker(this.getEditSession());
-        BlockVector3 targetBlockVector = targetBlock;
 
         int i;
         for(i = 0; i < erosionPreset.getErosionRecursion(); ++i) {
-            this.erosionIteration(toolkitProperties, erosionPreset, blockChangeTracker, targetBlockVector);
+            this.erosionIteration(toolkitProperties, erosionPreset, blockChangeTracker, targetBlock);
         }
 
         for(i = 0; i < erosionPreset.getFillRecursion(); ++i) {
-            this.fillIteration(toolkitProperties, erosionPreset, blockChangeTracker, targetBlockVector);
+            this.fillIteration(toolkitProperties, erosionPreset, blockChangeTracker, targetBlock);
         }
 
         Iterator var13 = blockChangeTracker.getAll().iterator();
@@ -312,15 +310,15 @@ public class ErodeBrush extends AbstractBrush {
             return new ErosionPreset(this.fillFaces, this.fillRecursion, this.erosionFaces, this.erosionRecursion);
         }
     }
-    class BlockChangeTracker {
+    static class BlockChangeTracker {
         private final Map<Integer, Map<BlockVector3, BlockWrapper>> blockChanges;
         private final Map<BlockVector3, BlockWrapper> flatChanges;
         private final EditSession editSession;
         private int nextIterationId;
 
         private BlockChangeTracker(EditSession editSession) {
-            this.blockChanges = new HashMap();
-            this.flatChanges = new HashMap();
+            this.blockChanges = new HashMap<>();
+            this.flatChanges = new HashMap<>();
             this.editSession = editSession;
         }
 
@@ -339,20 +337,19 @@ public class ErodeBrush extends AbstractBrush {
         }
 
         public int nextIteration() {
-            int nextIterationId = this.nextIterationId++;
-            return nextIterationId;
+            return this.nextIterationId++;
         }
 
         public void put(BlockVector3 position, BlockWrapper changedBlock, int iteration) {
             if (!this.blockChanges.containsKey(iteration)) {
-                this.blockChanges.put(iteration, new HashMap());
+                this.blockChanges.put(iteration, new HashMap<>());
             }
 
             ((Map)this.blockChanges.get(iteration)).put(position, changedBlock);
             this.flatChanges.put(position, changedBlock);
         }
     }
-    class BlockWrapper {
+    static class BlockWrapper {
         private final int x;
         private final int y;
         private final int z;

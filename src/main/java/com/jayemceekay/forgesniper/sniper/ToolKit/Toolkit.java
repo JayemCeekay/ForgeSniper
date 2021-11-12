@@ -1,13 +1,12 @@
 package com.jayemceekay.forgesniper.sniper.ToolKit;
 
 
-
 import com.jayemceekay.forgesniper.BrushRegistrar;
 import com.jayemceekay.forgesniper.brush.Brush;
 import com.jayemceekay.forgesniper.brush.property.BrushCreator;
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
-import com.sk89q.worldedit.world.item.ItemType;
-import java.util.Collections;
+import net.minecraft.item.ItemStack;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nullable;
@@ -15,7 +14,7 @@ import javax.annotation.Nullable;
 public class Toolkit {
     private static final BrushProperties DEFAULT_BRUSH_PROPERTIES;
     private final String toolkitName;
-    private final Map<ItemType, ToolAction> toolActions = new HashMap<>();
+    private final Map<ItemStack, ToolAction> toolActions = new HashMap<>();
     private final Map<BrushProperties, Brush> brushes = new HashMap<>();
     private final ToolkitProperties properties = new ToolkitProperties();
     private BrushProperties currentBrushProperties;
@@ -36,20 +35,25 @@ public class Toolkit {
         this.createBrush(DEFAULT_BRUSH_PROPERTIES);
     }
 
-    public void addToolAction(ItemType toolMaterial, ToolAction action) {
+    public void addToolAction(ItemStack toolMaterial, ToolAction action) {
         this.toolActions.put(toolMaterial, action);
     }
 
-    public boolean hasToolAction(ItemType toolMaterial) {
-        return this.toolActions.containsKey(toolMaterial);
+    public boolean hasToolAction(ItemStack toolMaterial) {
+        return this.toolActions.keySet().stream().anyMatch(itemStack -> itemStack.isItemEqualIgnoreDurability(toolMaterial));
     }
 
     @Nullable
-    public ToolAction getToolAction(ItemType toolMaterial) {
-        return (ToolAction)this.toolActions.get(toolMaterial);
+    public ToolAction getToolAction(ItemStack toolMaterial) {
+        for(ItemStack stack : this.toolActions.keySet()) {
+            if(stack.isItemEqualIgnoreDurability(toolMaterial)) {
+                return this.toolActions.get(stack);
+            }
+        }
+        return this.toolActions.get(toolMaterial);
     }
 
-    public void removeToolAction(ItemType toolMaterial) {
+    public void removeToolAction(ItemStack toolMaterial) {
         this.toolActions.remove(toolMaterial);
     }
 
@@ -80,7 +84,7 @@ public class Toolkit {
 
     @Nullable
     public Brush getBrush(BrushProperties properties) {
-        return (Brush)this.brushes.get(properties);
+        return this.brushes.get(properties);
     }
 
     public String getToolkitName() {
@@ -95,8 +99,8 @@ public class Toolkit {
         return this.previousBrushProperties;
     }
 
-    public Map<ItemType, ToolAction> getToolActions() {
-        return Collections.unmodifiableMap(this.toolActions);
+    public Map<ItemStack, ToolAction> getToolActions() {
+        return this.toolActions;
     }
 
     public ToolkitProperties getProperties() {

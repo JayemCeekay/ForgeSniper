@@ -24,11 +24,9 @@ public class CylinderBrush extends AbstractPerformerBrush {
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
-        String[] var5 = parameters;
         int var6 = parameters.length;
 
-        for(int var7 = 0; var7 < var6; ++var7) {
-            String parameter = var5[var7];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Cylinder Brush Parameters:");
                 messenger.sendMessage(TextFormatting.DARK_AQUA + "/b c [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
@@ -141,10 +139,10 @@ public class CylinderBrush extends AbstractPerformerBrush {
 
         for(int y = yEndPoint; y >= yStartingPoint; --y) {
             for(int x = brushSize; x >= 0; --x) {
-                double xSquared = Math.pow((double)x, 2.0D);
+                double xSquared = Math.pow(x, 2.0D);
 
                 for(int z = brushSize; z >= 0; --z) {
-                    if (xSquared + Math.pow((double)z, 2.0D) <= bSquared) {
+                    if (xSquared + Math.pow(z, 2.0D) <= bSquared) {
                         this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y), blockZ + z, this.clampY(blockX + x, y, blockZ + z));
                         this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y), blockZ - z, this.clampY(blockX + x, y, blockZ - z));
                         this.performer.perform(this.getEditSession(), blockX - x, this.clampY(y), blockZ + z, this.clampY(blockX - x, y, blockZ + z));

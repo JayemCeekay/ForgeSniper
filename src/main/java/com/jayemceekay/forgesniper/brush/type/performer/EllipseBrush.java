@@ -8,6 +8,8 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.util.Direction;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
@@ -46,11 +48,9 @@ public class EllipseBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Ellipse Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b el fill -- Toggles fill mode. Default is false.");
@@ -100,6 +100,15 @@ public class EllipseBrush extends AbstractPerformerBrush {
             }
         }
 
+    }
+
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("Fill", Boolean.toString(this.fill));
+        this.settings.put("X-Scale", Integer.toString(this.xscl));
+        this.settings.put("Y-Scale", Integer.toString(this.yscl));
+        this.settings.put("Steps", Integer.toString(this.steps));
+        return super.getSettings();
     }
 
     public List<String> handleCompletions(String[] parameters) {

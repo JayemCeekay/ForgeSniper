@@ -21,11 +21,10 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
         for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+            String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Blend Voxel Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b bv water -- Toggles include or exclude (default) water.");

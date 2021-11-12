@@ -7,6 +7,8 @@ import com.jayemceekay.forgesniper.util.material.MaterialSets;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
@@ -14,7 +16,7 @@ import org.enginehub.piston.converter.SuggestionHelper;
 
 public class UnderlayBrush extends AbstractPerformerBrush {
     private static final int DEFAULT_DEPTH = 3;
-    private boolean allBlocks;
+    private boolean allBlocks = false;
     private int depth;
 
     public UnderlayBrush() {
@@ -26,11 +28,9 @@ public class UnderlayBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Underlay Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b under all -- Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).");
@@ -57,7 +57,13 @@ public class UnderlayBrush extends AbstractPerformerBrush {
                 messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
+    }
 
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("Depth", String.valueOf(this.depth));
+        this.settings.put("All Blocks", String.valueOf(this.allBlocks));
+        return super.getSettings();
     }
 
     public List<String> handleCompletions(String[] parameters) {
@@ -101,7 +107,7 @@ public class UnderlayBrush extends AbstractPerformerBrush {
                 int blockZ = targetBlock.getZ();
 
                 for(int y = blockY; y < blockY + this.depth; ++y) {
-                    if (memory[x + brushSize][z + brushSize] != 1 && Math.pow((double)x, 2.0D) + Math.pow((double)z, 2.0D) <= brushSizeSquared) {
+                    if (memory[x + brushSize][z + brushSize] != 1 && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared) {
                         int i;
                         if (this.allBlocks) {
                             for(i = 0; i < this.depth; ++i) {
@@ -139,7 +145,7 @@ public class UnderlayBrush extends AbstractPerformerBrush {
                 int blockZ = targetBlock.getZ();
 
                 for(int y = blockY; y < blockY + this.depth; ++y) {
-                    if (memory[x + brushSize][z + brushSize] != 1 && Math.pow((double)x, 2.0D) + Math.pow((double)z, 2.0D) <= brushSizeSquared) {
+                    if (memory[x + brushSize][z + brushSize] != 1 && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared) {
                         int i;
                         if (this.allBlocks) {
                             for(i = -1; i < this.depth - 1; ++i) {

@@ -5,6 +5,8 @@ import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
@@ -21,11 +23,8 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
-        int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "CheckerVoxelDisc Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b cvd [true|false] -- Enables or disables using World Coordinates.");
@@ -45,6 +44,13 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 
     }
 
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("World Coordinates", String.valueOf(this.useWorldCoordinates));
+        return super.getSettings();
+    }
+
+    @Override
     public List<String> handleCompletions(String[] parameters) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
@@ -54,11 +60,13 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
         }
     }
 
+    @Override
     public void handleArrowAction(Snipe snipe) {
         BlockVector3 targetBlock = this.getTargetBlock();
         this.applyBrush(snipe, targetBlock);
     }
 
+    @Override
     public void handleGunpowderAction(Snipe snipe) {
         BlockVector3 lastBlock = this.getLastBlock();
         this.applyBrush(snipe, lastBlock);
@@ -83,6 +91,7 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 
     }
 
+    @Override
     public void sendInfo(Snipe snipe) {
         snipe.createMessageSender().brushNameMessage().brushSizeMessage().send();
     }

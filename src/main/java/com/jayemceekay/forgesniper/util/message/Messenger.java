@@ -60,7 +60,7 @@ public class Messenger {
             this.sendMessage(TextFormatting.DARK_GREEN + "No blocks selected!");
         }
 
-        String message = (String)voxelList.stream().map((state) -> {
+        String message = voxelList.stream().map((state) -> {
             return TextFormatting.AQUA + state.getAsString();
         }).collect(Collectors.joining(TextFormatting.WHITE + ", ", TextFormatting.DARK_GREEN + "Block Types Selected: ", ""));
         this.sendMessage(message);

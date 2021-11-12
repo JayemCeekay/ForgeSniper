@@ -17,7 +17,7 @@ import com.jayemceekay.forgesniper.brush.type.performer.splatter.*;
 
 public class BrushRegistrar {
     public static final BrushProperties DEFAULT_BRUSH_PROPERTIES = BrushProperties.builder().name("Snipe").alias("s").alias("snipe").creator(SnipeBrush::new).build();
-    private BrushRegistry registry;
+    private final BrushRegistry registry;
 
     public BrushRegistrar(BrushRegistry registry) {
         this.registry = registry;

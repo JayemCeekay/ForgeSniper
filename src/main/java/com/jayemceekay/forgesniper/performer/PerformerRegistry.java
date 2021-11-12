@@ -3,7 +3,6 @@ package com.jayemceekay.forgesniper.performer;
 import com.jayemceekay.forgesniper.performer.property.PerformerProperties;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;

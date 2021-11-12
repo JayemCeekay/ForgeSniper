@@ -8,6 +8,7 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -45,6 +46,12 @@ public class BallBrush extends AbstractPerformerBrush {
             }
         }
 
+    }
+
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("True Circle", String.valueOf(this.trueCircle));
+        return super.getSettings();
     }
 
     @Override

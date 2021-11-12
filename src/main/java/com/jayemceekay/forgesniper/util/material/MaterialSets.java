@@ -1,7 +1,6 @@
 package com.jayemceekay.forgesniper.util.material;
 
 import com.sk89q.worldedit.world.block.BlockCategories;
-import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 
 public final class MaterialSets {
@@ -41,7 +40,7 @@ public final class MaterialSets {
         FALLING = MaterialSet.builder().with(LIQUIDS).with(BlockCategories.SAND).add(BlockTypes.GRAVEL).build();
         SANDSTONES = MaterialSet.builder().add(BlockTypes.SANDSTONE).add(BlockTypes.CHISELED_SANDSTONE).add(BlockTypes.CUT_SANDSTONE).add(BlockTypes.SMOOTH_SANDSTONE).build();
         RED_SANDSTONES = MaterialSet.builder().add(BlockTypes.RED_SANDSTONE).add(BlockTypes.CHISELED_RED_SANDSTONE).add(BlockTypes.CUT_RED_SANDSTONE).add(BlockTypes.SMOOTH_RED_SANDSTONE).build();
-        OVERRIDEABLE = MaterialSet.builder().with(STONES).with(GRASSES).with(new BlockType[]{BlockTypes.DIRT}).with(SANDSTONES).with(RED_SANDSTONES).with(BlockCategories.SAND).add(BlockTypes.GRAVEL).add(BlockTypes.MOSSY_COBBLESTONE).add(BlockTypes.OBSIDIAN).add(BlockTypes.SNOW).add(BlockTypes.CLAY).build();
+        OVERRIDEABLE = MaterialSet.builder().with(STONES).with(GRASSES).with(BlockTypes.DIRT).with(SANDSTONES).with(RED_SANDSTONES).with(BlockCategories.SAND).add(BlockTypes.GRAVEL).add(BlockTypes.MOSSY_COBBLESTONE).add(BlockTypes.OBSIDIAN).add(BlockTypes.SNOW).add(BlockTypes.CLAY).build();
         ORES = MaterialSet.builder().with(BlockCategories.GOLD_ORES).add(BlockTypes.NETHER_QUARTZ_ORE).add("NETHER_GOLD_ORE").build();
         OVERRIDEABLE_WITH_ORES = MaterialSet.builder().with(OVERRIDEABLE).with(ORES).build();
         PISTONS = MaterialSet.builder().add(BlockTypes.MOVING_PISTON).add(BlockTypes.PISTON).add(BlockTypes.PISTON_HEAD).add(BlockTypes.STICKY_PISTON).build();

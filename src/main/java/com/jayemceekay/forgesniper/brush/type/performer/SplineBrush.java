@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class SplineBrush extends AbstractPerformerBrush {
-    private final List<BlockVector3> endPts = new ArrayList();
-    private final List<BlockVector3> ctrlPts = new ArrayList();
-    private final List<com.jayemceekay.forgesniper.brush.type.performer.SplineBrush.Point> spline = new ArrayList();
+    private final List<BlockVector3> endPts = new ArrayList<>();
+    private final List<BlockVector3> ctrlPts = new ArrayList<>();
+    private final List<com.jayemceekay.forgesniper.brush.type.performer.SplineBrush.Point> spline = new ArrayList<>();
     private boolean set;
     private boolean ctrl;
 

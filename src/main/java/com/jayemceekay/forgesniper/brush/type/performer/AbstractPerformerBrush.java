@@ -71,7 +71,7 @@ public abstract class AbstractPerformerBrush extends AbstractBrush implements Pe
             PerformerSnipe performerSnipe = new PerformerSnipe(snipe, this.performerProperties, this.performer);
             this.performer.sendInfo(performerSnipe);
             if (parameters.length > 1) {
-                String[] additionalArguments = (String[])Arrays.copyOfRange(parameters, 1, parameters.length);
+                String[] additionalArguments = Arrays.copyOfRange(parameters, 1, parameters.length);
                 snipe.getBrush().handleCommand(additionalArguments, snipe);
             }
 

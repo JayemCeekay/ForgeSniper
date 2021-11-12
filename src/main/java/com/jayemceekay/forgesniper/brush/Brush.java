@@ -1,11 +1,12 @@
 package com.jayemceekay.forgesniper.brush;
 
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
-import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolAction;
+import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
+
+import java.util.HashMap;
 import java.util.List;
 
 public interface Brush {
@@ -26,4 +27,6 @@ public interface Brush {
     void setProperties(BrushProperties brushProperties);
 
     void loadProperties();
+
+    HashMap<String, String> getSettings();
 }

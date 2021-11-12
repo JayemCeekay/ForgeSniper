@@ -1,42 +1,44 @@
 package com.jayemceekay.forgesniper.sniper;
 
-import com.jayemceekay.forgesniper.ForgeSniper;
 import com.jayemceekay.forgesniper.brush.Brush;
 import com.jayemceekay.forgesniper.brush.PerformerBrush;
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
-import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolAction;
 import com.jayemceekay.forgesniper.sniper.ToolKit.Toolkit;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
+import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.util.material.Materials;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.forge.ForgeAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.world.item.ItemType;
-import com.sk89q.worldedit.world.item.ItemTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 public class Sniper {
     private static final String DEFAULT_TOOLKIT_NAME = "default";
-    private final List<Toolkit> toolkits = new ArrayList();
+    private final List<Toolkit> toolkits = new ArrayList<>();
     private boolean enabled = true;
     private final PlayerEntity player;
 
@@ -48,8 +50,11 @@ public class Sniper {
 
     private Toolkit createDefaultToolkit() {
         Toolkit toolkit = new Toolkit("default");
-        toolkit.addToolAction(ItemTypes.ARROW, ToolAction.ARROW);
-        toolkit.addToolAction(ItemTypes.GUNPOWDER, ToolAction.GUNPOWDER);
+        ItemStack arrow = new ItemStack(Items.ARROW);
+        ItemStack wand = new ItemStack(Items.GUNPOWDER);
+        toolkit.addToolAction(arrow.copy(), ToolAction.ARROW);
+        toolkit.addToolAction(wand.copy(), ToolAction.WAND);
+        this.updateItemStackInfo(toolkit);
         return toolkit;
     }
 
@@ -61,8 +66,7 @@ public class Sniper {
     public Toolkit getCurrentToolkit() {
         PlayerEntity player = this.getPlayer();
         ItemStack itemInHand = player.getHeldItemMainhand();
-        ItemType itemType = ItemTypes.get(itemInHand.getItem().getRegistryName().toString());
-        return itemType == ItemTypes.AIR ? this.getToolkit("default") : this.getToolkit(itemType);
+        return getToolkit(itemInHand);
     }
 
     public void addToolkit(Toolkit toolkit) {
@@ -70,7 +74,7 @@ public class Sniper {
     }
 
     @Nullable
-    public Toolkit getToolkit(ItemType itemType) {
+    public Toolkit getToolkit(ItemStack itemType) {
         return this.toolkits.stream().filter((toolkit) -> toolkit.hasToolAction(itemType)).findFirst().orElse(null);
     }
 
@@ -83,16 +87,18 @@ public class Sniper {
         this.toolkits.remove(toolkit);
     }
 
-    public boolean snipe(PlayerEntity player, PlayerInteractEvent action, ItemType usedItem, @Nullable BlockVector3 clickedBlock) {
+    public boolean snipe(PlayerEntity player, PlayerInteractEvent action, ItemStack usedItem, @Nullable BlockVector3 clickedBlock) {
         if (this.toolkits.isEmpty()) {
             return false;
         } else {
             Toolkit toolkit = this.getToolkit(usedItem);
             if (toolkit == null) {
+                player.sendMessage(new StringTextComponent(TextFormatting.RED + "No toolkit found for this item."), player.getUniqueID());
                 return false;
             } else {
                 ToolAction toolAction = toolkit.getToolAction(usedItem);
                 if (toolAction == null) {
+                    player.sendMessage(new StringTextComponent(TextFormatting.RED + "No tool action found for this item."), player.getUniqueID());
                     return false;
                 } else {
                     BrushProperties currentBrushProperties = toolkit.getCurrentBrushProperties();
@@ -193,5 +199,41 @@ public class Sniper {
 
     public List<Toolkit> getToolkits() {
         return this.toolkits;
+    }
+
+    public void updateItemStackInfo(Toolkit toolkit) {
+        toolkit.getToolActions().forEach((toolMaterial, action) -> {
+
+            if (this.getPlayer().inventory.hasItemStack(toolMaterial)) {
+
+                int index = getItemSlot(toolMaterial);
+
+                this.getPlayer().inventory.deleteStack(toolMaterial);
+
+                toolMaterial.setDisplayName(new StringTextComponent(TextFormatting.AQUA + "" + TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + ""  + toolkit.getCurrentBrushProperties().getName() + "-" + TextFormatting.ITALIC + action.toString()));
+                CompoundNBT display = toolMaterial.getOrCreateChildTag("display");
+                ListNBT tag = display.getList("Lore", 8);
+                tag.clear();
+                tag.add( StringNBT.valueOf(ITextComponent.Serializer.toJson(new StringTextComponent(TextFormatting.DARK_AQUA + "Size: " + toolkit.getProperties().getBrushSize()))));
+                toolkit.getCurrentBrush().getSettings().forEach((setting, value) -> {
+                    tag.add(StringNBT.valueOf(ITextComponent.Serializer.toJson(new StringTextComponent(TextFormatting.DARK_AQUA + setting + ": " + value))));
+                        });
+                tag.add( StringNBT.valueOf(ITextComponent.Serializer.toJson(new StringTextComponent(TextFormatting.BLUE + "Material: " + toolkit.getProperties().getBlockData()))));
+                tag.add( StringNBT.valueOf(ITextComponent.Serializer.toJson(new StringTextComponent(TextFormatting.BLUE + "Replacing: " + toolkit.getProperties().getReplaceBlockData().toString()))));
+                display.put("Lore", tag);
+
+                this.getPlayer().inventory.setInventorySlotContents(index, toolMaterial.copy());
+
+            }
+        });
+    }
+
+    public int getItemSlot(ItemStack itemStack) {
+        for (int i = 0; i < this.getPlayer().inventory.getSizeInventory(); i++) {
+            if (player.inventory.getStackInSlot(i).isItemEqualIgnoreDurability(itemStack)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

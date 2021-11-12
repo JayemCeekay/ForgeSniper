@@ -47,7 +47,7 @@ description='''
    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
    ordering="NONE"
    # Side this dependency is applied on - BOTH, CLIENT or SERVER
-   side="BOTH"
+   side="SERVER"
 # Here's another dependency
 [[dependencies.forgesniper]]
    modId="minecraft"
@@ -55,8 +55,9 @@ description='''
    # This version range declares a minimum of the current minecraft version up to but not including the next major version
    versionRange="[1.16.5,1.17)"
    ordering="NONE"
-   side="BOTH"
+   side="SERVER"
 [[dependencies.forgesniper]]
     modId="worldedit"
     mandatory=true
     versionRange="[7.2.5,)"
+    side="SERVER"

@@ -2,7 +2,6 @@ package com.jayemceekay.forgesniper.util.painter;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BlockPainter implements Painter {
     private final BlockVector3 center;

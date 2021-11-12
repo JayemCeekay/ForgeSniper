@@ -64,10 +64,10 @@ public class CleanSnowBrush extends AbstractBrush {
         double brushSizeSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
 
         for(int y = (brushSize + 1) * 2; y >= 0; --y) {
-            double ySquared = (double)MathHelper.square(y - brushSize);
+            double ySquared = MathHelper.square(y - brushSize);
 
             for(int x = (brushSize + 1) * 2; x >= 0; --x) {
-                double xSquared = (double)MathHelper.square(x - brushSize);
+                double xSquared = MathHelper.square(x - brushSize);
 
                 for(int z = (brushSize + 1) * 2; z >= 0; --z) {
                     if (xSquared + (double)MathHelper.square(z - brushSize) + ySquared <= brushSizeSquared) {

@@ -27,8 +27,8 @@ public class LineBrush extends AbstractPerformerBrush {
         if (firstParameter.equalsIgnoreCase("info")) {
             messenger.sendMessage(TextFormatting.GOLD + "Line Brush instructions: Right click first point with the arrow. Right click with gunpowder to draw a line to set the second point.");
         }
-
     }
+
 
     public void handleArrowAction(Snipe snipe) {
         BlockVector3 targetBlock = this.getTargetBlock();

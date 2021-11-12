@@ -6,6 +6,8 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
@@ -23,11 +25,10 @@ public class BlobBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
         for (int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+            String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Blob Brush Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b blob g[n] -- Sets the growth percentage to n (" + this.growthPercentMin + "-" + this.growthPercentMax + "). Default is " + 1000 + ".");
@@ -47,6 +48,12 @@ public class BlobBrush extends AbstractPerformerBrush {
             }
         }
 
+    }
+
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("Growth Percent", this.growthPercent / 100 + "");
+        return super.getSettings();
     }
 
     public List<String> handleCompletions(String[] parameters) {

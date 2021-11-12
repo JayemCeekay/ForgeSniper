@@ -11,7 +11,6 @@ import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import net.minecraft.util.text.TextFormatting;
 

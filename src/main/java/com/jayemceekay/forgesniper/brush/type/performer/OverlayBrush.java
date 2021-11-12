@@ -10,13 +10,15 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 public class OverlayBrush extends AbstractPerformerBrush {
-    private boolean allBlocks;
+    private boolean allBlocks = false;
     private int depth = 10;
 
     public OverlayBrush() {
@@ -28,11 +30,9 @@ public class OverlayBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Overlay Brush Parameters:");
                 messenger.sendMessage(TextFormatting.BLUE + "/b over all -- Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).");
@@ -59,7 +59,13 @@ public class OverlayBrush extends AbstractPerformerBrush {
                 messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
+    }
 
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("Depth", String.valueOf(this.depth));
+        this.settings.put("All Blocks", String.valueOf(this.allBlocks));
+        return super.getSettings();
     }
 
     public List<String> handleCompletions(String[] parameters) {
@@ -93,7 +99,7 @@ public class OverlayBrush extends AbstractPerformerBrush {
                 int blockY = targetBlock.getY();
                 int blockZ = targetBlock.getZ();
                 BlockType type = this.getBlockType(blockX + x, blockY + 1, blockZ + z);
-                if (this.isIgnoredBlock(type) && Math.pow((double)x, 2.0D) + Math.pow((double)z, 2.0D) <= brushSizeSquared) {
+                if (this.isIgnoredBlock(type) && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared) {
                     for(int y = blockY; y >= editSession.getMinimumPoint().getY(); --y) {
                         BlockType layerBlockType = this.getBlockType(blockX + x, y, blockZ + z);
                         if (!this.isIgnoredBlock(layerBlockType)) {
@@ -128,7 +134,7 @@ public class OverlayBrush extends AbstractPerformerBrush {
     }
 
     private boolean isOverrideableMaterial(BlockType type) {
-        return this.allBlocks && !Materials.isEmpty(type) ? true : MaterialSets.OVERRIDEABLE.contains(type);
+        return this.allBlocks && !Materials.isEmpty(type) || MaterialSets.OVERRIDEABLE.contains(type);
     }
 
     private void overlayTwo(Snipe snipe) {
@@ -147,7 +153,7 @@ public class OverlayBrush extends AbstractPerformerBrush {
                 int blockZ = targetBlock.getZ();
 
                 for(int y = blockY; y >= editSession.getMinimumPoint().getY() && !surfaceFound; --y) {
-                    if (memory[x + brushSize][z + brushSize] != 1 && Math.pow((double)x, 2.0D) + Math.pow((double)z, 2.0D) <= brushSizeSquared && !Materials.isEmpty(this.getBlockType(blockX + x, y - 1, blockZ + z)) && Materials.isEmpty(this.getBlockType(blockX + x, y + 1, blockZ + z))) {
+                    if (memory[x + brushSize][z + brushSize] != 1 && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared && !Materials.isEmpty(this.getBlockType(blockX + x, y - 1, blockZ + z)) && Materials.isEmpty(this.getBlockType(blockX + x, y + 1, blockZ + z))) {
                         if (this.allBlocks) {
                             for(int index = 1; index < this.depth + 1; ++index) {
                                 try {

@@ -53,10 +53,10 @@ public class CirclePainter implements Painter {
 
         for(int first = 1; first <= this.radius; ++first) {
             Painters.block(this).at(first, 0, 0).at(-first, 0, 0).at(0, 0, first).at(0, 0, -first).paint();
-            double firstSquared = (double)MathHelper.square(first);
+            double firstSquared = MathHelper.square(first);
 
             for(int second = 1; second <= this.radius; ++second) {
-                double secondSquared = (double)MathHelper.square(second);
+                double secondSquared = MathHelper.square(second);
                 if (firstSquared + secondSquared <= radiusSquared) {
                     Painters.block(this).at(first, 0, second).at(first, 0, -second).at(-first, 0, second).at(-first, 0, -second).paint();
                 }

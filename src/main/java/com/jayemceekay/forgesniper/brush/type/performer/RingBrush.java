@@ -21,11 +21,9 @@ public class RingBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Ring Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b ri [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
@@ -95,10 +93,10 @@ public class RingBrush extends AbstractPerformerBrush {
         int blockZ = targetBlock.getZ();
 
         for(int x = brushSize; x >= 0; --x) {
-            double xSquared = Math.pow((double)x, 2.0D);
+            double xSquared = Math.pow(x, 2.0D);
 
             for(int z = brushSize; z >= 0; --z) {
-                double ySquared = Math.pow((double)z, 2.0D);
+                double ySquared = Math.pow(z, 2.0D);
                 if (xSquared + ySquared <= outerSquared && xSquared + ySquared >= innerSquared) {
                     this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ + z, this.getBlock(blockX + x, blockY, blockZ + z));
                     this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ - z, this.getBlock(blockX + x, blockY, blockZ - z));

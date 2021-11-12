@@ -14,6 +14,7 @@ import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.minecraft.util.text.TextFormatting;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,8 +23,8 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
     private static final int DEFAULT_DEPTH = 3;
     private static final int DEFAULT_Y_OFFSET = 0;
 
-    private boolean randomizeHeight;
-    private boolean allBlocks;
+    private boolean randomizeHeight = false;
+    private boolean allBlocks = false;
 
     private int depth;
     private int yOffset;
@@ -123,6 +124,18 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
                         "parameter info.");
             }
         }
+    }
+
+    @Override
+    public HashMap<String, String> getSettings() {
+        this.settings.put("Seed Percent", this.seedPercent / 100 + "");
+        this.settings.put("Growth Percent", this.growthPercent / 100 + "");
+        this.settings.put("Recursions", this.splatterRecursions + "");
+        this.settings.put("Depth", this.depth + "");
+        this.settings.put("Y-Offset", this.yOffset + "");
+        this.settings.put("Randomize Height", this.randomizeHeight + "");
+        this.settings.put("All Blocks", this.allBlocks + "");
+        return super.getSettings();
     }
 
     @Override

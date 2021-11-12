@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public enum ToolAction {
     ARROW,
-    GUNPOWDER;
+    WAND;
 
     ToolAction() {
     }

@@ -23,11 +23,9 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
 
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
-        String[] var4 = parameters;
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            String parameter = var4[var6];
+        for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(TextFormatting.GOLD + "Disc Face Brush Parameters:");
                 messenger.sendMessage(TextFormatting.AQUA + "/b df [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
@@ -83,10 +81,10 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
         int blockZ = targetBlock.getZ();
 
         for(int x = brushSize; x >= 0; --x) {
-            double xSquared = Math.pow((double)x, 2.0D);
+            double xSquared = Math.pow(x, 2.0D);
 
             for(int z = brushSize; z >= 0; --z) {
-                if (xSquared + Math.pow((double)z, 2.0D) <= brushSizeSquared) {
+                if (xSquared + Math.pow(z, 2.0D) <= brushSizeSquared) {
                     this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ + z, this.getBlock(blockX + x, blockY, blockZ + z));
                     this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ - z, this.getBlock(blockX + x, blockY, blockZ - z));
                     this.performer.perform(this.getEditSession(), blockX - x, blockY, blockZ + z, this.getBlock(blockX - x, blockY, blockZ + z));
@@ -106,10 +104,10 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
         int blockZ = targetBlock.getZ();
 
         for(int x = brushSize; x >= 0; --x) {
-            double xSquared = Math.pow((double)x, 2.0D);
+            double xSquared = Math.pow(x, 2.0D);
 
             for(int y = brushSize; y >= 0; --y) {
-                if (xSquared + Math.pow((double)y, 2.0D) <= brushSizeSquared) {
+                if (xSquared + Math.pow(y, 2.0D) <= brushSizeSquared) {
                     this.performer.perform(this.getEditSession(), blockX + x, blockY + y, blockZ, this.getBlock(blockX + x, blockY + y, blockZ));
                     this.performer.perform(this.getEditSession(), blockX + x, blockY - y, blockZ, this.getBlock(blockX + x, blockY - y, blockZ));
                     this.performer.perform(this.getEditSession(), blockX - x, blockY + y, blockZ, this.getBlock(blockX - x, blockY + y, blockZ));
@@ -129,10 +127,10 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
         int blockZ = targetBlock.getZ();
 
         for(int x = brushSize; x >= 0; --x) {
-            double xSquared = Math.pow((double)x, 2.0D);
+            double xSquared = Math.pow(x, 2.0D);
 
             for(int y = brushSize; y >= 0; --y) {
-                if (xSquared + Math.pow((double)y, 2.0D) <= brushSizeSquared) {
+                if (xSquared + Math.pow(y, 2.0D) <= brushSizeSquared) {
                     this.performer.perform(this.getEditSession(), blockX, blockY + x, blockZ + y, this.getBlock(blockX, blockY + x, blockZ + y));
                     this.performer.perform(this.getEditSession(), blockX, blockY + x, blockZ - y, this.getBlock(blockX, blockY + x, blockZ - y));
                     this.performer.perform(this.getEditSession(), blockX, blockY - x, blockZ + y, this.getBlock(blockX, blockY - x, blockZ + y));

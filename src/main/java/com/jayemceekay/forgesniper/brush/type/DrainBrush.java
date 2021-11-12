@@ -94,10 +94,10 @@ public class DrainBrush extends AbstractBrush {
         BlockType type;
         if (this.disc) {
             for(x = brushSize; x >= 0; --x) {
-                ySquared = (double)MathHelper.square(x);
+                ySquared = MathHelper.square(x);
 
                 for(y = brushSize; y >= 0; --y) {
-                    xSquared = (double)MathHelper.square(y);
+                    xSquared = MathHelper.square(y);
                     if (ySquared + xSquared <= brushSizeSquared) {
                         BlockType typePlusPlus = this.getBlockType(targetBlock.add(x, 0, y));
                         if (Materials.isLiquid(typePlusPlus)) {
@@ -123,10 +123,10 @@ public class DrainBrush extends AbstractBrush {
             }
         } else {
             for(x = (brushSize + 1) * 2; x >= 0; --x) {
-                ySquared = (double)MathHelper.square(x - brushSize);
+                ySquared = MathHelper.square(x - brushSize);
 
                 for(y = (brushSize + 1) * 2; y >= 0; --y) {
-                    xSquared = (double)MathHelper.square(y - brushSize);
+                    xSquared = MathHelper.square(y - brushSize);
 
                     for(int z = (brushSize + 1) * 2; z >= 0; --z) {
                         if (xSquared + (double)MathHelper.square(z - brushSize) + ySquared <= brushSizeSquared) {
