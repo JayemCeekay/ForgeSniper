@@ -32,6 +32,6 @@ public class ComboComboPerformer extends AbstractPerformer {
     }
 
     public void sendInfo(PerformerSnipe snipe) {
-        snipe.createMessageSender().performerNameMessage().blockTypeMessage().replaceBlockTypeMessage().blockDataMessage().replaceBlockDataMessage().send();
+        snipe.createMessageSender().performerNameMessage().blockDataMessage().replaceBlockDataMessage().send();
     }
 }

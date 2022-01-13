@@ -7,9 +7,9 @@ import com.jayemceekay.forgesniper.brush.property.BrushCreator;
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 public class Toolkit {
     private static final BrushProperties DEFAULT_BRUSH_PROPERTIES;

@@ -12,7 +12,6 @@ import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.message.MessageSender;
 import com.jayemceekay.forgesniper.util.message.Messenger;
-import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.sk89q.worldedit.WorldEdit;
@@ -22,13 +21,6 @@ import com.sk89q.worldedit.forge.ForgeAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.player.PlayerEntity;
@@ -43,6 +35,11 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.enginehub.piston.converter.SuggestionHelper;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class ForgeSniperCommandHandler {
     public ForgeSniperCommandHandler() {
@@ -430,6 +427,33 @@ public class ForgeSniperCommandHandler {
                         }
                     }
                 })))
+                /*
+                .then(Commands.literal("vl").then(Commands.argument("values", StringArgumentType.greedyString()).executes((context) -> {
+                    Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
+                    SnipeMessenger sender = new SnipeMessenger(sniper.getCurrentToolkit().getProperties(), sniper.getCurrentToolkit().getCurrentBrushProperties(), sniper.getPlayer());
+                    if (sniper == null) {
+                        return 0;
+                    } else {
+                        Toolkit toolkit = sniper.getCurrentToolkit();
+                        if (toolkit == null) {
+                            return 0;
+                        } else {
+                            ToolkitProperties toolkitProperties = toolkit.getProperties();
+                            if (toolkitProperties == null) {
+                                return 0;
+                            } else {
+                                String[] values;
+                                try {
+                                    values = StringUtils.splitByWholeSeparatorPreserveAllTokens(StringArgumentType.getString(context, "values"), ",");
+                                }
+                            }
+                        }
+                    }
+
+
+                            return 0;
+                        }
+                )))*/
                 .then(Commands.literal("toolkit")
                         .then(Commands.argument("toolkit_name", StringArgumentType.string())
                                 .then(Commands.literal("add")

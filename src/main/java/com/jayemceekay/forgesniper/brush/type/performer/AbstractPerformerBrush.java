@@ -9,6 +9,7 @@ import com.jayemceekay.forgesniper.performer.property.PerformerCreator;
 import com.jayemceekay.forgesniper.performer.property.PerformerProperties;
 import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.performer.PerformerSnipe;
+
 import java.util.Arrays;
 import java.util.Random;
 

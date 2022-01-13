@@ -5,8 +5,9 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.World;
-import javax.annotation.Nullable;
 import net.minecraft.util.text.TextFormatting;
+
+import javax.annotation.Nullable;
 
 public class SetBrush extends AbstractPerformerBrush {
     private static final int SELECTION_SIZE_MAX = 5000000;

@@ -9,10 +9,11 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import java.util.List;
-import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DrainBrush extends AbstractBrush {
     private double trueCircle;

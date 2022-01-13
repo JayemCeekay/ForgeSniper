@@ -5,9 +5,10 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.math.MathHelper;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
+import net.minecraft.util.text.TextFormatting;
+
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import net.minecraft.util.text.TextFormatting;
 
 public class TriangleBrush extends AbstractPerformerBrush {
     private final double[] coordinatesOne = new double[3];

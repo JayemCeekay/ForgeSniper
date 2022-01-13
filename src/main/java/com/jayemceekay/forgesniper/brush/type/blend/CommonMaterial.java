@@ -1,6 +1,7 @@
 package com.jayemceekay.forgesniper.brush.type.blend;
 
 import com.sk89q.worldedit.world.block.BlockType;
+
 import javax.annotation.Nullable;
 
 class CommonMaterial {

@@ -3,10 +3,11 @@ package com.jayemceekay.forgesniper.sniper.ToolKit;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.Nullable;
 
 public class ToolkitProperties {
     private final List<BlockState> voxelList = new ArrayList<>();

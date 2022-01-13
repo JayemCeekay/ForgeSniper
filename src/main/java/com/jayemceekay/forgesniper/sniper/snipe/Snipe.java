@@ -3,10 +3,10 @@ package com.jayemceekay.forgesniper.sniper.snipe;
 import com.jayemceekay.forgesniper.brush.Brush;
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
 import com.jayemceekay.forgesniper.sniper.Sniper;
-import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessageSender;
-import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.sniper.ToolKit.Toolkit;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
+import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessageSender;
+import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class Snipe {

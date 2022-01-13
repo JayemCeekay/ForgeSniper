@@ -5,8 +5,9 @@ import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
 import com.jayemceekay.forgesniper.util.message.MessageSender;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-import java.util.List;
 import net.minecraft.entity.player.PlayerEntity;
+
+import java.util.List;
 
 public class SnipeMessageSender {
     private final ToolkitProperties toolkitProperties;

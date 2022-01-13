@@ -13,14 +13,13 @@ import com.sk89q.worldedit.util.Direction;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class ErodeBrush extends AbstractBrush {
     private static final List<Direction> FACES_TO_CHECK;

@@ -9,7 +9,6 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import net.minecraft.util.text.TextFormatting;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;

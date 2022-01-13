@@ -1,11 +1,12 @@
 package com.jayemceekay.forgesniper.performer;
 
 import com.jayemceekay.forgesniper.performer.property.PerformerProperties;
+
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 public class PerformerRegistry {
     private final Map<String, PerformerProperties> performerProperties = new HashMap();

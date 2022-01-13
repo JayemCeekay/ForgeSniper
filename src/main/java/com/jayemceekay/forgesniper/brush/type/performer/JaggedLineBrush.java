@@ -6,11 +6,12 @@ import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
+import net.minecraft.util.text.TextFormatting;
+import org.enginehub.piston.converter.SuggestionHelper;
+
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
-import net.minecraft.util.text.TextFormatting;
-import org.enginehub.piston.converter.SuggestionHelper;
 
 public class JaggedLineBrush extends AbstractPerformerBrush {
     private static final Vector3 HALF_BLOCK_OFFSET = Vector3.at(0.5D, 0.5D, 0.5D);

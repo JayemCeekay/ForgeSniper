@@ -13,6 +13,8 @@ import com.jayemceekay.forgesniper.brush.type.performer.disc.DiscFaceBrush;
 import com.jayemceekay.forgesniper.brush.type.performer.disc.VoxelDiscBrush;
 import com.jayemceekay.forgesniper.brush.type.performer.disc.VoxelDiscFaceBrush;
 import com.jayemceekay.forgesniper.brush.type.performer.splatter.*;
+import com.jayemceekay.forgesniper.brush.type.stencil.StencilBrush;
+import com.jayemceekay.forgesniper.brush.type.stencil.StencilListBrush;
 
 
 public class BrushRegistrar {
@@ -68,6 +70,8 @@ public class BrushRegistrar {
         this.registerTriangleBrush();
         this.registerUnderlayBrush();
         this.registerVoxelBrush();
+        this.registerStencilBrush();
+        this.registerStencilListBrush();
     }
 
     private void registerBallBrush() {
@@ -266,6 +270,16 @@ public class BrushRegistrar {
 
     private void registerVoxelDiscFaceBrush() {
         BrushProperties properties = BrushProperties.builder().name("Voxel Disc Face").alias("vdf").alias("voxeldiscface").alias("voxel_disc_face").creator(VoxelDiscFaceBrush::new).build();
+        this.registry.register(properties);
+    }
+
+    private void registerStencilBrush() {
+        BrushProperties properties = BrushProperties.builder().name("Stencil").alias("st").alias("stencil").creator(StencilBrush::new).build();
+        this.registry.register(properties);
+    }
+
+    private void registerStencilListBrush() {
+        BrushProperties properties = BrushProperties.builder().name("Stencil List").alias("sl").alias("stencilList").creator(StencilListBrush::new).build();
         this.registry.register(properties);
     }
 }

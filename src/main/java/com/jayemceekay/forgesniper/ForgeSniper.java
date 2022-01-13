@@ -5,15 +5,14 @@ import com.jayemceekay.forgesniper.command.ForgeSniperCommandHandler;
 import com.jayemceekay.forgesniper.events.ForgeSniperEventHandler;
 import com.jayemceekay.forgesniper.performer.PerformerRegistry;
 import com.jayemceekay.forgesniper.sniper.SniperRegistry;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,20 +22,21 @@ public class ForgeSniper {
     public static BrushRegistry brushRegistry;
     public static PerformerRegistry performerRegistry;
     public static final Logger LOGGER = LogManager.getLogger();
+    public static ResourceLocation FORGESNIPER_CONFIG_FOLDER = new ResourceLocation("forgesniper", FMLPaths.CONFIGDIR.relative().toString());
 
     public ForgeSniper() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(ForgeSniperCommandHandler.class);
-        LOGGER.info("Loading Brushes");
+        LOGGER.info(TextFormatting.GREEN+"Loading Brushes");
         brushRegistry = this.loadBrushRegistry();
-        LOGGER.info("Loaded " + brushRegistry.getBrushProperties().values().stream().distinct().count() + " Brushes");
+        LOGGER.info("Loaded " + brushRegistry.getBrushProperties().keySet().size() + " Brushes");
         LOGGER.info("Loading Performers");
         performerRegistry = this.loadPerformerRegistry();
         LOGGER.info("Registering ForgeSniper Events");
@@ -45,17 +45,6 @@ public class ForgeSniper {
     }
 
     private void doClientStuff(FMLClientSetupEvent event) {
-    }
-
-    private void enqueueIMC(InterModEnqueueEvent event) {
-    }
-
-    private void processIMC(InterModProcessEvent event) {
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-
     }
 
     private BrushRegistry loadBrushRegistry() {

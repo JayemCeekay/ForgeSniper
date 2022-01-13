@@ -1,11 +1,15 @@
 package com.jayemceekay.forgesniper.performer.type.material;
 
 import com.jayemceekay.forgesniper.performer.type.AbstractPerformer;
-import com.jayemceekay.forgesniper.sniper.snipe.performer.PerformerSnipe;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
+import com.jayemceekay.forgesniper.sniper.snipe.performer.PerformerSnipe;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.registry.state.Property;
 import com.sk89q.worldedit.world.block.BlockState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MaterialMaterialPerformer extends AbstractPerformer {
     private BlockState type;
@@ -22,12 +26,20 @@ public class MaterialMaterialPerformer extends AbstractPerformer {
 
     public void perform(EditSession editSession, int x, int y, int z, BlockState block) throws MaxChangedBlocksException {
         if (block.getBlockType() == this.replaceType.getBlockType()) {
-            this.setBlockType(editSession, x, y, z, this.type.getBlockType());
+
+            Map<Property<?>, Object> stateMap = new HashMap<>(type.getStates());
+            block.getStates().forEach((key, value) -> {
+                if(type.getStates().containsKey(key)) {
+                   stateMap.put(key, value);
+                }
+            });
+
+            this.setBlockData(editSession, x, y, z, this.type.getBlockType().getState(stateMap));
         }
 
     }
 
     public void sendInfo(PerformerSnipe snipe) {
-        snipe.createMessageSender().performerNameMessage().blockDataMessage().replaceBlockDataMessage().send();
+        snipe.createMessageSender().performerNameMessage().blockTypeMessage().replaceBlockTypeMessage().send();
     }
 }

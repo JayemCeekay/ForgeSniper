@@ -10,12 +10,12 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
+import net.minecraft.util.text.TextFormatting;
+import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
-import net.minecraft.util.text.TextFormatting;
-import org.enginehub.piston.converter.SuggestionHelper;
 
 public class OverlayBrush extends AbstractPerformerBrush {
     private boolean allBlocks = false;

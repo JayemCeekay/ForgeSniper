@@ -1,8 +1,8 @@
 package com.jayemceekay.forgesniper.performer.type.material;
 
 import com.jayemceekay.forgesniper.performer.type.AbstractPerformer;
-import com.jayemceekay.forgesniper.sniper.snipe.performer.PerformerSnipe;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
+import com.jayemceekay.forgesniper.sniper.snipe.performer.PerformerSnipe;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.world.block.BlockState;
@@ -26,6 +26,6 @@ public class MaterialPerformer extends AbstractPerformer {
     }
 
     public void sendInfo(PerformerSnipe snipe) {
-        snipe.createMessageSender().performerNameMessage().blockDataMessage().send();
+        snipe.createMessageSender().performerNameMessage().blockTypeMessage().send();
     }
 }

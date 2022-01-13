@@ -1,6 +1,7 @@
 package com.jayemceekay.forgesniper.util.painter;
 
 import com.sk89q.worldedit.math.BlockVector3;
+
 import java.util.ArrayList;
 
 public class BlockPainter implements Painter {

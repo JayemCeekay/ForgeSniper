@@ -6,10 +6,11 @@ import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import java.util.List;
-import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DiscBrush extends AbstractPerformerBrush {
     private double trueCircle;

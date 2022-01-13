@@ -7,10 +7,11 @@ import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import java.util.List;
-import java.util.stream.Stream;
 import net.minecraft.util.text.TextFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 public class CylinderBrush extends AbstractPerformerBrush {
     private double trueCircle;

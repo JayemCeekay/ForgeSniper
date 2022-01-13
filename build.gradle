@@ -3,13 +3,19 @@ buildscript {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
         maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
+        maven {
+            url = "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
+        classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.0"
+
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: "com.github.johnrengelman.shadow"
 
 group = 'com.jayemceekay'
 version = '1.0-SNAPSHOT'
@@ -31,7 +37,7 @@ minecraft {
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20210309-1.16.5'
+    mappings channel: 'snapshot', version: '20200514-1.16.3'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -117,17 +123,23 @@ repositories {
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
-     flatDir {
-         dir 'libs'
-     }
+    mavenCentral()
+    maven { url = "https://maven.enginehub.org/repo/" }
+    maven {
+        url "https://cursemaven.com"
+    }
+    flatDir {
+        dirs("libs")
+    }
 }
 
 dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.9'
-    implementation "name:worldedit-mod-7.2.5-dist"
+    minecraft 'net.minecraftforge:forge:1.16.3-34.1.42'
+    implementation "com.sk89q.worldedit:worldedit-core:7.2.5-SNAPSHOT"
+    implementation fg.deobf("curse.maven:worldedit-225608:3283693")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -158,3 +170,6 @@ jar {
 }
 
 jar.finalizedBy('reobfJar')
+shadowJar {
+    configurations = [project.configurations.shadow]
+}

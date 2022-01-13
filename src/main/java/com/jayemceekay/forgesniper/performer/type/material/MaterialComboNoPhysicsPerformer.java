@@ -35,6 +35,6 @@ public class MaterialComboNoPhysicsPerformer extends AbstractPerformer {
     }
 
     public void sendInfo(PerformerSnipe snipe) {
-        snipe.createMessageSender().performerNameMessage().blockTypeMessage().replaceBlockTypeMessage().replaceBlockDataMessage().send();
+        snipe.createMessageSender().performerNameMessage().blockTypeMessage().replaceBlockDataMessage().send();
     }
 }

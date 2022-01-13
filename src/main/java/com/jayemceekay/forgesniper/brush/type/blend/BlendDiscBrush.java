@@ -8,12 +8,9 @@ import com.jayemceekay.forgesniper.util.painter.Painters;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.*;
 
 public class BlendDiscBrush extends AbstractBlendBrush {
     public BlendDiscBrush() {

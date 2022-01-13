@@ -30,7 +30,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 
-
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;

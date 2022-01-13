@@ -2,11 +2,12 @@ package com.jayemceekay.forgesniper.util.message;
 
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-import java.util.List;
-import java.util.stream.Collectors;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Messenger {
     private final PlayerEntity sender;

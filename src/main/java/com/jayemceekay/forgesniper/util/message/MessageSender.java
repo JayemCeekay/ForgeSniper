@@ -2,12 +2,13 @@ package com.jayemceekay.forgesniper.util.message;
 
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MessageSender {
     private final PlayerEntity sender;
@@ -33,17 +34,17 @@ public class MessageSender {
     }
 
     public MessageSender blockDataMessage(BlockState blockData) {
-        this.messages.add(TextFormatting.GOLD + "voxel: " + TextFormatting.RED + blockData.getAsString());
+        this.messages.add(TextFormatting.GOLD + "Data: " + TextFormatting.RED + blockData.getAsString());
         return this;
     }
 
     public MessageSender replaceBlockTypeMessage(BlockType replaceBlockType) {
-        this.messages.add(TextFormatting.AQUA + "Replace Material: " + TextFormatting.RED + replaceBlockType.getId());
+        this.messages.add(TextFormatting.AQUA + "Replace Voxel: " + TextFormatting.RED + replaceBlockType.getId());
         return this;
     }
 
     public MessageSender replaceBlockDataMessage(BlockState replaceBlockData) {
-        this.messages.add(TextFormatting.DARK_GRAY + "Replace Data Variable: " + TextFormatting.DARK_RED + replaceBlockData.getAsString());
+        this.messages.add(TextFormatting.DARK_GRAY + "Replace Data: " + TextFormatting.DARK_RED + replaceBlockData.getAsString());
         return this;
     }
 

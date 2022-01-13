@@ -10,9 +10,10 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
+import net.minecraft.util.text.TextFormatting;
+
 import java.util.HashSet;
 import java.util.Set;
-import net.minecraft.util.text.TextFormatting;
 
 public class PullBrush extends AbstractBrush {
     private static final int DEFAULT_PINCH = 1;

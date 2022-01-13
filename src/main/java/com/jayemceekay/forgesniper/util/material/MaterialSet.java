@@ -2,11 +2,8 @@ package com.jayemceekay.forgesniper.util.material;
 
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.*;
 
 public class MaterialSet implements Iterable<BlockType> {
     private final Set<BlockType> blockTypes;
