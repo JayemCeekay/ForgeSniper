@@ -137,9 +137,9 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.19'
-    implementation "com.sk89q.worldedit:worldedit-core:7.2.8-SNAPSHOT"
-    implementation fg.deobf("curse.maven:worldedit-225608:3559499")
+    minecraft 'net.minecraftforge:forge:1.18.1-39.0.63'
+    implementation "com.sk89q.worldedit:worldedit-core:7.2.9-SNAPSHOT"
+    implementation fg.deobf("curse.maven:worldedit-225608:3631606")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
