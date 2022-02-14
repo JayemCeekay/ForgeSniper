@@ -20,7 +20,7 @@ public class SetBrush extends AbstractPerformerBrush {
     }
 
     public void loadProperties() {
-        this.selectionSizeMax = 122;
+        this.selectionSizeMax = 5000000;
     }
 
     public void handleArrowAction(Snipe snipe) {
