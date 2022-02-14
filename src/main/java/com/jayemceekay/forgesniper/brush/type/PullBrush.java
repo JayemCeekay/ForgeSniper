@@ -10,7 +10,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,21 +35,21 @@ public class PullBrush extends AbstractBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         String firstParameter = parameters[0];
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Pull Brush Parameters:");
-            messenger.sendMessage(TextFormatting.AQUA + "/b pull [n] -- Sets pinch and bubble to n.");
+            messenger.sendMessage(ChatFormatting.GOLD + "Pull Brush Parameters:");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b pull [n] -- Sets pinch and bubble to n.");
         } else if (parameters.length == 1) {
             Double pinch = NumericParser.parseDouble(firstParameter);
             Double bubble = NumericParser.parseDouble(firstParameter);
             if (pinch != null && bubble != null) {
                 this.pinch = 1.0D - pinch;
                 this.bubble = bubble;
-                messenger.sendMessage(TextFormatting.AQUA + "Pinch set to: " + this.pinch);
-                messenger.sendMessage(TextFormatting.AQUA + "Bubble set to: " + this.bubble);
+                messenger.sendMessage(ChatFormatting.AQUA + "Pinch set to: " + this.pinch);
+                messenger.sendMessage(ChatFormatting.AQUA + "Bubble set to: " + this.bubble);
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
+            messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
         }
 
     }
@@ -257,8 +257,8 @@ public class PullBrush extends AbstractBrush {
         messenger.sendBrushNameMessage();
         messenger.sendBrushSizeMessage();
         messenger.sendVoxelHeightMessage();
-        messenger.sendMessage(TextFormatting.AQUA + "Pinch " + (-this.pinch + 1));
-        messenger.sendMessage(TextFormatting.AQUA + "Bubble " + this.bubble);
+        messenger.sendMessage(ChatFormatting.AQUA + "Pinch " + (-this.pinch + 1));
+        messenger.sendMessage(ChatFormatting.AQUA + "Bubble " + this.bubble);
     }
 
     private static final class PullBrushBlockWrapper {

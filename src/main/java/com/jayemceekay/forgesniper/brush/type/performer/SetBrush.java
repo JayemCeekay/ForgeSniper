@@ -5,7 +5,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.World;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +29,7 @@ public class SetBrush extends AbstractPerformerBrush {
         try {
             if (this.set(targetBlock, this.getEditSession().getWorld(), snipe)) {
                 SnipeMessenger messenger = snipe.createMessenger();
-                messenger.sendMessage(TextFormatting.GRAY + "Point one");
+                messenger.sendMessage(ChatFormatting.GRAY + "Point one");
             }
         } catch (MaxChangedBlocksException var4) {
             var4.printStackTrace();
@@ -43,7 +43,7 @@ public class SetBrush extends AbstractPerformerBrush {
         try {
             if (this.set(lastBlock, this.getEditSession().getWorld(), snipe)) {
                 SnipeMessenger messenger = snipe.createMessenger();
-                messenger.sendMessage(TextFormatting.GRAY + "Point one");
+                messenger.sendMessage(ChatFormatting.GRAY + "Point one");
             }
         } catch (MaxChangedBlocksException var4) {
             var4.printStackTrace();
@@ -61,7 +61,7 @@ public class SetBrush extends AbstractPerformerBrush {
             String name = this.world.getName();
             String parameterBlockWorldName = world.getName();
             if (!name.equals(parameterBlockWorldName)) {
-                messenger.sendMessage(TextFormatting.RED + "You selected points in different worlds!");
+                messenger.sendMessage(ChatFormatting.RED + "You selected points in different worlds!");
                 this.block = null;
                 return true;
             } else {
@@ -78,7 +78,7 @@ public class SetBrush extends AbstractPerformerBrush {
                 int highY = Math.max(y1, y2);
                 int highZ = Math.max(z1, z2);
                 if (Math.abs(highX - lowX) * Math.abs(highZ - lowZ) * Math.abs(highY - lowY) > this.selectionSizeMax) {
-                    messenger.sendMessage(TextFormatting.RED + "Selection size above " + this.selectionSizeMax + " limit, please use a smaller selection.");
+                    messenger.sendMessage(ChatFormatting.RED + "Selection size above " + this.selectionSizeMax + " limit, please use a smaller selection.");
                 } else {
                     for(int y = lowY; y <= highY; ++y) {
                         for(int x = lowX; x <= highX; ++x) {

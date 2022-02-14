@@ -5,7 +5,7 @@ import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
 import com.jayemceekay.forgesniper.util.message.MessageSender;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class SnipeMessageSender {
     private final BrushProperties brushProperties;
     private final MessageSender messageSender;
 
-    public SnipeMessageSender(ToolkitProperties toolkitProperties, BrushProperties brushProperties, PlayerEntity player) {
+    public SnipeMessageSender(ToolkitProperties toolkitProperties, BrushProperties brushProperties, Player player) {
         this.toolkitProperties = toolkitProperties;
         this.brushProperties = brushProperties;
         this.messageSender = new MessageSender(player);

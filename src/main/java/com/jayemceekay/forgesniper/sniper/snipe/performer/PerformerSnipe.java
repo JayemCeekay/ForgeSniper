@@ -10,7 +10,7 @@ import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
 import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.performer.message.PerformerSnipeMessageSender;
 import com.jayemceekay.forgesniper.sniper.snipe.performer.message.PerformerSnipeMessenger;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class PerformerSnipe extends Snipe {
     private final PerformerProperties performerProperties;
@@ -30,7 +30,7 @@ public class PerformerSnipe extends Snipe {
         ToolkitProperties toolkitProperties = this.getToolkitProperties();
         BrushProperties brushProperties = this.getBrushProperties();
         Sniper sniper = this.getSniper();
-        PlayerEntity player = sniper.getPlayer();
+        Player player = sniper.getPlayer();
         return new PerformerSnipeMessenger(toolkitProperties, brushProperties, this.performerProperties, player);
     }
 
@@ -38,7 +38,7 @@ public class PerformerSnipe extends Snipe {
         ToolkitProperties toolkitProperties = this.getToolkitProperties();
         BrushProperties brushProperties = this.getBrushProperties();
         Sniper sniper = this.getSniper();
-        PlayerEntity player = sniper.getPlayer();
+        Player player = sniper.getPlayer();
         return new PerformerSnipeMessageSender(toolkitProperties, brushProperties, this.performerProperties, player);
     }
 

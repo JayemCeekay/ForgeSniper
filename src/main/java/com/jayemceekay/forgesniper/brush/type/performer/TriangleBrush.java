@@ -5,7 +5,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.math.MathHelper;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -31,7 +31,7 @@ public class TriangleBrush extends AbstractPerformerBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         String firstParameter = parameters[0];
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Triangle Brush instructions: Select three corners with the arrow brush, then generate the triangle with the gunpowder brush.");
+            messenger.sendMessage(ChatFormatting.GOLD + "Triangle Brush instructions: Select three corners with the arrow brush, then generate the triangle with the gunpowder brush.");
         }
 
     }
@@ -59,21 +59,21 @@ public class TriangleBrush extends AbstractPerformerBrush {
             this.coordinatesOne[1] = y;
             this.coordinatesOne[2] = z;
             this.cornerNumber = 2;
-            messenger.sendMessage(TextFormatting.GRAY + "First Corner set.");
+            messenger.sendMessage(ChatFormatting.GRAY + "First Corner set.");
             break;
         case 2:
             this.coordinatesTwo[0] = x;
             this.coordinatesTwo[1] = y;
             this.coordinatesTwo[2] = z;
             this.cornerNumber = 3;
-            messenger.sendMessage(TextFormatting.GRAY + "Second Corner set.");
+            messenger.sendMessage(ChatFormatting.GRAY + "Second Corner set.");
             break;
         case 3:
             this.coordinatesThree[0] = x;
             this.coordinatesThree[1] = y;
             this.coordinatesThree[2] = z;
             this.cornerNumber = 1;
-            messenger.sendMessage(TextFormatting.GRAY + "Third Corner set.");
+            messenger.sendMessage(ChatFormatting.GRAY + "Third Corner set.");
         }
 
     }
@@ -118,7 +118,7 @@ public class TriangleBrush extends AbstractPerformerBrush {
             this.perform(brushSize, planeConstant, heronBig, cVectorOne, cVectorTwo, cVectorThree, 0, 2, 1);
             this.perform(brushSize, planeConstant, heronBig, cVectorOne, cVectorTwo, cVectorThree, 0, 1, 2);
         } else {
-            messenger.sendMessage(TextFormatting.RED + "ERROR: Invalid corners, please try again.");
+            messenger.sendMessage(ChatFormatting.RED + "ERROR: Invalid corners, please try again.");
         }
 
         this.coordinatesOne[0] = 0.0D;

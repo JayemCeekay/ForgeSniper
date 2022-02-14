@@ -6,8 +6,9 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.math.MathHelper;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.util.formatting.text.format.TextColor;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.List;
@@ -24,20 +25,20 @@ public class CleanSnowBrush extends AbstractBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         String firstParameter = parameters[0];
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Clean Snow Brush Parameters:");
-            messenger.sendMessage(TextFormatting.AQUA + "/b cls [true|false] -- Uses a true sphere algorithm instead of the skinnier version with classic sniper nubs. Default is false.");
+            messenger.sendMessage(TextColor.GOLD + "Clean Snow Brush Parameters:");
+            messenger.sendMessage(TextColor.AQUA + "/b cls [true|false] -- Uses a true sphere algorithm instead of the skinnier version with classic sniper nubs. Default is false.");
         } else if (parameters.length == 1) {
             if (firstParameter.equalsIgnoreCase("true")) {
                 this.trueCircle = 0.5D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
+                messenger.sendMessage(TextColor.AQUA + "True circle mode ON.");
             } else if (firstParameter.equalsIgnoreCase("false")) {
                 this.trueCircle = 0.0D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
+                messenger.sendMessage(TextColor.AQUA + "True circle mode OFF.");
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(TextColor.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
+            messenger.sendMessage(TextColor.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
         }
 
     }

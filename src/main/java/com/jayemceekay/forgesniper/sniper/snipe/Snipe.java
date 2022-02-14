@@ -7,7 +7,7 @@ import com.jayemceekay.forgesniper.sniper.ToolKit.Toolkit;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessageSender;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class Snipe {
     private final Sniper sniper;
@@ -25,12 +25,12 @@ public class Snipe {
     }
 
     public SnipeMessenger createMessenger() {
-        PlayerEntity player = this.sniper.getPlayer();
+        Player player = this.sniper.getPlayer();
         return new SnipeMessenger(this.toolkitProperties, this.brushProperties, player);
     }
 
     public SnipeMessageSender createMessageSender() {
-        PlayerEntity player = this.sniper.getPlayer();
+        Player player = this.sniper.getPlayer();
         return new SnipeMessageSender(this.toolkitProperties, this.brushProperties, player);
     }
 

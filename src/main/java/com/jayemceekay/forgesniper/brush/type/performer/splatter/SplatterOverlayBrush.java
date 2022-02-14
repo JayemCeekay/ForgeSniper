@@ -12,7 +12,7 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,33 +42,33 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
         String firstParameter = parameters[0];
 
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Splatter Overlay Brush Parameters:");
-            messenger.sendMessage(TextFormatting.BLUE + "/b sover all -- Sets the brush to overlay over ALL materials, not just " +
+            messenger.sendMessage(ChatFormatting.GOLD + "Splatter Overlay Brush Parameters:");
+            messenger.sendMessage(ChatFormatting.BLUE + "/b sover all -- Sets the brush to overlay over ALL materials, not just " +
                     "natural surface ones (will no longer ignore trees and buildings).");
-            messenger.sendMessage(TextFormatting.BLUE + "/b sover some -- Sets the brush to overlay over natural surface " +
+            messenger.sendMessage(ChatFormatting.BLUE + "/b sover some -- Sets the brush to overlay over natural surface " +
                     "materials.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b sover randh -- Sets whether height should be randomized or not.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b sover d [n] -- Sets how many blocks deep you want to replace " +
+            messenger.sendMessage(ChatFormatting.AQUA + "/b sover randh -- Sets whether height should be randomized or not.");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b sover d [n] -- Sets how many blocks deep you want to replace " +
                     "from the surface to n.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b sover s [n] -- Sets a seed percentage to n (1-9999). 100 = 1% " +
+            messenger.sendMessage(ChatFormatting.AQUA + "/b sover s [n] -- Sets a seed percentage to n (1-9999). 100 = 1% " +
                     "Default is 1000.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b sover g [n] -- Sets a growth percentage to n (1-9999). Default " +
+            messenger.sendMessage(ChatFormatting.AQUA + "/b sover g [n] -- Sets a growth percentage to n (1-9999). Default " +
                     "is 1000.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b sover r [n] -- Sets a recursion to n (1-10). Default is 3.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b sover yoff [n] -- Sets y offset to n.");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b sover r [n] -- Sets a recursion to n (1-10). Default is 3.");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b sover yoff [n] -- Sets y offset to n.");
         } else {
             if (parameters.length == 1) {
                 if (firstParameter.equalsIgnoreCase("all")) {
                     this.allBlocks = true;
-                    messenger.sendMessage(TextFormatting.BLUE + "Will overlay over any block: " + this.depth);
+                    messenger.sendMessage(ChatFormatting.BLUE + "Will overlay over any block: " + this.depth);
                 } else if (firstParameter.equalsIgnoreCase("some")) {
                     this.allBlocks = false;
-                    messenger.sendMessage(TextFormatting.BLUE + "Will overlay only natural block types: " + this.depth);
+                    messenger.sendMessage(ChatFormatting.BLUE + "Will overlay only natural block types: " + this.depth);
                 } else if (firstParameter.equalsIgnoreCase("randh")) {
                     this.randomizeHeight = !this.randomizeHeight;
-                    messenger.sendMessage(TextFormatting.RED + "RandomizeHeight set to: " + this.randomizeHeight);
+                    messenger.sendMessage(ChatFormatting.RED + "RandomizeHeight set to: " + this.randomizeHeight);
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display " +
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display " +
                             "parameter info.");
                 }
             } else if (parameters.length == 2) {
@@ -76,26 +76,26 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
                     Integer depth = NumericParser.parseInteger(parameters[1]);
                     if (depth != null) {
                         this.depth = depth < 1 ? 1 : depth;
-                        messenger.sendMessage(TextFormatting.AQUA + "Depth set to: " + this.depth);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Depth set to: " + this.depth);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else if (firstParameter.equalsIgnoreCase("s")) {
                     Integer seedPercent = NumericParser.parseInteger(parameters[1]);
                     if (seedPercent != null && seedPercent >= super.seedPercentMin && seedPercent <= super.seedPercentMax) {
                         this.seedPercent = seedPercent;
-                        messenger.sendMessage(TextFormatting.AQUA + "Seed percent set to: " + this.seedPercent / 100 + "%");
+                        messenger.sendMessage(ChatFormatting.AQUA + "Seed percent set to: " + this.seedPercent / 100 + "%");
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Seed percent must be an integer " + this.seedPercentMin +
+                        messenger.sendMessage(ChatFormatting.RED + "Seed percent must be an integer " + this.seedPercentMin +
                                 "-" + this.seedPercentMax + ".");
                     }
                 } else if (firstParameter.equalsIgnoreCase("g")) {
                     Integer growPercent = NumericParser.parseInteger(parameters[1]);
                     if (growPercent != null && growPercent >= super.growthPercentMin && growPercent <= super.growthPercentMax) {
                         this.growthPercent = growPercent;
-                        messenger.sendMessage(TextFormatting.AQUA + "Growth percent set to: " + this.growthPercent / 100 + "%");
+                        messenger.sendMessage(ChatFormatting.AQUA + "Growth percent set to: " + this.growthPercent / 100 + "%");
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Growth percent must be an integer " + this.growthPercentMin +
+                        messenger.sendMessage(ChatFormatting.RED + "Growth percent must be an integer " + this.growthPercentMin +
                                 "-" + this.growthPercentMax + ".");
                     }
                 } else if (firstParameter.equalsIgnoreCase("r")) {
@@ -103,24 +103,24 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
                     if (splatterRecursions != null && splatterRecursions >= super.splatterRecursionsMin
                             && splatterRecursions <= super.splatterRecursionsMax) {
                         this.splatterRecursions = splatterRecursions;
-                        messenger.sendMessage(TextFormatting.AQUA + "Recursions set to: " + this.splatterRecursions);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Recursions set to: " + this.splatterRecursions);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Recursions must be an integer " + this.splatterRecursionsMin +
+                        messenger.sendMessage(ChatFormatting.RED + "Recursions must be an integer " + this.splatterRecursionsMin +
                                 "-" + this.splatterRecursionsMax + ".");
                     }
                 } else if (firstParameter.equalsIgnoreCase("yoff")) {
                     Integer yOffset = NumericParser.parseInteger(parameters[1]);
                     if (yOffset != null) {
                         this.yOffset = yOffset;
-                        messenger.sendMessage(TextFormatting.AQUA + "Y-Offset set to: " + this.yOffset);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Y-Offset set to: " + this.yOffset);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display " +
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display " +
                         "parameter info.");
             }
         }
@@ -406,10 +406,10 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
         snipe.createMessageSender()
                 .brushNameMessage()
                 .brushSizeMessage()
-                .message(TextFormatting.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%")
-                .message(TextFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%")
-                .message(TextFormatting.BLUE + "Recursions set to: " + this.splatterRecursions)
-                .message(TextFormatting.BLUE + "Y-Offset set to: " + this.yOffset)
+                .message(ChatFormatting.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%")
+                .message(ChatFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%")
+                .message(ChatFormatting.BLUE + "Recursions set to: " + this.splatterRecursions)
+                .message(ChatFormatting.BLUE + "Y-Offset set to: " + this.yOffset)
                 .send();
     }
 

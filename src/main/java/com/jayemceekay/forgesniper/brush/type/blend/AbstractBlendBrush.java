@@ -8,7 +8,8 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.util.text.TextFormatting;
+
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.List;
@@ -28,9 +29,9 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("water")) {
                 this.waterExcluded = !this.waterExcluded;
-                messenger.sendMessage(TextFormatting.AQUA + "Water Mode set to : " + (this.waterExcluded ? "exclude" : "include"));
+                messenger.sendMessage(ChatFormatting.AQUA + "Water Mode set to : " + (this.waterExcluded ? "exclude" : "include"));
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
 
@@ -106,7 +107,7 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
     }
 
     public void sendInfo(Snipe snipe) {
-        snipe.createMessageSender().brushNameMessage().brushSizeMessage().blockTypeMessage().message(TextFormatting.BLUE + "Water Mode: " + (this.waterExcluded ? "exclude" : "include")).send();
+        snipe.createMessageSender().brushNameMessage().brushSizeMessage().blockTypeMessage().message(ChatFormatting.BLUE + "Water Mode: " + (this.waterExcluded ? "exclude" : "include")).send();
     }
 
     public void setAirExcluded(boolean airExcluded) {

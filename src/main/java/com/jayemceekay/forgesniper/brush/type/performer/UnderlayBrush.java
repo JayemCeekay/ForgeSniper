@@ -7,7 +7,7 @@ import com.jayemceekay.forgesniper.util.material.MaterialSets;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
@@ -32,29 +32,29 @@ public class UnderlayBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Underlay Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b under all -- Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).");
-                messenger.sendMessage(TextFormatting.AQUA + "/b under some -- Sets the brush to overlay over natural surface materials.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b under d[n] -- Sets the number of blocks thick to change to n.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Underlay Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b under all -- Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b under some -- Sets the brush to overlay over natural surface materials.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b under d[n] -- Sets the number of blocks thick to change to n.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("all")) {
                 this.allBlocks = true;
-                messenger.sendMessage(TextFormatting.BLUE + "Will underlay over any block: " + this.depth);
+                messenger.sendMessage(ChatFormatting.BLUE + "Will underlay over any block: " + this.depth);
             } else if (parameter.equalsIgnoreCase("some")) {
                 this.allBlocks = false;
-                messenger.sendMessage(TextFormatting.BLUE + "Will underlay only natural block types: " + this.depth);
+                messenger.sendMessage(ChatFormatting.BLUE + "Will underlay only natural block types: " + this.depth);
             } else if (parameter.equalsIgnoreCase("d[")) {
                 Integer depth = NumericParser.parseInteger(parameter.replace("d[", "").replace("]", ""));
                 if (depth != null) {
                     this.depth = depth < 1 ? 1 : depth;
-                    messenger.sendMessage(TextFormatting.AQUA + "Depth set to: " + this.depth);
+                    messenger.sendMessage(ChatFormatting.AQUA + "Depth set to: " + this.depth);
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
     }

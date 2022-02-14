@@ -6,7 +6,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
@@ -30,8 +30,8 @@ public class BlobBrush extends AbstractPerformerBrush {
         for (int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Blob Brush Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b blob g[n] -- Sets the growth percentage to n (" + this.growthPercentMin + "-" + this.growthPercentMax + "). Default is " + 1000 + ".");
+                messenger.sendMessage(ChatFormatting.GOLD + "Blob Brush Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b blob g[n] -- Sets the growth percentage to n (" + this.growthPercentMin + "-" + this.growthPercentMax + "). Default is " + 1000 + ".");
                 return;
             }
 
@@ -39,12 +39,12 @@ public class BlobBrush extends AbstractPerformerBrush {
                 Integer growPercent = NumericParser.parseInteger(parameter.replace("g[", "").replace("]", ""));
                 if (growPercent != null && growPercent >= super.growthPercentMin && growPercent <= super.growthPercentMax) {
                     this.growthPercent = growPercent;
-                    messenger.sendMessage(TextFormatting.AQUA + "Growth percent set to: " + this.growthPercent / 100 + "%");
+                    messenger.sendMessage(ChatFormatting.AQUA + "Growth percent set to: " + this.growthPercent / 100 + "%");
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Growth percent must be an integer " + this.growthPercentMin + "-" + this.growthPercentMax + ".");
+                    messenger.sendMessage(ChatFormatting.RED + "Growth percent must be an integer " + this.growthPercentMin + "-" + this.growthPercentMax + ".");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
             }
         }
 
@@ -87,7 +87,7 @@ public class BlobBrush extends AbstractPerformerBrush {
         int brushSize = toolkitProperties.getBrushSize();
         if (checkValidGrowPercent()) {
             SnipeMessenger messenger = snipe.createMessenger();
-            messenger.sendMessage(TextFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%");
+            messenger.sendMessage(ChatFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%");
         }
         // Seed the array
         int brushSizeDoubled = 2 * brushSize;
@@ -174,7 +174,7 @@ public class BlobBrush extends AbstractPerformerBrush {
         int brushSize = toolkitProperties.getBrushSize();
         if (checkValidGrowPercent()) {
             SnipeMessenger messenger = snipe.createMessenger();
-            messenger.sendMessage(TextFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%");
+            messenger.sendMessage(ChatFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%");
         }
         // Seed the array
         int brushSizeDoubled = 2 * brushSize;
@@ -262,7 +262,7 @@ public class BlobBrush extends AbstractPerformerBrush {
         snipe.createMessageSender()
                 .brushNameMessage()
                 .brushSizeMessage()
-                .message(TextFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%")
+                .message(ChatFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%")
                 .send();
     }
 }

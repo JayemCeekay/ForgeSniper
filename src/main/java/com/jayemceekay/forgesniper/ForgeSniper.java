@@ -5,11 +5,10 @@ import com.jayemceekay.forgesniper.command.ForgeSniperCommandHandler;
 import com.jayemceekay.forgesniper.events.ForgeSniperEventHandler;
 import com.jayemceekay.forgesniper.performer.PerformerRegistry;
 import com.jayemceekay.forgesniper.sniper.SniperRegistry;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import com.sk89q.worldedit.util.formatting.text.format.TextColor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -26,15 +25,12 @@ public class ForgeSniper {
 
     public ForgeSniper() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(ForgeSniperCommandHandler.class);
-        LOGGER.info(TextFormatting.GREEN+"Loading Brushes");
+        LOGGER.info(TextColor.GREEN+"Loading Brushes");
         brushRegistry = this.loadBrushRegistry();
         LOGGER.info("Loaded " + brushRegistry.getBrushProperties().keySet().size() + " Brushes");
         LOGGER.info("Loading Performers");
@@ -42,9 +38,6 @@ public class ForgeSniper {
         LOGGER.info("Registering ForgeSniper Events");
         MinecraftForge.EVENT_BUS.register(new ForgeSniperEventHandler());
         LOGGER.info("ForgeSniper Events Registered");
-    }
-
-    private void doClientStuff(FMLClientSetupEvent event) {
     }
 
     private BrushRegistry loadBrushRegistry() {

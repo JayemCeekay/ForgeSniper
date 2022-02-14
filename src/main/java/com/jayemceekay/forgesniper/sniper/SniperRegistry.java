@@ -1,6 +1,7 @@
 package com.jayemceekay.forgesniper.sniper;
 
-import net.minecraft.entity.player.PlayerEntity;
+
+import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +13,12 @@ public class SniperRegistry {
     public SniperRegistry() {
     }
 
-    public Sniper getOrRegisterSniper(PlayerEntity player) {
+    public Sniper getOrRegisterSniper(Player player) {
 
-        if(getSniper(player.getUniqueID()) == null) {
-            return this.snipers.put(player.getUniqueID(), new Sniper(player));
+        if(getSniper(player.getUUID()) == null) {
+            return this.snipers.put(player.getUUID(), new Sniper(player));
         }
-        return getSniper(player.getUniqueID());
+        return getSniper(player.getUUID());
     }
 
     public Sniper getSniper(UUID uuid) {

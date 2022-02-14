@@ -13,7 +13,8 @@ import com.sk89q.worldedit.util.Direction;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.util.text.TextFormatting;
+
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import javax.annotation.Nullable;
@@ -36,18 +37,18 @@ public class ErodeBrush extends AbstractBrush {
         for(int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Erode Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b e e[n] -- Sets erosion faces to n.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b e f[n] -- Sets fill faces to n.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b e E[n] -- Sets erosion recursions to n.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b e F[n] -- Sets fill recursions to n.");
-                messenger.sendMessage(TextFormatting.GOLD + "Erode Brush Presets:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b eb default -- Sets erosion faces to 0, erosion recursions to 1, fill faces to 0 and fill recursions to 1.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b eb melt -- Sets erosion faces to 2, erosion recursions to 1, fill faces to 5 and fill recursions to 1.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b eb fill -- Sets erosion faces to 5, erosion recursions to 1, fill faces to 2 and fill recursions to 1.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b eb smooth -- Sets erosion faces to 3, erosion recursions to 1, fill faces to 3 and fill recursions to 1.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b eb lift -- Sets erosion faces to 6, erosion recursions to 0, fill faces to 1 and fill recursions to 1.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b eb floatclean -- Sets erosion faces to 0, erosion recursions to 1, fill faces to 6 and fill recursions to 1.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Erode Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b e e[n] -- Sets erosion faces to n.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b e f[n] -- Sets fill faces to n.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b e E[n] -- Sets erosion recursions to n.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b e F[n] -- Sets fill recursions to n.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Erode Brush Presets:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b eb default -- Sets erosion faces to 0, erosion recursions to 1, fill faces to 0 and fill recursions to 1.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b eb melt -- Sets erosion faces to 2, erosion recursions to 1, fill faces to 5 and fill recursions to 1.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b eb fill -- Sets erosion faces to 5, erosion recursions to 1, fill faces to 2 and fill recursions to 1.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b eb smooth -- Sets erosion faces to 3, erosion recursions to 1, fill faces to 3 and fill recursions to 1.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b eb lift -- Sets erosion faces to 6, erosion recursions to 0, fill faces to 1 and fill recursions to 1.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b eb floatclean -- Sets erosion faces to 0, erosion recursions to 1, fill faces to 6 and fill recursions to 1.");
                 return;
             }
 
@@ -55,10 +56,10 @@ public class ErodeBrush extends AbstractBrush {
             if (preset != null) {
                 try {
                     this.currentPreset = preset.getPreset();
-                    messenger.sendMessage(TextFormatting.LIGHT_PURPLE + "Brush preset set to: " + preset.getName());
+                    messenger.sendMessage(ChatFormatting.LIGHT_PURPLE + "Brush preset set to: " + preset.getName());
                     return;
                 } catch (IllegalArgumentException var11) {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid preset.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid preset.");
                     return;
                 }
             }
@@ -70,48 +71,48 @@ public class ErodeBrush extends AbstractBrush {
                 if (erosionRecursion != null) {
                     this.currentPreset = new ErosionPreset(this.currentPreset.getErosionFaces(), this.currentPreset.getErosionRecursion(), erosionRecursion, this.currentPreset.getFillRecursion());
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid number for f.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid number for f.");
                 }
             } else if (parameter.startsWith("e[")) {
                 erosionRecursion = NumericParser.parseInteger(parameter.replace("e[", "").replace("]", ""));
                 if (erosionRecursion != null) {
                     this.currentPreset = new ErosionPreset(erosionRecursion, this.currentPreset.getErosionRecursion(), this.currentPreset.getFillFaces(), this.currentPreset.getFillRecursion());
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid number for e.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid number for e.");
                 }
             } else if (parameter.startsWith("F[")) {
                 erosionRecursion = NumericParser.parseInteger(parameter.replace("F[", "").replace("]", ""));
                 if (erosionRecursion != null) {
                     this.currentPreset = new ErosionPreset(this.currentPreset.getErosionFaces(), this.currentPreset.getErosionRecursion(), this.currentPreset.getFillFaces(), erosionRecursion);
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid number for F.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid number for F.");
                 }
             } else if (parameter.startsWith("E[")) {
                 erosionRecursion = NumericParser.parseInteger(parameter.replace("E[", "").replace("]", ""));
                 if (erosionRecursion != null) {
                     this.currentPreset = new ErosionPreset(this.currentPreset.getErosionFaces(), erosionRecursion, this.currentPreset.getFillFaces(), this.currentPreset.getFillRecursion());
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid number for E.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid number for E.");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
             }
 
             if (!this.currentPreset.equals(currentPresetBackup)) {
                 if (this.currentPreset.getErosionFaces() != currentPresetBackup.getErosionFaces()) {
-                    messenger.sendMessage(TextFormatting.AQUA + "Erosion faces set to: " + TextFormatting.WHITE + this.currentPreset.getErosionFaces());
+                    messenger.sendMessage(ChatFormatting.AQUA + "Erosion faces set to: " + ChatFormatting.WHITE + this.currentPreset.getErosionFaces());
                 }
 
                 if (this.currentPreset.getFillFaces() != currentPresetBackup.getFillFaces()) {
-                    messenger.sendMessage(TextFormatting.AQUA + "Fill faces set to: " + TextFormatting.WHITE + this.currentPreset.getFillFaces());
+                    messenger.sendMessage(ChatFormatting.AQUA + "Fill faces set to: " + ChatFormatting.WHITE + this.currentPreset.getFillFaces());
                 }
 
                 if (this.currentPreset.getErosionRecursion() != currentPresetBackup.getErosionRecursion()) {
-                    messenger.sendMessage(TextFormatting.AQUA + "Erosion recursions set to: " + TextFormatting.WHITE + this.currentPreset.getErosionRecursion());
+                    messenger.sendMessage(ChatFormatting.AQUA + "Erosion recursions set to: " + ChatFormatting.WHITE + this.currentPreset.getErosionRecursion());
                 }
 
                 if (this.currentPreset.getFillRecursion() != currentPresetBackup.getFillRecursion()) {
-                    messenger.sendMessage(TextFormatting.AQUA + "Fill recursions set to: " + TextFormatting.WHITE + this.currentPreset.getFillRecursion());
+                    messenger.sendMessage(ChatFormatting.AQUA + "Fill recursions set to: " + ChatFormatting.WHITE + this.currentPreset.getFillRecursion());
                 }
             }
         }
@@ -252,10 +253,10 @@ public class ErodeBrush extends AbstractBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         messenger.sendBrushNameMessage();
         messenger.sendBrushSizeMessage();
-        messenger.sendMessage(TextFormatting.AQUA + "Erosion minimum exposed faces set to: " + this.currentPreset.getErosionFaces());
-        messenger.sendMessage(TextFormatting.BLUE + "Fill minimum touching faces set to: " + this.currentPreset.getFillFaces());
-        messenger.sendMessage(TextFormatting.BLUE + "Erosion recursion amount set to: " + this.currentPreset.getErosionRecursion());
-        messenger.sendMessage(TextFormatting.DARK_GREEN + "Fill recursion amount set to: " + this.currentPreset.getFillRecursion());
+        messenger.sendMessage(ChatFormatting.AQUA + "Erosion minimum exposed faces set to: " + this.currentPreset.getErosionFaces());
+        messenger.sendMessage(ChatFormatting.BLUE + "Fill minimum touching faces set to: " + this.currentPreset.getFillFaces());
+        messenger.sendMessage(ChatFormatting.BLUE + "Erosion recursion amount set to: " + this.currentPreset.getErosionRecursion());
+        messenger.sendMessage(ChatFormatting.DARK_GREEN + "Fill recursion amount set to: " + this.currentPreset.getFillRecursion());
     }
 
     static {

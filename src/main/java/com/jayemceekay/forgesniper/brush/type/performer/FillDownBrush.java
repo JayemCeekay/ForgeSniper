@@ -7,7 +7,7 @@ import com.jayemceekay.forgesniper.util.material.Materials;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.List;
@@ -30,33 +30,33 @@ public class FillDownBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Fill Down Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b fd [true|false] -- Uses a true circle algorithm. Default is false.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b fd all -- Fills into liquids as well. (Default)");
-                messenger.sendMessage(TextFormatting.AQUA + "/b fd some -- Fills only into air.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b fd e -- Fills into only existing blocks. (Toggle)");
+                messenger.sendMessage(ChatFormatting.GOLD + "Fill Down Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b fd [true|false] -- Uses a true circle algorithm. Default is false.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b fd all -- Fills into liquids as well. (Default)");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b fd some -- Fills only into air.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b fd e -- Fills into only existing blocks. (Toggle)");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("true")) {
                 this.trueCircle = 0.5D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode ON.");
             } else if (parameter.equalsIgnoreCase("false")) {
                 this.trueCircle = 0.0D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode OFF.");
             } else if (parameter.equalsIgnoreCase("all")) {
                 this.fillLiquid = true;
-                messenger.sendMessage(TextFormatting.AQUA + "Now filling liquids as well as air.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Now filling liquids as well as air.");
             } else if (parameter.equalsIgnoreCase("some")) {
                 this.fillLiquid = false;
                 ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
                 toolkitProperties.resetReplaceBlockData();
-                messenger.sendMessage(TextFormatting.AQUA + "Now only filling air.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Now only filling air.");
             } else if (parameter.equalsIgnoreCase("e")) {
                 this.fromExisting = !this.fromExisting;
-                messenger.sendMessage(TextFormatting.AQUA + "Now filling down from " + (this.fromExisting ? "existing" : "all") + " blocks.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Now filling down from " + (this.fromExisting ? "existing" : "all") + " blocks.");
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
 

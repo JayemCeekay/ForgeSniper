@@ -7,7 +7,7 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.List;
@@ -42,23 +42,23 @@ public class CopyPastaBrush extends AbstractBrush {
         String firstParameter = parameters[0];
 
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "CopyPasta Brush Parameters:");
-            messenger.sendMessage(TextFormatting.AQUA + "/b cp air -- Toggles include (default) or exclude air during paste.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b cp [0|90|180|270] -- Toggles rotation (0 default)");
+            messenger.sendMessage(ChatFormatting.GOLD + "CopyPasta Brush Parameters:");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b cp air -- Toggles include (default) or exclude air during paste.");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b cp [0|90|180|270] -- Toggles rotation (0 default)");
         } else {
             if (parameters.length == 1) {
                 if (firstParameter.equalsIgnoreCase("air")) {
                     this.pasteAir = !this.pasteAir;
-                    messenger.sendMessage(TextFormatting.GOLD + "Paste air set to: " + this.pasteAir);
+                    messenger.sendMessage(ChatFormatting.GOLD + "Paste air set to: " + this.pasteAir);
                 } else if (Stream.of("0", "90", "180", "270")
                         .anyMatch(firstParameter::equalsIgnoreCase)) {
                     this.pivot = Integer.parseInt(firstParameter);
-                    messenger.sendMessage(TextFormatting.GOLD + "Pivot angle set to: " + this.pivot);
+                    messenger.sendMessage(ChatFormatting.GOLD + "Pivot angle set to: " + this.pivot);
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter " +
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter " +
                         "info.");
             }
         }
@@ -81,13 +81,13 @@ public class CopyPastaBrush extends AbstractBrush {
             this.firstPoint[0] = targetBlock.getX();
             this.firstPoint[1] = targetBlock.getY();
             this.firstPoint[2] = targetBlock.getZ();
-            messenger.sendMessage(TextFormatting.GRAY + "First point");
+            messenger.sendMessage(ChatFormatting.GRAY + "First point");
             this.points = 1;
         } else if (this.points == 1) {
             this.secondPoint[0] = targetBlock.getX();
             this.secondPoint[1] = targetBlock.getY();
             this.secondPoint[2] = targetBlock.getZ();
-            messenger.sendMessage(TextFormatting.GRAY + "Second point");
+            messenger.sendMessage(ChatFormatting.GRAY + "Second point");
             this.points = 2;
         } else {
             this.firstPoint = new int[3];
@@ -96,7 +96,7 @@ public class CopyPastaBrush extends AbstractBrush {
             this.blockArray = new BlockType[1];
             this.dataArray = new BlockState[1];
             this.points = 0;
-            messenger.sendMessage(TextFormatting.GRAY + "Points cleared.");
+            messenger.sendMessage(ChatFormatting.GRAY + "Points cleared.");
         }
 
     }
@@ -113,10 +113,10 @@ public class CopyPastaBrush extends AbstractBrush {
                 this.pastePoint[2] = targetBlock.getZ();
                 this.doPasta(snipe);
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Error");
+                messenger.sendMessage(ChatFormatting.RED + "Error");
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "You must select exactly two points.");
+            messenger.sendMessage(ChatFormatting.RED + "You must select exactly two points.");
         }
 
     }
@@ -146,9 +146,9 @@ public class CopyPastaBrush extends AbstractBrush {
                 }
             }
 
-            messenger.sendMessage(TextFormatting.AQUA + String.valueOf(this.numBlocks) + " blocks copied.");
+            messenger.sendMessage(ChatFormatting.AQUA + String.valueOf(this.numBlocks) + " blocks copied.");
         } else {
-            messenger.sendMessage(TextFormatting.RED + "Copy area too big: " + this.numBlocks + "(Limit: " + this.blockLimit + ")");
+            messenger.sendMessage(ChatFormatting.RED + "Copy area too big: " + this.numBlocks + "(Limit: " + this.blockLimit + ")");
         }
 
     }
@@ -195,10 +195,10 @@ public class CopyPastaBrush extends AbstractBrush {
         }
 
         SnipeMessenger messenger = snipe.createMessenger();
-        messenger.sendMessage(TextFormatting.AQUA + String.valueOf(this.numBlocks) + " blocks pasted.");
+        messenger.sendMessage(ChatFormatting.AQUA + String.valueOf(this.numBlocks) + " blocks pasted.");
     }
 
     public void sendInfo(Snipe snipe) {
-        snipe.createMessageSender().brushNameMessage().message(TextFormatting.GOLD + "Paste air: " + this.pasteAir).message(TextFormatting.GOLD + "Pivot angle: " + this.pivot).send();
+        snipe.createMessageSender().brushNameMessage().message(ChatFormatting.GOLD + "Paste air: " + this.pasteAir).message(ChatFormatting.GOLD + "Pivot angle: " + this.pivot).send();
     }
 }

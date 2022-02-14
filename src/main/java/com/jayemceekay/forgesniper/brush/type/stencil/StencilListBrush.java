@@ -13,8 +13,8 @@ import com.sk89q.worldedit.forge.ForgeAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.server.level.ServerPlayer;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.io.*;
@@ -53,8 +53,8 @@ public class StencilListBrush extends AbstractBrush {
         String firstParameter = parameters[0];
 
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Stencil List Brush Parameters:");
-            messenger.sendMessage(TextFormatting.AQUA + "/b sl (full|fill|replace) [s] -- Loads the specified stencil list s. " +
+            messenger.sendMessage(ChatFormatting.GOLD + "Stencil List Brush Parameters:");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b sl (full|fill|replace) [s] -- Loads the specified stencil list s. " +
                     "Full/fill/replace must come first. Full = paste all blocks, " +
                     "fill = paste only into air blocks, replace = paste full blocks in only, but replace anything in their way.");
         } else {
@@ -75,7 +75,7 @@ public class StencilListBrush extends AbstractBrush {
                 pasteParam = 0;
             }
             if (parameters.length != 1 + pasteParam) {
-                messenger.sendMessage(TextFormatting.RED + "Missing arguments, this command expects more.");
+                messenger.sendMessage(ChatFormatting.RED + "Missing arguments, this command expects more.");
                 return;
             }
 
@@ -84,14 +84,14 @@ public class StencilListBrush extends AbstractBrush {
                 this.filename = parameters[pasteParam];
                 File file = new File(ForgeSniper.FORGESNIPER_CONFIG_FOLDER.getPath(), "/stencilLists/" + this.filename + ".txt");
                 if (file.exists()) {
-                    messenger.sendMessage(TextFormatting.RED + "Stencil List '" + this.filename + "' exists and was loaded.");
+                    messenger.sendMessage(ChatFormatting.RED + "Stencil List '" + this.filename + "' exists and was loaded.");
                     readStencilList();
                 } else {
-                    messenger.sendMessage(TextFormatting.AQUA + "Stencil List '" + this.filename + "' does not exist.  This brush will not function without a valid stencil list.");
+                    messenger.sendMessage(ChatFormatting.AQUA + "Stencil List '" + this.filename + "' does not exist.  This brush will not function without a valid stencil list.");
                     this.filename = "NoFileLoaded";
                 }
             } catch (RuntimeException exception) {
-                messenger.sendMessage(TextFormatting.RED + "You need to type a stencil list name.");
+                messenger.sendMessage(ChatFormatting.RED + "You need to type a stencil list name.");
             }
         }
     }
@@ -144,7 +144,7 @@ public class StencilListBrush extends AbstractBrush {
     private void stencilPaste(Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
         if (this.filename.matches("NoFileLoaded")) {
-            messenger.sendMessage(TextFormatting.RED + "You did not specify a filename for the list.  This is required.");
+            messenger.sendMessage(ChatFormatting.RED + "You did not specify a filename for the list.  This is required.");
             return;
         }
         String stencilName = this.readRandomStencil();
@@ -162,7 +162,7 @@ public class StencilListBrush extends AbstractBrush {
                 int numRuns = in.readInt();
                 // Something here that checks ranks using sanker'world thingie he added to Sniper and boots you out with error message if too big.
                 int volume = this.x * this.y * this.z;
-                messenger.sendMessage(TextFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
+                messenger.sendMessage(ChatFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
                 int currX = -this.xRef; // so if your ref point is +5 x, you want to start pasting -5 blocks from the clicked point (the reference) to get the
                 // corner, for example.
                 int currZ = -this.zRef;
@@ -310,18 +310,18 @@ public class StencilListBrush extends AbstractBrush {
                 }
                 in.close();
             } catch (IOException | MaxChangedBlocksException exception) {
-                messenger.sendMessage(TextFormatting.RED + "Something went wrong.");
+                messenger.sendMessage(ChatFormatting.RED + "Something went wrong.");
                 exception.printStackTrace();
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
+            messenger.sendMessage(ChatFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
         }
     }
 
     private void stencilPaste180(Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
         if (this.filename.matches("NoFileLoaded")) {
-            messenger.sendMessage(TextFormatting.RED + "You did not specify a filename for the list.  This is required.");
+            messenger.sendMessage(ChatFormatting.RED + "You did not specify a filename for the list.  This is required.");
             return;
         }
         String stencilName = this.readRandomStencil();
@@ -338,7 +338,7 @@ public class StencilListBrush extends AbstractBrush {
                 int numRuns = in.readInt();
                 // Something here that checks ranks using sanker'world thingie he added to Sniper and boots you out with error message if too big.
                 int volume = this.x * this.y * this.z;
-                messenger.sendMessage(TextFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
+                messenger.sendMessage(ChatFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
                 int currX = this.xRef; // so if your ref point is +5 x, you want to start pasting -5 blocks from the clicked point (the reference) to get the
                 // corner, for example.
                 int currZ = this.zRef;
@@ -486,18 +486,18 @@ public class StencilListBrush extends AbstractBrush {
                 }
                 in.close();
             } catch (IOException | MaxChangedBlocksException exception) {
-                messenger.sendMessage(TextFormatting.RED + "Something went wrong.");
+                messenger.sendMessage(ChatFormatting.RED + "Something went wrong.");
                 exception.printStackTrace();
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
+            messenger.sendMessage(ChatFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
         }
     }
 
     private void stencilPaste270(Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
         if (this.filename.matches("NoFileLoaded")) {
-            messenger.sendMessage(TextFormatting.RED + "You did not specify a filename for the list.  This is required.");
+            messenger.sendMessage(ChatFormatting.RED + "You did not specify a filename for the list.  This is required.");
             return;
         }
         String stencilName = this.readRandomStencil();
@@ -514,7 +514,7 @@ public class StencilListBrush extends AbstractBrush {
                 int numRuns = in.readInt();
                 // Something here that checks ranks using sanker'world thingie he added to Sniper and boots you out with error message if too big.
                 int volume = this.x * this.y * this.z;
-                messenger.sendMessage(TextFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
+                messenger.sendMessage(ChatFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
                 int currX = this.zRef; // so if your ref point is +5 x, you want to start pasting -5 blocks from the clicked point (the reference) to get the
                 // corner, for example.
                 int currZ = -this.xRef;
@@ -670,18 +670,18 @@ public class StencilListBrush extends AbstractBrush {
                 }
                 in.close();
             } catch (IOException | MaxChangedBlocksException exception) {
-                messenger.sendMessage(TextFormatting.RED + "Something went wrong.");
+                messenger.sendMessage(ChatFormatting.RED + "Something went wrong.");
                 exception.printStackTrace();
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
+            messenger.sendMessage(ChatFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
         }
     }
 
     private void stencilPaste90(Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
         if (this.filename.matches("NoFileLoaded")) {
-            messenger.sendMessage(TextFormatting.RED + "You did not specify a filename for the list.  This is required.");
+            messenger.sendMessage(ChatFormatting.RED + "You did not specify a filename for the list.  This is required.");
             return;
         }
         String stencilName = this.readRandomStencil();
@@ -698,7 +698,7 @@ public class StencilListBrush extends AbstractBrush {
                 int numRuns = in.readInt();
                 // Something here that checks ranks using sanker'world thingie he added to Sniper and boots you out with error message if too big.
                 int volume = this.x * this.y * this.z;
-                messenger.sendMessage(TextFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
+                messenger.sendMessage(ChatFormatting.AQUA + this.filename + " pasted.  Volume is " + volume + " blocks.");
                 int currX = -this.zRef; // so if your ref point is +5 x, you want to start pasting -5 blocks from the clicked point (the reference) to get the
                 // corner, for example.
                 int currZ = this.xRef;
@@ -846,11 +846,11 @@ public class StencilListBrush extends AbstractBrush {
                 }
                 in.close();
             } catch (IOException | MaxChangedBlocksException exception) {
-                messenger.sendMessage(TextFormatting.RED + "Something went wrong.");
+                messenger.sendMessage(ChatFormatting.RED + "Something went wrong.");
                 exception.printStackTrace();
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
+            messenger.sendMessage(ChatFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
         }
     }
 
@@ -858,7 +858,7 @@ public class StencilListBrush extends AbstractBrush {
         String blockDataString = in.readUTF();
         try {
             ParserContext parserContext = new ParserContext();
-            parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity) snipe.getSniper().getPlayer()));
+            parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayer) snipe.getSniper().getPlayer()));
             parserContext.setExtent(getEditSession());
             return WorldEdit.getInstance().getBlockFactory().parseFromInput(blockDataString, parserContext).toImmutableState();
         } catch (InputParseException e) {

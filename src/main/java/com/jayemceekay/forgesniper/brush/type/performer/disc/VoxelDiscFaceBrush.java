@@ -84,7 +84,7 @@ public class VoxelDiscFaceBrush extends AbstractPerformerBrush {
 
         for(int x = brushSize; x >= -brushSize; --x) {
             for(int y = brushSize; y >= -brushSize; --y) {
-                this.performer.perform(this.getEditSession(), blockX, this.clampY(blockY + x), blockZ + y, this.clampY(blockX, blockY + y, blockZ));
+                this.performer.perform(this.getEditSession(), blockX, this.clampY(blockY + x), blockZ + y, this.getBlock(blockX, this.clampY(blockY + x), blockZ + y));
             }
         }
 
