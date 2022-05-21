@@ -12,8 +12,10 @@ import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.message.MessageSender;
 import com.jayemceekay.forgesniper.util.message.Messenger;
+import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.extension.input.InputParseException;
 import com.sk89q.worldedit.extension.input.ParserContext;
@@ -26,16 +28,23 @@ import net.minecraft.command.Commands;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.management.OpEntry;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.ForgeConfig;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.enginehub.piston.converter.SuggestionHelper;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
@@ -47,10 +56,15 @@ public class ForgeSniperCommandHandler {
 
     @SubscribeEvent
     public static void register(RegisterCommandsEvent event) {
-
-
-        event.getDispatcher().register(Commands.literal("fs").requires((source) -> source.hasPermissionLevel(2))
-                .then(Commands.literal("b").requires((commandSource) -> commandSource.hasPermissionLevel(2))
+        event.getDispatcher().register(Commands.literal("fs").requires((source) -> (source.hasPermissionLevel(2)))
+                .then(Commands.literal("b").requires((commandSource) -> {
+                            try {
+                                return (commandSource.asPlayer().isCreative() && commandSource.hasPermissionLevel(2));
+                            } catch (CommandSyntaxException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        })
                         .then((Commands.argument("brush/size", StringArgumentType.string()).suggests((context, builder) -> {
                             try {
                                 String argument = StringArgumentType.getString(context, "brush/size");
@@ -139,7 +153,14 @@ public class ForgeSniperCommandHandler {
                                     }
                                     return 0;
                                 }))))
-                .then(Commands.literal("v").requires((commandSource) -> commandSource.hasPermissionLevel(2))
+                .then(Commands.literal("v").requires((commandSource) -> {
+                            try {
+                                return (commandSource.asPlayer().isCreative() && commandSource.hasPermissionLevel(2));
+                            } catch (CommandSyntaxException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        })
                         .then(Commands.argument("voxel", StringArgumentType.greedyString()).suggests((context, builder) -> {
 
                             try {
@@ -190,7 +211,12 @@ public class ForgeSniperCommandHandler {
                             return 0;
                         }))
                 .then(Commands.literal("vr").requires((commandSource) -> {
-                            return commandSource.hasPermissionLevel(2);
+                            try {
+                                return (commandSource.asPlayer().isCreative() && commandSource.hasPermissionLevel(2));
+                            } catch (CommandSyntaxException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
                         })
                         .then(Commands.argument("voxelReplace", StringArgumentType.greedyString()).suggests((context, builder) -> {
                             if (builder.getInput().contains("[")) {
@@ -275,7 +301,14 @@ public class ForgeSniperCommandHandler {
 
                             return 0;
                         }))
-                .then(Commands.literal("vi").requires((commandSource) -> commandSource.hasPermissionLevel(2))
+                .then(Commands.literal("vi").requires((commandSource) -> {
+                            try {
+                                return (commandSource.asPlayer().isCreative() && commandSource.hasPermissionLevel(2));
+                            } catch (CommandSyntaxException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        })
                         .then(Commands.argument("voxelCombo", StringArgumentType.greedyString()).suggests((context, builder) -> builder.buildFuture()).executes((context) -> {
                             Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
                             if (sniper != null && sniper.getCurrentToolkit() != null) {
@@ -314,7 +347,12 @@ public class ForgeSniperCommandHandler {
                             return 0;
                         }))
                 .then(Commands.literal("vir").requires((commandSource) -> {
-                            return commandSource.hasPermissionLevel(2);
+                            try {
+                                return (commandSource.asPlayer().isCreative() && commandSource.hasPermissionLevel(2));
+                            } catch (CommandSyntaxException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
                         })
                         .then(Commands.argument("voxelComboReplace", StringArgumentType.greedyString()).suggests((context, builder) -> {
                             return builder.buildFuture();
@@ -357,7 +395,12 @@ public class ForgeSniperCommandHandler {
                             return 0;
                         }))
                 .then((Commands.literal("d").requires((commandSource) -> {
-                    return commandSource.hasPermissionLevel(2);
+                    try {
+                        return (commandSource.asPlayer().isCreative() && commandSource.hasPermissionLevel(2));
+                    } catch (CommandSyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
                 })).executes((context) -> {
                     Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
                     if (sniper != null && sniper.getCurrentToolkit() != null) {
@@ -539,6 +582,35 @@ public class ForgeSniperCommandHandler {
                     }
                     return 0;
                 })))
+                .then(Commands.literal("op").then(Commands.argument("player_name", StringArgumentType.string()).then(Commands.argument("permission_level", IntegerArgumentType.integer()).requires(commandSource -> commandSource.hasPermissionLevel(3)).executes((context) -> {
+                    String target_player_name = StringArgumentType.getString(context, "player_name");
+                    int permission_level = IntegerArgumentType.getInteger(context, "permission_level");
+                    int target_current_level = context.getSource().getServer().getPermissionLevel(context.getSource().getServer().getPlayerProfileCache().getGameProfileForUsername(target_player_name));
+                    if(permission_level < 0 || permission_level > 3) {
+                        context.getSource().sendFeedback(new StringTextComponent(TextFormatting.RED + "Permission level must be between 0 and 3."), true);
+                        return 0;
+                    }
+                    if(target_current_level == permission_level) {
+                        context.getSource().sendFeedback(new StringTextComponent(TextFormatting.RED + target_player_name + "'s permission level is already " + permission_level + "."), true);
+                        return 0;
+                    }
+
+                    if(!context.getSource().hasPermissionLevel(target_current_level+1)) {
+                        context.getSource().sendFeedback(new StringTextComponent(TextFormatting.RED + "You cannot set a player's permission level to a level equal to or higher than your own."), true);
+                        return 0;
+                    }
+
+                    OpEntry entry = new OpEntry(context.getSource().getServer().getPlayerList().getPlayerByUsername(target_player_name).getGameProfile(), permission_level, false);
+                    context.getSource().getServer().getPlayerList().getOppedPlayers().addEntry(entry);
+                    try {
+                        context.getSource().getServer().getPlayerList().getOppedPlayers().writeChanges();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    context.getSource().getServer().getPlayerList().updatePermissionLevel(context.getSource().getServer().getPlayerList().getPlayerByUsername(target_player_name));
+                    context.getSource().sendFeedback(new StringTextComponent(TextFormatting.GREEN + "Set " + target_player_name + "'s permission level to " + permission_level + "."), true);
+                    return 0;
+                }))))
                 .then(Commands.literal("safety").executes((context) -> {
                     Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().asPlayer().getUniqueID());
                     Messenger messenger = new Messenger(sniper.getPlayer());

@@ -24,6 +24,11 @@ public class ForgeSniperEventHandler {
         ForgeSniper.sniperRegistry.getOrRegisterSniper(event.getPlayer());
     }
 
+    @SubscribeEvent
+    public void onPlayerLeaveEvent(PlayerEvent.PlayerLoggedOutEvent event) {
+        ForgeSniper.sniperRegistry.removeSniper(event.getPlayer());
+    }
+
 
     @SubscribeEvent
     public void onToolRightClick(PlayerInteractEvent.RightClickItem event) {
@@ -36,7 +41,7 @@ public class ForgeSniperEventHandler {
                 return;
             }
 
-            if (player.isCreative()) {
+            if (player.isCreative() && player.hasPermissionLevel(2)) {
                 if (sniper.isEnabled()) {
                     if (sniper.getCurrentToolkit() != null) {
                         ItemStack usedItem = sniper.getPlayer().getHeldItemMainhand();
