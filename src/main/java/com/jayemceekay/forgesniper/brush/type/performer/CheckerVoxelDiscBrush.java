@@ -5,7 +5,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
@@ -26,19 +26,19 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "CheckerVoxelDisc Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b cvd [true|false] -- Enables or disables using World Coordinates.");
+                messenger.sendMessage(ChatFormatting.GOLD + "CheckerVoxelDisc Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b cvd [true|false] -- Enables or disables using World Coordinates.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("true")) {
                 this.useWorldCoordinates = true;
-                messenger.sendMessage(TextFormatting.AQUA + "Enabled using World Coordinates.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Enabled using World Coordinates.");
             } else if (parameter.equalsIgnoreCase("false")) {
                 this.useWorldCoordinates = false;
-                messenger.sendMessage(TextFormatting.AQUA + "Disabled using World Coordinates.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Disabled using World Coordinates.");
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
 

@@ -9,7 +9,7 @@ import com.sk89q.worldedit.registry.state.Property;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 public class SnowConeBrush extends AbstractBrush {
     public SnowConeBrush() {
@@ -39,7 +39,7 @@ public class SnowConeBrush extends AbstractBrush {
                 }
             } else {
                 SnipeMessenger messenger = snipe.createMessenger();
-                messenger.sendMessage(TextFormatting.RED + "Error: Center block neither snow nor air.");
+                messenger.sendMessage(ChatFormatting.RED + "Error: Center block neither snow nor air.");
             }
         }
     }

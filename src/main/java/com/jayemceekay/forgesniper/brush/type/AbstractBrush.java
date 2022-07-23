@@ -13,9 +13,9 @@ import com.sk89q.worldedit.world.biome.BiomeType;
 import com.sk89q.worldedit.world.block.BaseBlock;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Player;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
@@ -37,8 +37,8 @@ public abstract class AbstractBrush implements Brush {
     @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
         Sniper sniper = snipe.getSniper();
-        PlayerEntity player = sniper.getPlayer();
-        player.sendMessage(new StringTextComponent(TextFormatting.RED + "This brush does not accept additional parameters."), player.getUniqueID());
+        Player player = sniper.getPlayer();
+        player.sendMessage(new TextComponent(ChatFormatting.RED + "This brush does not accept additional parameters."), player.getUUID());
     }
 
     @Override

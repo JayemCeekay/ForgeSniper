@@ -5,7 +5,7 @@ import com.jayemceekay.forgesniper.BrushRegistrar;
 import com.jayemceekay.forgesniper.brush.Brush;
 import com.jayemceekay.forgesniper.brush.property.BrushCreator;
 import com.jayemceekay.forgesniper.brush.property.BrushProperties;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -40,13 +40,13 @@ public class Toolkit {
     }
 
     public boolean hasToolAction(ItemStack toolMaterial) {
-        return this.toolActions.keySet().stream().anyMatch(itemStack -> itemStack.isItemEqualIgnoreDurability(toolMaterial));
+        return this.toolActions.keySet().stream().anyMatch(itemStack -> itemStack.sameItemStackIgnoreDurability(toolMaterial));
     }
 
     @Nullable
     public ToolAction getToolAction(ItemStack toolMaterial) {
         for(ItemStack stack : this.toolActions.keySet()) {
-            if(stack.isItemEqualIgnoreDurability(toolMaterial)) {
+            if(stack.sameItemStackIgnoreDurability(toolMaterial)) {
                 return this.toolActions.get(stack);
             }
         }

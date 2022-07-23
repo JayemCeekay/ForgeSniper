@@ -6,7 +6,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.List;
@@ -26,28 +26,28 @@ public class RingBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Ring Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b ri [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
-                messenger.sendMessage(TextFormatting.AQUA + "/b ri ir[n] -- Sets the inner radius to n units.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Ring Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b ri [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b ri ir[n] -- Sets the inner radius to n units.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("true")) {
                 this.trueCircle = 0.5D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode ON.");
             } else if (parameter.equalsIgnoreCase("false")) {
                 this.trueCircle = 0.0D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode OFF.");
             } else if (parameter.startsWith("ir[")) {
                 Double innerSize = NumericParser.parseDouble(parameter.replace("ir[", "").replace("]", ""));
                 if (innerSize != null) {
                     this.innerSize = innerSize;
-                    messenger.sendMessage(TextFormatting.AQUA + "The inner radius has been set to: " + TextFormatting.RED + this.innerSize);
+                    messenger.sendMessage(ChatFormatting.AQUA + "The inner radius has been set to: " + ChatFormatting.RED + this.innerSize);
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
 
@@ -110,6 +110,6 @@ public class RingBrush extends AbstractPerformerBrush {
     }
 
     public void sendInfo(Snipe snipe) {
-        snipe.createMessageSender().brushNameMessage().brushSizeMessage().message(TextFormatting.AQUA + "The inner radius is " + TextFormatting.RED + this.innerSize).send();
+        snipe.createMessageSender().brushNameMessage().brushSizeMessage().message(ChatFormatting.AQUA + "The inner radius is " + ChatFormatting.RED + this.innerSize).send();
     }
 }

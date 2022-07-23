@@ -7,7 +7,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,29 +21,29 @@ public class SplatterVoxelDiscBrush extends AbstractPerformerBrush {
         String firstParameter = parameters[0];
 
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Splatter Voxel Disc Brush Parameters:");
-            messenger.sendMessage(TextFormatting.AQUA + "/b svd s [n] -- Sets a seed percentage to n (1-9999). 100 = 1% Default is " +
+            messenger.sendMessage(ChatFormatting.GOLD + "Splatter Voxel Disc Brush Parameters:");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b svd s [n] -- Sets a seed percentage to n (1-9999). 100 = 1% Default is " +
                     "1000.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b svd g [n] -- Sets a growth percentage to n (1-9999). Default is 1000.");
-            messenger.sendMessage(TextFormatting.AQUA + "/b svd r [n] -- Sets a recursion i (1-10). Default is 3.");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b svd g [n] -- Sets a growth percentage to n (1-9999). Default is 1000.");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b svd r [n] -- Sets a recursion i (1-10). Default is 3.");
         } else {
             if (parameters.length == 2) {
                 if (firstParameter.equalsIgnoreCase("s")) {
                     Integer seedPercent = NumericParser.parseInteger(parameters[1]);
                     if (seedPercent != null && seedPercent >= super.seedPercentMin && seedPercent <= super.seedPercentMax) {
                         this.seedPercent = seedPercent;
-                        messenger.sendMessage(TextFormatting.AQUA + "Seed percent set to: " + this.seedPercent / 100 + "%");
+                        messenger.sendMessage(ChatFormatting.AQUA + "Seed percent set to: " + this.seedPercent / 100 + "%");
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Seed percent must be an integer " + this.seedPercentMin +
+                        messenger.sendMessage(ChatFormatting.RED + "Seed percent must be an integer " + this.seedPercentMin +
                                 "-" + this.seedPercentMax + ".");
                     }
                 } else if (firstParameter.equalsIgnoreCase("g")) {
                     Integer growPercent = NumericParser.parseInteger(parameters[1]);
                     if (growPercent != null && growPercent >= super.growthPercentMin && growPercent <= super.growthPercentMax) {
                         this.growthPercent = growPercent;
-                        messenger.sendMessage(TextFormatting.AQUA + "Growth percent set to: " + this.growthPercent / 100 + "%");
+                        messenger.sendMessage(ChatFormatting.AQUA + "Growth percent set to: " + this.growthPercent / 100 + "%");
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Growth percent must be an integer " + this.growthPercentMin +
+                        messenger.sendMessage(ChatFormatting.RED + "Growth percent must be an integer " + this.growthPercentMin +
                                 "-" + this.growthPercentMax + ".");
                     }
                 } else if (firstParameter.equalsIgnoreCase("r")) {
@@ -51,16 +51,16 @@ public class SplatterVoxelDiscBrush extends AbstractPerformerBrush {
                     if (splatterRecursions != null && splatterRecursions >= super.splatterRecursionsMin
                             && splatterRecursions <= super.splatterRecursionsMax) {
                         this.splatterRecursions = splatterRecursions;
-                        messenger.sendMessage(TextFormatting.AQUA + "Recursions set to: " + this.splatterRecursions);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Recursions set to: " + this.splatterRecursions);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Recursions must be an integer " + this.splatterRecursionsMin +
+                        messenger.sendMessage(ChatFormatting.RED + "Recursions must be an integer " + this.splatterRecursionsMin +
                                 "-" + this.splatterRecursionsMax + ".");
                     }
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display " +
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display " +
                         "parameter info.");
             }
         }
@@ -108,15 +108,15 @@ public class SplatterVoxelDiscBrush extends AbstractPerformerBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         if (this.seedPercent < super.seedPercentMin || this.seedPercent > super.seedPercentMax) {
             this.seedPercent = DEFAULT_SEED_PERCENT;
-            messenger.sendMessage(TextFormatting.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%");
+            messenger.sendMessage(ChatFormatting.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%");
         }
         if (this.growthPercent < super.growthPercentMin || this.growthPercent > super.growthPercentMax) {
             this.growthPercent = DEFAULT_GROWTH_PERCENT;
-            messenger.sendMessage(TextFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%");
+            messenger.sendMessage(ChatFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%");
         }
         if (this.splatterRecursions < super.splatterRecursionsMin || this.splatterRecursions > super.splatterRecursionsMax) {
             this.splatterRecursions = DEFAULT_SPLATTER_RECURSIONS;
-            messenger.sendMessage(TextFormatting.BLUE + "Recursions set to: " + this.splatterRecursions);
+            messenger.sendMessage(ChatFormatting.BLUE + "Recursions set to: " + this.splatterRecursions);
         }
         int brushSize = toolkitProperties.getBrushSize();
         int[][] splat = new int[2 * brushSize + 1][2 * brushSize + 1];
@@ -208,9 +208,9 @@ public class SplatterVoxelDiscBrush extends AbstractPerformerBrush {
         snipe.createMessageSender()
                 .brushNameMessage()
                 .brushSizeMessage()
-                .message(TextFormatting.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%")
-                .message(TextFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%")
-                .message(TextFormatting.BLUE + "Recursions set to: " + this.splatterRecursions)
+                .message(ChatFormatting.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%")
+                .message(ChatFormatting.BLUE + "Growth percent set to: " + this.growthPercent / 100 + "%")
+                .message(ChatFormatting.BLUE + "Recursions set to: " + this.splatterRecursions)
                 .send();
     }
 

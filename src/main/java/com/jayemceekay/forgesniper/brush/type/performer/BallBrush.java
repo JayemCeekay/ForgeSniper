@@ -7,7 +7,7 @@ import com.jayemceekay.forgesniper.util.painter.Painters;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
@@ -29,19 +29,19 @@ public class BallBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Ball Brush Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b b [true|false] -- Uses a true sphere algorithm instead of the skinnier version with classic sniper nubs. Default is false.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Ball Brush Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b b [true|false] -- Uses a true sphere algorithm instead of the skinnier version with classic sniper nubs. Default is false.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("true")) {
                 this.trueCircle = true;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode ON.");
             } else if (parameter.equalsIgnoreCase("false")) {
                 this.trueCircle = false;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode OFF.");
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
 

@@ -14,8 +14,9 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.TextFormatting;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.server.level.ServerPlayer;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.io.*;
@@ -66,8 +67,8 @@ public class StencilBrush extends AbstractBrush {
         String firstParameter = parameters[0];
 
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Stencil Brush Parameters:");
-            messenger.sendMessage(TextFormatting.AQUA + "/b st (full|fill|replace) [s] -- Loads the specified stencil s. " +
+            messenger.sendMessage(ChatFormatting.GOLD + "Stencil Brush Parameters:");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b st (full|fill|replace) [s] -- Loads the specified stencil s. " +
                     "Full/fill/replace must come first. Full = paste all blocks, fill = paste only into air blocks, replace = " +
                     "paste full blocks in only, but replace anything in their way.");
         } else {
@@ -89,11 +90,11 @@ public class StencilBrush extends AbstractBrush {
             }
             if(firstParameter.equalsIgnoreCase("legacy")) {
                 this.legacy = !this.legacy;
-                messenger.sendMessage(TextFormatting.GREEN + "Legacy stencil format " + (this.legacy ? "enabled" : "disabled"));
+                messenger.sendMessage(ChatFormatting.GREEN + "Legacy stencil format " + (this.legacy ? "enabled" : "disabled"));
                 return;
             }
             if (parameters.length != 1 + pasteParam) {
-                messenger.sendMessage(TextFormatting.RED + "Missing arguments, this command expects more.");
+                messenger.sendMessage(ChatFormatting.RED + "Missing arguments, this command expects more.");
                 return;
             }
 
@@ -102,13 +103,13 @@ public class StencilBrush extends AbstractBrush {
                 this.filename = parameters[pasteParam];
                 File file = new File(ForgeSniper.FORGESNIPER_CONFIG_FOLDER.getPath(), "/stencils/" + this.filename + ".vstencil");
                 if (file.exists()) {
-                    messenger.sendMessage(TextFormatting.RED + "Stencil '" + this.filename + "' exists and was loaded. Make sure you are using gunpowder if you do not want any chance of overwriting the file.");
+                    messenger.sendMessage(ChatFormatting.RED + "Stencil '" + this.filename + "' exists and was loaded. Make sure you are using gunpowder if you do not want any chance of overwriting the file.");
                 } else {
-                    messenger.sendMessage(TextFormatting.AQUA + "Stencil '" + this.filename + "' does not exist. Ready to be saved to, but cannot be pasted.");
+                    messenger.sendMessage(ChatFormatting.AQUA + "Stencil '" + this.filename + "' does not exist. Ready to be saved to, but cannot be pasted.");
                 }
             } catch (RuntimeException exception) {
                 exception.printStackTrace();
-                messenger.sendMessage(TextFormatting.RED + "You need to type a stencil name.");
+                messenger.sendMessage(ChatFormatting.RED + "You need to type a stencil name.");
             }
         }
     }
@@ -131,7 +132,7 @@ public class StencilBrush extends AbstractBrush {
             this.firstPoint[0] = targetBlock.getX();
             this.firstPoint[1] = targetBlock.getZ();
             this.firstPoint[2] = targetBlock.getY();
-            messenger.sendMessage(TextFormatting.GRAY + "First point");
+            messenger.sendMessage(ChatFormatting.GRAY + "First point");
             messenger.sendMessage("X:" + this.firstPoint[0] + " Z:" + this.firstPoint[1] + " Y:" + this.firstPoint[2]);
             this.point = 2;
         } else if (this.point == 2) {
@@ -140,10 +141,10 @@ public class StencilBrush extends AbstractBrush {
             this.secondPoint[2] = targetBlock.getY();
             if ((Math.abs(this.firstPoint[0] - this.secondPoint[0]) * Math.abs(this.firstPoint[1] - this.secondPoint[1]) * Math.abs(
                     this.firstPoint[2] - this.secondPoint[2])) > 5000000) {
-                messenger.sendMessage(TextFormatting.DARK_RED + "Area selected is too large. (Limit is 5,000,000 blocks)");
+                messenger.sendMessage(ChatFormatting.DARK_RED + "Area selected is too large. (Limit is 5,000,000 blocks)");
                 this.point = 1;
             } else {
-                messenger.sendMessage(TextFormatting.GRAY + "Second point");
+                messenger.sendMessage(ChatFormatting.GRAY + "Second point");
                 messenger.sendMessage("X:" + this.secondPoint[0] + " Z:" + this.secondPoint[1] + " Y:" + this.secondPoint[2]);
                 this.point = 3;
             }
@@ -151,7 +152,7 @@ public class StencilBrush extends AbstractBrush {
             this.pastePoint[0] = targetBlock.getX();
             this.pastePoint[1] = targetBlock.getZ();
             this.pastePoint[2] = targetBlock.getY();
-            messenger.sendMessage(TextFormatting.GRAY + "Paste Reference point");
+            messenger.sendMessage(ChatFormatting.GRAY + "Paste Reference point");
             messenger.sendMessage("X:" + this.pastePoint[0] + " Z:" + this.pastePoint[1] + " Y:" + this.pastePoint[2]);
             this.point = 1;
             this.stencilSave(snipe);
@@ -166,7 +167,7 @@ public class StencilBrush extends AbstractBrush {
     private void stencilPaste(Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
         if (this.filename.matches("NoFileLoaded")) {
-            messenger.sendMessage(TextFormatting.RED + "You did not specify a filename. This is required.");
+            messenger.sendMessage(ChatFormatting.RED + "You did not specify a filename. This is required.");
             return;
         }
         File file = new File(ForgeSniper.FORGESNIPER_CONFIG_FOLDER.getPath(), "/stencils/" + this.filename + ".vstencil");
@@ -335,11 +336,11 @@ public class StencilBrush extends AbstractBrush {
                 }
                 in.close();
             } catch (IOException | MaxChangedBlocksException exception) {
-                messenger.sendMessage(TextFormatting.RED + "Something went wrong.");
+                messenger.sendMessage(ChatFormatting.RED + "Something went wrong.");
                 exception.printStackTrace();
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
+            messenger.sendMessage(ChatFormatting.RED + "You need to type a stencil name / your specified stencil does not exist.");
         }
     }
 
@@ -348,7 +349,7 @@ public class StencilBrush extends AbstractBrush {
             int ID = in.readByte() + 128;
             int data = in.readByte() + 128;
             ParserContext parserContext = new ParserContext();
-            parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity) snipe.getSniper().getPlayer()));
+            parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayer) snipe.getSniper().getPlayer()));
             parserContext.setExtent(getEditSession());
             try {
                 return WorldEdit.getInstance().getBlockFactory().parseFromInput(ID+":"+data, parserContext).toImmutableState();
@@ -358,11 +359,11 @@ public class StencilBrush extends AbstractBrush {
             String blockDataString = in.readUTF();
             try {
                 ParserContext parserContext = new ParserContext();
-                parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayerEntity) snipe.getSniper().getPlayer()));
+                parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayer) snipe.getSniper().getPlayer()));
                 parserContext.setExtent(getEditSession());
                 return WorldEdit.getInstance().getBlockFactory().parseFromInput(blockDataString, parserContext).toImmutableState();
             } catch (InputParseException e) {
-                snipe.createMessageSender().message(TextFormatting.RED + "Invalid Stencil Format, Try Legacy Mode").send();
+                snipe.createMessageSender().message(ChatFormatting.RED + "Invalid Stencil Format, Try Legacy Mode").send();
             }
         }
         return BlockTypes.AIR.getDefaultState();
@@ -386,7 +387,7 @@ public class StencilBrush extends AbstractBrush {
                     ? (this.pastePoint[2] - this.secondPoint[2])
                     : (this.pastePoint[2] - this.firstPoint[2]));
             if ((this.x * this.y * this.z) > 50000) {
-                messenger.sendMessage(TextFormatting.AQUA + "Volume exceeds maximum limit.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Volume exceeds maximum limit.");
                 return;
             }
             createParentDirs(file);
@@ -401,7 +402,7 @@ public class StencilBrush extends AbstractBrush {
             out.writeShort(this.xRef);
             out.writeShort(this.zRef);
             out.writeShort(this.yRef);
-            messenger.sendMessage(TextFormatting.AQUA + "Volume: " + this.x * this.z * this.y + " blockPositionX:" + blockPositionX + " blockPositionZ:" + blockPositionZ + " blockPositionY:" + blockPositionY);
+            messenger.sendMessage(ChatFormatting.AQUA + "Volume: " + this.x * this.z * this.y + " blockPositionX:" + blockPositionX + " blockPositionZ:" + blockPositionZ + " blockPositionY:" + blockPositionY);
             BlockState[] blockDataArray = new BlockState[this.x * this.z * this.y];
             byte[] runSizeArray = new byte[this.x * this.z * this.y];
             BlockState lastBlockData = getBlock(blockPositionX, blockPositionY, blockPositionZ);
@@ -436,10 +437,10 @@ public class StencilBrush extends AbstractBrush {
                 }
                 out.writeUTF(blockDataArray[i].getAsString());
             }
-            messenger.sendMessage(TextFormatting.BLUE + "Saved as '" + this.filename + "'.");
+            messenger.sendMessage(ChatFormatting.BLUE + "Saved as '" + this.filename + "'.");
             out.close();
         } catch (IOException exception) {
-            messenger.sendMessage(TextFormatting.RED + "Something went wrong.");
+            messenger.sendMessage(ChatFormatting.RED + "Something went wrong.");
             exception.printStackTrace();
         }
     }

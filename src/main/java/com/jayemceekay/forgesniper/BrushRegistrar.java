@@ -30,6 +30,7 @@ public class BrushRegistrar {
 
 
         this.registerBallBrush();
+        this.registerBiomeBrush();
         this.registerBlendBallBrush();
         this.registerBlendDiscBrush();
         this.registerBlendVoxelBrush();
@@ -76,6 +77,11 @@ public class BrushRegistrar {
 
     private void registerBallBrush() {
         BrushProperties properties = BrushProperties.builder().name("Ball").alias("b").alias("ball").creator(BallBrush::new).build();
+        this.registry.register(properties);
+    }
+
+    private void registerBiomeBrush() {
+        BrushProperties properties = BrushProperties.builder().name("biome").alias("bio").creator(BiomeBrush::new).build();
         this.registry.register(properties);
     }
 

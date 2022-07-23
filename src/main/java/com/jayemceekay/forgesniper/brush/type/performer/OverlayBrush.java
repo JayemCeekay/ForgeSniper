@@ -10,7 +10,7 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
@@ -19,13 +19,13 @@ import java.util.stream.Stream;
 
 public class OverlayBrush extends AbstractPerformerBrush {
     private boolean allBlocks = false;
-    private int depth = 10;
+    private int depth = 3;
 
     public OverlayBrush() {
     }
 
     public void loadProperties() {
-        this.depth = 10;
+        this.depth = 3;
     }
 
     public void handleCommand(String[] parameters, Snipe snipe) {
@@ -34,29 +34,29 @@ public class OverlayBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Overlay Brush Parameters:");
-                messenger.sendMessage(TextFormatting.BLUE + "/b over all -- Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).");
-                messenger.sendMessage(TextFormatting.BLUE + "/b over some -- Sets the brush to overlay over natural surface materials.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b over d [n] -- Sets how many blocks deep you want to replace from the surface to n.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Overlay Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.BLUE + "/b over all -- Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).");
+                messenger.sendMessage(ChatFormatting.BLUE + "/b over some -- Sets the brush to overlay over natural surface materials.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b over d[n] -- Sets how many blocks deep you want to replace from the surface to n.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("all")) {
                 this.allBlocks = true;
-                messenger.sendMessage(TextFormatting.BLUE + "Will overlay over any block: " + this.depth);
+                messenger.sendMessage(ChatFormatting.BLUE + "Will overlay over any block: " + this.depth);
             } else if (parameter.equalsIgnoreCase("some")) {
                 this.allBlocks = false;
-                messenger.sendMessage(TextFormatting.BLUE + "Will overlay only natural block types: " + this.depth);
+                messenger.sendMessage(ChatFormatting.BLUE + "Will overlay only natural block types: " + this.depth);
             } else if (parameter.startsWith("d[")) {
                 Integer depth = NumericParser.parseInteger(parameter.replace("d[", "").replace("]", ""));
                 if (depth != null) {
                     this.depth = depth < 1 ? 1 : depth;
-                    messenger.sendMessage(TextFormatting.AQUA + "Depth set to: " + this.depth);
+                    messenger.sendMessage(ChatFormatting.AQUA + "Depth set to: " + this.depth);
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                 }
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         }
     }

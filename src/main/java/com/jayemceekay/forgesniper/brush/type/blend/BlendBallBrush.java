@@ -8,7 +8,8 @@ import com.jayemceekay.forgesniper.util.painter.Painters;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+
 
 import java.util.*;
 
@@ -24,8 +25,8 @@ public class BlendBallBrush extends AbstractBlendBrush {
         for(int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Blend Ball Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b bb water -- Toggles include or exclude (default) water.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Blend Ball Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b bb water -- Toggles include or exclude (default) water.");
                 return;
             }
 

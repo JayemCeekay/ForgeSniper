@@ -7,7 +7,7 @@ import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.List;
@@ -29,39 +29,39 @@ public class CylinderBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Cylinder Brush Parameters:");
-                messenger.sendMessage(TextFormatting.DARK_AQUA + "/b c [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
-                messenger.sendMessage(TextFormatting.AQUA + "/b c h[n] -- Sets the cylinder v.voxelHeight to n. Default is 1.");
-                messenger.sendMessage(TextFormatting.BLUE + "/b c c[n] -- Sets the origin of the cylinder compared to the target block to n. Positive numbers will move the cylinder upward, negative will move it downward.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Cylinder Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.DARK_AQUA + "/b c [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b c h[n] -- Sets the cylinder v.voxelHeight to n. Default is 1.");
+                messenger.sendMessage(ChatFormatting.BLUE + "/b c c[n] -- Sets the origin of the cylinder compared to the target block to n. Positive numbers will move the cylinder upward, negative will move it downward.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("true")) {
                 this.trueCircle = 0.5D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode ON.");
             } else if (parameter.equalsIgnoreCase("false")) {
                 this.trueCircle = 0.0D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode OFF.");
             } else {
                 Integer center;
                 if (parameter.startsWith("h[")) {
                     center = NumericParser.parseInteger(parameter.replace("h[", "").replace("]", ""));
                     if (center != null) {
                         toolkitProperties.setVoxelHeight(center);
-                        messenger.sendMessage(TextFormatting.AQUA + "Cylinder v.voxelHeight set to: " + toolkitProperties.getVoxelHeight());
+                        messenger.sendMessage(ChatFormatting.AQUA + "Cylinder v.voxelHeight set to: " + toolkitProperties.getVoxelHeight());
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else if (parameter.startsWith("c[")) {
                     center = NumericParser.parseInteger(parameter.replace("c[", "").replace("]", ""));
                     if (center != null) {
                         toolkitProperties.setCylinderCenter(center);
-                        messenger.sendMessage(TextFormatting.AQUA + "Cylinder origin set to: " + toolkitProperties.getCylinderCenter());
+                        messenger.sendMessage(ChatFormatting.AQUA + "Cylinder origin set to: " + toolkitProperties.getCylinderCenter());
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
                 }
             }
         }
@@ -114,23 +114,23 @@ public class CylinderBrush extends AbstractPerformerBrush {
         int blockX;
         if (yStartingPoint < minHeight) {
             yStartingPoint = minHeight;
-            messenger.sendMessage(TextFormatting.DARK_PURPLE + "Warning: off-world start position.");
+            messenger.sendMessage(ChatFormatting.DARK_PURPLE + "Warning: off-world start position.");
         } else {
             blockX = editSession.getMaximumPoint().getY();
             if (yStartingPoint > blockX) {
                 yStartingPoint = blockX;
-                messenger.sendMessage(TextFormatting.DARK_PURPLE + "Warning: off-world start position.");
+                messenger.sendMessage(ChatFormatting.DARK_PURPLE + "Warning: off-world start position.");
             }
         }
 
         if (yEndPoint < minHeight) {
             yEndPoint = minHeight;
-            messenger.sendMessage(TextFormatting.DARK_PURPLE + "Warning: off-world end position.");
+            messenger.sendMessage(ChatFormatting.DARK_PURPLE + "Warning: off-world end position.");
         } else {
             blockX = editSession.getMaximumPoint().getY();
             if (yEndPoint > blockX) {
                 yEndPoint = blockX;
-                messenger.sendMessage(TextFormatting.DARK_PURPLE + "Warning: off-world end position.");
+                messenger.sendMessage(ChatFormatting.DARK_PURPLE + "Warning: off-world end position.");
             }
         }
 

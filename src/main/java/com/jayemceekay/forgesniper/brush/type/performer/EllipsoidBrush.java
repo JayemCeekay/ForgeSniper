@@ -5,7 +5,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
@@ -30,48 +30,48 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Ellipse Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b elo [true|false] -- Toggles offset. Default is false.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b elo x [n] -- Sets X radius to n.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b elo y [n] -- Sets Y radius to n.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b elo z [n] -- Sets Z radius to n.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Ellipse Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b elo [true|false] -- Toggles offset. Default is false.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b elo x [n] -- Sets X radius to n.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b elo y [n] -- Sets Y radius to n.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b elo z [n] -- Sets Z radius to n.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("true")) {
                 this.offset = true;
-                messenger.sendMessage(TextFormatting.AQUA + "Offset ON.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Offset ON.");
             } else if (parameter.equalsIgnoreCase("false")) {
                 this.offset = false;
-                messenger.sendMessage(TextFormatting.AQUA + "Offset OFF.");
+                messenger.sendMessage(ChatFormatting.AQUA + "Offset OFF.");
             } else {
                 Integer zRad;
-                if (parameter.equalsIgnoreCase("x[")) {
+                if (parameter.startsWith("x[")) {
                     zRad = NumericParser.parseInteger(parameter.replace("x[", "").replace("]", ""));
                     if (zRad != null) {
                         this.xRad = (double) zRad;
-                        messenger.sendMessage(TextFormatting.AQUA + "X radius set to: " + this.xRad);
+                        messenger.sendMessage(ChatFormatting.AQUA + "X radius set to: " + this.xRad);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
-                } else if (parameter.equalsIgnoreCase("y[")) {
+                } else if (parameter.startsWith("y[")) {
                     zRad = NumericParser.parseInteger(parameter.replace("y[", "").replace("]", ""));
                     if (zRad != null) {
                         this.yRad = (double) zRad;
-                        messenger.sendMessage(TextFormatting.AQUA + "Y radius set to: " + this.yRad);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Y radius set to: " + this.yRad);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
-                } else if (parameter.equalsIgnoreCase("z[")) {
+                } else if (parameter.startsWith("z[")) {
                     zRad = NumericParser.parseInteger(parameter.replace("z[", "").replace("]", ""));
                     if (zRad != null) {
                         this.zRad = (double) zRad;
-                        messenger.sendMessage(TextFormatting.AQUA + "Z radius set to: " + this.zRad);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Z radius set to: " + this.zRad);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
                 }
             }
         }
@@ -150,6 +150,6 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
     }
 
     public void sendInfo(Snipe snipe) {
-        snipe.createMessageSender().brushNameMessage().message(TextFormatting.AQUA + "X-size set to: " + TextFormatting.DARK_AQUA + this.xRad).message(TextFormatting.AQUA + "Y-size set to: " + TextFormatting.DARK_AQUA + this.yRad).message(TextFormatting.AQUA + "Z-size set to: " + TextFormatting.DARK_AQUA + this.zRad).send();
+        snipe.createMessageSender().brushNameMessage().message(ChatFormatting.AQUA + "X-size set to: " + ChatFormatting.DARK_AQUA + this.xRad).message(ChatFormatting.AQUA + "Y-size set to: " + ChatFormatting.DARK_AQUA + this.yRad).message(ChatFormatting.AQUA + "Z-size set to: " + ChatFormatting.DARK_AQUA + this.zRad).send();
     }
 }

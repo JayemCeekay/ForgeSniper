@@ -7,7 +7,8 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.util.Direction;
 import com.sk89q.worldedit.world.block.BlockState;
-import net.minecraft.util.text.TextFormatting;
+
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import javax.annotation.Nullable;
@@ -24,20 +25,20 @@ public class ExtrudeBrush extends AbstractBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         String firstParameter = parameters[0];
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Extrude Brush Parameters:");
-            messenger.sendMessage(TextFormatting.AQUA + "/b ex [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
+            messenger.sendMessage(ChatFormatting.GOLD + "Extrude Brush Parameters:");
+            messenger.sendMessage(ChatFormatting.AQUA + "/b ex [true|false] -- Uses a true circle algorithm instead of the skinnier version with classic sniper nubs. (false is default)");
         } else if (parameters.length == 1) {
             if (firstParameter.equalsIgnoreCase("true")) {
                 this.trueCircle = 0.5D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode ON.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode ON.");
             } else if (firstParameter.equalsIgnoreCase("false")) {
                 this.trueCircle = 0.0D;
-                messenger.sendMessage(TextFormatting.AQUA + "True circle mode OFF.");
+                messenger.sendMessage(ChatFormatting.AQUA + "True circle mode OFF.");
             } else {
-                messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
             }
         } else {
-            messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
+            messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter info.");
         }
 
     }
@@ -215,7 +216,7 @@ public class ExtrudeBrush extends AbstractBrush {
         messenger.sendBrushSizeMessage();
         messenger.sendVoxelHeightMessage();
         messenger.sendVoxelListMessage();
-        messenger.sendMessage(TextFormatting.AQUA + (Double.compare(this.trueCircle, 0.5) == 0
+        messenger.sendMessage(ChatFormatting.AQUA + (Double.compare(this.trueCircle, 0.5) == 0
                 ? "True circle mode ON"
                 : "True circle mode OFF"));
     }

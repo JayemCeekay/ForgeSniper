@@ -8,7 +8,7 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.util.Direction;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
 import java.util.HashMap;
@@ -52,21 +52,21 @@ public class EllipseBrush extends AbstractPerformerBrush {
 
         for (String parameter : parameters) {
             if (parameter.equalsIgnoreCase("info")) {
-                messenger.sendMessage(TextFormatting.GOLD + "Ellipse Brush Parameters:");
-                messenger.sendMessage(TextFormatting.AQUA + "/b el fill -- Toggles fill mode. Default is false.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b el x[n] -- Sets X size modifier to n.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b el y[n] -- Sets Y size modifier to n.");
-                messenger.sendMessage(TextFormatting.AQUA + "/b el t[n] -- Sets the amount of time steps.");
+                messenger.sendMessage(ChatFormatting.GOLD + "Ellipse Brush Parameters:");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b el fill -- Toggles fill mode. Default is false.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b el x[n] -- Sets X size modifier to n.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b el y[n] -- Sets Y size modifier to n.");
+                messenger.sendMessage(ChatFormatting.AQUA + "/b el t[n] -- Sets the amount of time steps.");
                 return;
             }
 
             if (parameter.equalsIgnoreCase("fill")) {
                 if (this.fill) {
                     this.fill = false;
-                    messenger.sendMessage(TextFormatting.AQUA + "Fill mode is disabled");
+                    messenger.sendMessage(ChatFormatting.AQUA + "Fill mode is disabled");
                 } else {
                     this.fill = true;
-                    messenger.sendMessage(TextFormatting.AQUA + "Fill mode is enabled");
+                    messenger.sendMessage(ChatFormatting.AQUA + "Fill mode is enabled");
                 }
             } else {
                 Integer steps;
@@ -74,28 +74,28 @@ public class EllipseBrush extends AbstractPerformerBrush {
                     steps = NumericParser.parseInteger(parameter.replace("x[", "").replace("]", ""));
                     if (steps != null && steps >= this.sclMin && steps <= this.sclMax) {
                         this.xscl = steps;
-                        messenger.sendMessage(TextFormatting.AQUA + "X-scale modifier set to: " + this.xscl);
+                        messenger.sendMessage(ChatFormatting.AQUA + "X-scale modifier set to: " + this.xscl);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else if (parameter.equalsIgnoreCase("y[")) {
                     steps = NumericParser.parseInteger(parameter.replace("y[", "").replace("]", ""));
                     if (steps != null && steps >= this.sclMin && steps <= this.sclMax) {
                         this.yscl = steps;
-                        messenger.sendMessage(TextFormatting.AQUA + "Y-scale modifier set to: " + this.yscl);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Y-scale modifier set to: " + this.yscl);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else if (parameter.startsWith("t[")) {
                     steps = NumericParser.parseInteger(parameter.replace("t[", "").replace("]", ""));
                     if (steps != null && steps >= this.stepsMin && steps <= this.stepsMax) {
                         this.steps = steps;
-                        messenger.sendMessage(TextFormatting.AQUA + "Render step number set to: " + this.steps);
+                        messenger.sendMessage(ChatFormatting.AQUA + "Render step number set to: " + this.steps);
                     } else {
-                        messenger.sendMessage(TextFormatting.RED + "Invalid number.");
+                        messenger.sendMessage(ChatFormatting.RED + "Invalid number.");
                     }
                 } else {
-                    messenger.sendMessage(TextFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+                    messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
                 }
             }
         }
@@ -197,7 +197,7 @@ public class EllipseBrush extends AbstractPerformerBrush {
             }
         } catch (RuntimeException | MaxChangedBlocksException exception) {
             SnipeMessenger messenger = snipe.createMessenger();
-            messenger.sendMessage(TextFormatting.RED + "Invalid target.");
+            messenger.sendMessage(ChatFormatting.RED + "Invalid target.");
         }
     }
 
@@ -311,7 +311,7 @@ public class EllipseBrush extends AbstractPerformerBrush {
             }
         } catch (RuntimeException | MaxChangedBlocksException exception) {
             SnipeMessenger messenger = snipe.createMessenger();
-            messenger.sendMessage(TextFormatting.RED + "Invalid target.");
+            messenger.sendMessage(ChatFormatting.RED + "Invalid target.");
         }
     }
 
@@ -329,6 +329,6 @@ public class EllipseBrush extends AbstractPerformerBrush {
         }
 
         SnipeMessageSender messageSender = snipe.createMessageSender();
-        messageSender.brushNameMessage().message(TextFormatting.AQUA + "X-size set to: " + TextFormatting.DARK_AQUA + this.xscl).message(TextFormatting.AQUA + "Y-size set to: " + TextFormatting.DARK_AQUA + this.yscl).message(TextFormatting.AQUA + "Render step number set to: " + TextFormatting.DARK_AQUA + this.steps).message(TextFormatting.AQUA + "Fill mode is " + (this.fill ? "enabled" : "disabled")).send();
+        messageSender.brushNameMessage().message(ChatFormatting.AQUA + "X-size set to: " + ChatFormatting.DARK_AQUA + this.xscl).message(ChatFormatting.AQUA + "Y-size set to: " + ChatFormatting.DARK_AQUA + this.yscl).message(ChatFormatting.AQUA + "Render step number set to: " + ChatFormatting.DARK_AQUA + this.steps).message(ChatFormatting.AQUA + "Fill mode is " + (this.fill ? "enabled" : "disabled")).send();
     }
 }

@@ -7,7 +7,9 @@ import com.sk89q.worldedit.forge.ForgeAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.world.World;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.entity.player.Player;
+
 
 public class LineBrush extends AbstractPerformerBrush {
     private static final Vector3 HALF_BLOCK_OFFSET = Vector3.at(0.5D, 0.5D, 0.5D);
@@ -25,17 +27,18 @@ public class LineBrush extends AbstractPerformerBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         String firstParameter = parameters[0];
         if (firstParameter.equalsIgnoreCase("info")) {
-            messenger.sendMessage(TextFormatting.GOLD + "Line Brush instructions: Right click first point with the arrow. Right click with gunpowder to draw a line to set the second point.");
+            messenger.sendMessage(ChatFormatting.GOLD + "Line Brush instructions: Right click first point with the arrow. Right click with gunpowder to draw a line to set the second point.");
         }
     }
 
 
     public void handleArrowAction(Snipe snipe) {
         BlockVector3 targetBlock = this.getTargetBlock();
+        Player player = snipe.getSniper().getPlayer();
         this.originCoordinates = targetBlock.toVector3();
-        this.targetWorld = ForgeAdapter.adapt(snipe.getSniper().getPlayer().world);
+        this.targetWorld = ForgeAdapter.adapt(player.getServer().getLevel(player.level.dimension()));
         SnipeMessenger messenger = snipe.createMessenger();
-        messenger.sendMessage(TextFormatting.DARK_PURPLE + "First point selected.");
+        messenger.sendMessage(ChatFormatting.DARK_PURPLE + "First point selected.");
     }
 
     public void handleGunpowderAction(Snipe snipe) {
@@ -51,7 +54,7 @@ public class LineBrush extends AbstractPerformerBrush {
             }
         } else {
             SnipeMessenger messenger = snipe.createMessenger();
-            messenger.sendMessage(TextFormatting.RED + "Warning: You did not select a first coordinate with the arrow");
+            messenger.sendMessage(ChatFormatting.RED + "Warning: You did not select a first coordinate with the arrow");
         }
 
     }
