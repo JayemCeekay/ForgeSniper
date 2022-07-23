@@ -24,6 +24,11 @@ public class ForgeSniperEventHandler {
         ForgeSniper.sniperRegistry.getOrRegisterSniper(event.getPlayer());
     }
 
+    @SubscribeEvent
+    public void onPlayerLeaveEvent(PlayerEvent.PlayerLoggedOutEvent event) {
+        ForgeSniper.sniperRegistry.removeSniper(event.getPlayer());
+    }
+
 
     @SubscribeEvent
     public void onToolRightClick(PlayerInteractEvent.RightClickItem event) {

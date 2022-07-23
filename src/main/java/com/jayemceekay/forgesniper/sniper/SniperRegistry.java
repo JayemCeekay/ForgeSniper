@@ -13,6 +13,10 @@ public class SniperRegistry {
     public SniperRegistry() {
     }
 
+    public void removeSniper(Player player) {
+        snipers.remove(player.getUUID());
+    }
+
     public Sniper getOrRegisterSniper(Player player) {
 
         if(getSniper(player.getUUID()) == null) {

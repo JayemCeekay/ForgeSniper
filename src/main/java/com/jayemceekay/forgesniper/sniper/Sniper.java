@@ -37,7 +37,7 @@ import java.util.UUID;
 public class Sniper {
     private static final String DEFAULT_TOOLKIT_NAME = "default";
     private final List<Toolkit> toolkits = new ArrayList<>();
-    private boolean enabled = true;
+    private boolean enabled = false;
     private final Player player;
 
     public Sniper(Player player) {
