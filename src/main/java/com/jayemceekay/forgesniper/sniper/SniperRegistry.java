@@ -25,6 +25,10 @@ public class SniperRegistry {
         return getSniper(player.getUUID());
     }
 
+    public void removeSniper(PlayerEntity player) {
+        snipers.remove(player.getUniqueID());
+    }
+
     public Sniper getSniper(UUID uuid) {
         return this.snipers.get(uuid);
     }

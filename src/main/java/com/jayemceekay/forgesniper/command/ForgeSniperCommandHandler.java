@@ -12,6 +12,7 @@ import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
 import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.message.MessageSender;
 import com.jayemceekay.forgesniper.util.message.Messenger;
+import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -34,6 +35,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.enginehub.piston.converter.SuggestionHelper;
 
@@ -53,6 +55,7 @@ public class ForgeSniperCommandHandler {
                 .then(Commands.literal("b").requires((commandSource) -> {
                             try {
                                 return (commandSource.getPlayerOrException().isCreative() );
+
                             } catch (CommandSyntaxException e) {
                                 e.printStackTrace();
                             }
@@ -606,6 +609,35 @@ public class ForgeSniperCommandHandler {
                     }
                     return 0;
                 })))
+                .then(Commands.literal("op").then(Commands.argument("player_name", StringArgumentType.string()).then(Commands.argument("permission_level", IntegerArgumentType.integer()).requires(commandSource -> commandSource.hasPermissionLevel(3)).executes((context) -> {
+                    String target_player_name = StringArgumentType.getString(context, "player_name");
+                    int permission_level = IntegerArgumentType.getInteger(context, "permission_level");
+                    int target_current_level = context.getSource().getServer().getPermissionLevel(context.getSource().getServer().getPlayerProfileCache().getGameProfileForUsername(target_player_name));
+                    if(permission_level < 0 || permission_level > 3) {
+                        context.getSource().sendFeedback(new StringTextComponent(TextFormatting.RED + "Permission level must be between 0 and 3."), true);
+                        return 0;
+                    }
+                    if(target_current_level == permission_level) {
+                        context.getSource().sendFeedback(new StringTextComponent(TextFormatting.RED + target_player_name + "'s permission level is already " + permission_level + "."), true);
+                        return 0;
+                    }
+
+                    if(!context.getSource().hasPermissionLevel(target_current_level+1)) {
+                        context.getSource().sendFeedback(new StringTextComponent(TextFormatting.RED + "You cannot set a player's permission level to a level equal to or higher than your own."), true);
+                        return 0;
+                    }
+
+                    OpEntry entry = new OpEntry(context.getSource().getServer().getPlayerList().getPlayerByUsername(target_player_name).getGameProfile(), permission_level, false);
+                    context.getSource().getServer().getPlayerList().getOppedPlayers().addEntry(entry);
+                    try {
+                        context.getSource().getServer().getPlayerList().getOppedPlayers().writeChanges();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    context.getSource().getServer().getPlayerList().updatePermissionLevel(context.getSource().getServer().getPlayerList().getPlayerByUsername(target_player_name));
+                    context.getSource().sendFeedback(new StringTextComponent(TextFormatting.GREEN + "Set " + target_player_name + "'s permission level to " + permission_level + "."), true);
+                    return 0;
+                }))))
                 .then(Commands.literal("safety").executes((context) -> {
                     Sniper sniper = ForgeSniper.sniperRegistry.getSniper(context.getSource().getPlayerOrException().getUUID());
                     Messenger messenger = new Messenger(sniper.getPlayer());
