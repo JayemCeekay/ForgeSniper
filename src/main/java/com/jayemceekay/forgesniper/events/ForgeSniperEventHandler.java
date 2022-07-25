@@ -41,7 +41,7 @@ public class ForgeSniperEventHandler {
                 return;
             }
 
-            if (player.isCreative()) {
+            if (player.isCreative() && player.hasPermissionLevel(2)) {
                 if (sniper.isEnabled()) {
                     if (sniper.getCurrentToolkit() != null) {
                         ItemStack usedItem = sniper.getPlayer().getMainHandItem();
