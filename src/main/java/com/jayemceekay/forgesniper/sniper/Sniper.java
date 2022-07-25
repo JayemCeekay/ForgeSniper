@@ -222,8 +222,9 @@ public class Sniper {
                 tag.add(StringTag.valueOf(TextComponent.Serializer.toJson(new TextComponent(ChatFormatting.BLUE + "Replacing: " + toolkit.getProperties().getReplaceBlockData().toString()))));
                 display.put("Lore", tag);
 
-                this.getPlayer().getInventory().setItem(index, toolMaterial.copy());
-
+                if(index >= 0) {
+                    this.getPlayer().getInventory().setItem(index, toolMaterial.copy());
+                }
 
             }
         });

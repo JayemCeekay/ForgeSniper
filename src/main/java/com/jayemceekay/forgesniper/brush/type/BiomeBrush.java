@@ -10,7 +10,9 @@ import com.sk89q.worldedit.world.biome.BiomeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.protocol.game.ClientboundForgetLevelChunkPacket;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
+import org.enginehub.piston.converter.SuggestionHelper;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class BiomeBrush extends AbstractBrush {
@@ -18,6 +20,8 @@ public class BiomeBrush extends AbstractBrush {
     private static final BiomeType DEFAULT_BIOME_TYPE = BiomeTypes.PLAINS;
 
     private BiomeType biomeType;
+
+
 
     @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
@@ -53,6 +57,16 @@ public class BiomeBrush extends AbstractBrush {
                 messenger.sendMessage(ChatFormatting.RED + "Invalid brush parameters length! Use the \"info\" parameter to display parameter " +
                         "info.");
             }
+        }
+    }
+
+    @Override
+    public List<String> handleCompletions(String[] parameters) {
+        if (parameters.length > 0) {
+            String parameter = parameters[parameters.length - 1];
+            return SuggestionHelper.limitByPrefix(BiomeType.REGISTRY.values().stream().map(BiomeType::toString), parameter);
+        } else {
+            return SuggestionHelper.limitByPrefix(BiomeType.REGISTRY.values().stream().map(BiomeType::toString), "");
         }
     }
 
