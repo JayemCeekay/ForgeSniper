@@ -22,10 +22,6 @@ public final class MaterialSets {
     public static final MaterialSet OVERRIDEABLE_WITH_ORES;
     public static final MaterialSet PISTONS;
 
-    private MaterialSets() {
-        throw new UnsupportedOperationException("Cannot create an instance of this class");
-    }
-
     static {
         AIRS = MaterialSet.builder().add(BlockTypes.AIR).add(BlockTypes.CAVE_AIR).add(BlockTypes.VOID_AIR).build();
         CHESTS = MaterialSet.builder().add(BlockTypes.CHEST).add(BlockTypes.TRAPPED_CHEST).add(BlockTypes.ENDER_CHEST).build();
@@ -44,5 +40,9 @@ public final class MaterialSets {
         ORES = MaterialSet.builder().with(BlockCategories.GOLD_ORES).add(BlockTypes.NETHER_QUARTZ_ORE).add("NETHER_GOLD_ORE").build();
         OVERRIDEABLE_WITH_ORES = MaterialSet.builder().with(OVERRIDEABLE).with(ORES).build();
         PISTONS = MaterialSet.builder().add(BlockTypes.MOVING_PISTON).add(BlockTypes.PISTON).add(BlockTypes.PISTON_HEAD).add(BlockTypes.STICKY_PISTON).build();
+    }
+
+    private MaterialSets() {
+        throw new UnsupportedOperationException("Cannot create an instance of this class");
     }
 }

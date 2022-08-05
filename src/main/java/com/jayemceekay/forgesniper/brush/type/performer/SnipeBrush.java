@@ -8,6 +8,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 public class SnipeBrush extends AbstractPerformerBrush {
     public SnipeBrush() {
     }
+
     @Override
     public void loadProperties() {
     }

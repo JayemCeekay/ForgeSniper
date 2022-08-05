@@ -17,10 +17,10 @@ import org.apache.logging.log4j.Logger;
 
 @Mod("forgesniper")
 public class ForgeSniper {
+    public static final Logger LOGGER = LogManager.getLogger();
     public static SniperRegistry sniperRegistry = new SniperRegistry();
     public static BrushRegistry brushRegistry;
     public static PerformerRegistry performerRegistry;
-    public static final Logger LOGGER = LogManager.getLogger();
     public static ResourceLocation FORGESNIPER_CONFIG_FOLDER = new ResourceLocation("forgesniper", FMLPaths.CONFIGDIR.relative().toString());
 
     public ForgeSniper() {
@@ -30,7 +30,7 @@ public class ForgeSniper {
 
     private void setup(FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(ForgeSniperCommandHandler.class);
-        LOGGER.info(TextColor.GREEN+"Loading Brushes");
+        LOGGER.info(TextColor.GREEN + "Loading Brushes");
         brushRegistry = this.loadBrushRegistry();
         LOGGER.info("Loaded " + brushRegistry.getBrushProperties().keySet().size() + " Brushes");
         LOGGER.info("Loading Performers");

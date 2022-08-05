@@ -14,12 +14,16 @@ public abstract class AbstractPerformer implements Performer {
     public AbstractPerformer() {
     }
 
-    public void setBlockType(EditSession editSession, int x, int y, int z, BlockType type) throws MaxChangedBlocksException {
+    public void setBlockType(EditSession editSession, int x, int y, int z, BlockType type) {
         this.setBlockData(editSession, x, y, z, type.getDefaultState());
     }
 
-    public void setBlockData(EditSession editSession, int x, int y, int z, BlockState blockState) throws MaxChangedBlocksException {
-        editSession.setBlock(BlockVector3.at(x, y, z), blockState);
+    public void setBlockData(EditSession editSession, int x, int y, int z, BlockState blockState) {
+        try {
+            editSession.setBlock(BlockVector3.at(x, y, z), blockState);
+        } catch (MaxChangedBlocksException e) {
+            e.printStackTrace();
+        }
     }
 
     public PerformerProperties getProperties() {

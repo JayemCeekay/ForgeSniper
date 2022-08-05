@@ -29,8 +29,8 @@ public class MaterialMaterialPerformer extends AbstractPerformer {
 
             Map<Property<?>, Object> stateMap = new HashMap<>(type.getStates());
             block.getStates().forEach((key, value) -> {
-                if(type.getStates().containsKey(key)) {
-                   stateMap.put(key, value);
+                if (type.getStates().containsKey(key)) {
+                    stateMap.put(key, value);
                 }
             });
 

@@ -87,16 +87,16 @@ public class RingBrush extends AbstractPerformerBrush {
     private void ring(Snipe snipe, BlockVector3 targetBlock) throws MaxChangedBlocksException {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double outerSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double outerSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
         double innerSquared = Math.pow(this.innerSize, 2.0D);
         int blockX = targetBlock.getX();
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= 0; --x) {
+        for (int x = brushSize; x >= 0; --x) {
             double xSquared = Math.pow(x, 2.0D);
 
-            for(int z = brushSize; z >= 0; --z) {
+            for (int z = brushSize; z >= 0; --z) {
                 double ySquared = Math.pow(z, 2.0D);
                 if (xSquared + ySquared <= outerSquared && xSquared + ySquared >= innerSquared) {
                     this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ + z, this.getBlock(blockX + x, blockY, blockZ + z));

@@ -125,23 +125,23 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
         this.performer.perform(this.getEditSession(), blockX, blockY, blockZ, this.getBlock(blockX, blockY, blockZ));
         double trueOffset = this.offset ? 0.5D : 0.0D;
 
-        for(double x = 0.0D; x <= this.xRad; ++x) {
+        for (double x = 0.0D; x <= this.xRad; ++x) {
             double xSquared = x / (this.xRad + trueOffset) * (x / (this.xRad + trueOffset));
 
-            for(double z = 0.0D; z <= this.zRad; ++z) {
+            for (double z = 0.0D; z <= this.zRad; ++z) {
                 double zSquared = z / (this.zRad + trueOffset) * (z / (this.zRad + trueOffset));
 
-                for(double y = 0.0D; y <= this.yRad; ++y) {
+                for (double y = 0.0D; y <= this.yRad; ++y) {
                     double ySquared = y / (this.yRad + trueOffset) * (y / (this.yRad + trueOffset));
                     if (xSquared + ySquared + zSquared <= 1.0D) {
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX + x), this.clampY((int)((double)blockY + y)), (int)((double)blockZ + z), this.clampY((int)((double)blockX + x), (int)((double)blockY + y), (int)((double)blockZ + z)));
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX + x), this.clampY((int)((double)blockY + y)), (int)((double)blockZ - z), this.clampY((int)((double)blockX + x), (int)((double)blockY + y), (int)((double)blockZ - z)));
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX + x), this.clampY((int)((double)blockY - y)), (int)((double)blockZ + z), this.clampY((int)((double)blockX + x), (int)((double)blockY - y), (int)((double)blockZ + z)));
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX + x), this.clampY((int)((double)blockY - y)), (int)((double)blockZ - z), this.clampY((int)((double)blockX + x), (int)((double)blockY - y), (int)((double)blockZ - z)));
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX - x), this.clampY((int)((double)blockY + y)), (int)((double)blockZ + z), this.clampY((int)((double)blockX - x), (int)((double)blockY + y), (int)((double)blockZ + z)));
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX - x), this.clampY((int)((double)blockY + y)), (int)((double)blockZ - z), this.clampY((int)((double)blockX - x), (int)((double)blockY + y), (int)((double)blockZ - z)));
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX - x), this.clampY((int)((double)blockY - y)), (int)((double)blockZ + z), this.clampY((int)((double)blockX - x), (int)((double)blockY - y), (int)((double)blockZ + z)));
-                        this.performer.perform(this.getEditSession(), (int)((double)blockX - x), this.clampY((int)((double)blockY - y)), (int)((double)blockZ - z), this.clampY((int)((double)blockX - x), (int)((double)blockY - y), (int)((double)blockZ - z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX + x), this.clampY((int) ((double) blockY + y)), (int) ((double) blockZ + z), this.clampY((int) ((double) blockX + x), (int) ((double) blockY + y), (int) ((double) blockZ + z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX + x), this.clampY((int) ((double) blockY + y)), (int) ((double) blockZ - z), this.clampY((int) ((double) blockX + x), (int) ((double) blockY + y), (int) ((double) blockZ - z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX + x), this.clampY((int) ((double) blockY - y)), (int) ((double) blockZ + z), this.clampY((int) ((double) blockX + x), (int) ((double) blockY - y), (int) ((double) blockZ + z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX + x), this.clampY((int) ((double) blockY - y)), (int) ((double) blockZ - z), this.clampY((int) ((double) blockX + x), (int) ((double) blockY - y), (int) ((double) blockZ - z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX - x), this.clampY((int) ((double) blockY + y)), (int) ((double) blockZ + z), this.clampY((int) ((double) blockX - x), (int) ((double) blockY + y), (int) ((double) blockZ + z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX - x), this.clampY((int) ((double) blockY + y)), (int) ((double) blockZ - z), this.clampY((int) ((double) blockX - x), (int) ((double) blockY + y), (int) ((double) blockZ - z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX - x), this.clampY((int) ((double) blockY - y)), (int) ((double) blockZ + z), this.clampY((int) ((double) blockX - x), (int) ((double) blockY - y), (int) ((double) blockZ + z)));
+                        this.performer.perform(this.getEditSession(), (int) ((double) blockX - x), this.clampY((int) ((double) blockY - y)), (int) ((double) blockZ - z), this.clampY((int) ((double) blockX - x), (int) ((double) blockY - y), (int) ((double) blockZ - z)));
                     }
                 }
             }

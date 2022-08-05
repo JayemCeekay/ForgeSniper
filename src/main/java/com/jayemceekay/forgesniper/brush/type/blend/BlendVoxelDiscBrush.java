@@ -10,7 +10,6 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import net.minecraft.ChatFormatting;
 
-
 import java.util.*;
 
 public class BlendVoxelDiscBrush extends AbstractBlendBrush {
@@ -21,7 +20,7 @@ public class BlendVoxelDiscBrush extends AbstractBlendBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
+        for (int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(ChatFormatting.GOLD + "Blend Voxel Disc Brush Parameters:");
@@ -48,8 +47,8 @@ public class BlendVoxelDiscBrush extends AbstractBlendBrush {
         }).paint();
         Iterator var9 = smallSquare.iterator();
 
-        while(var9.hasNext()) {
-            BlockVector3 smallSquareBlock = (BlockVector3)var9.next();
+        while (var9.hasNext()) {
+            BlockVector3 smallSquareBlock = (BlockVector3) var9.next();
             Map<BlockType, Integer> blockTypesFrequencies = new HashMap();
             Painters.square().center(smallSquareBlock).radius(1).blockSetter((position) -> {
                 if (!position.equals(smallSquareBlock)) {

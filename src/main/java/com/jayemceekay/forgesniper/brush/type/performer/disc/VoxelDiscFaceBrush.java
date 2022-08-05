@@ -67,8 +67,8 @@ public class VoxelDiscFaceBrush extends AbstractPerformerBrush {
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= -brushSize; --x) {
-            for(int y = brushSize; y >= -brushSize; --y) {
+        for (int x = brushSize; x >= -brushSize; --x) {
+            for (int y = brushSize; y >= -brushSize; --y) {
                 this.performer.perform(this.getEditSession(), blockX + x, this.clampY(blockY + y), blockZ, this.getBlock(blockX + x, this.clampY(blockY + y), blockZ));
             }
         }
@@ -82,8 +82,8 @@ public class VoxelDiscFaceBrush extends AbstractPerformerBrush {
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= -brushSize; --x) {
-            for(int y = brushSize; y >= -brushSize; --y) {
+        for (int x = brushSize; x >= -brushSize; --x) {
+            for (int y = brushSize; y >= -brushSize; --y) {
                 this.performer.perform(this.getEditSession(), blockX, this.clampY(blockY + x), blockZ + y, this.getBlock(blockX, this.clampY(blockY + x), blockZ + y));
             }
         }
@@ -97,8 +97,8 @@ public class VoxelDiscFaceBrush extends AbstractPerformerBrush {
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= -brushSize; --x) {
-            for(int y = brushSize; y >= -brushSize; --y) {
+        for (int x = brushSize; x >= -brushSize; --x) {
+            for (int y = brushSize; y >= -brushSize; --y) {
                 this.performer.perform(this.getEditSession(), blockX + x, this.clampY(blockY), blockZ + y, this.getBlock(blockX + x, this.clampY(blockY), blockZ + y));
             }
         }

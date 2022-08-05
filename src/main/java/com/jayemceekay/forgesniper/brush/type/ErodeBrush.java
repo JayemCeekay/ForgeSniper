@@ -1,4 +1,3 @@
-
 package com.jayemceekay.forgesniper.brush.type;
 
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
@@ -13,7 +12,6 @@ import com.sk89q.worldedit.util.Direction;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-
 import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
@@ -24,6 +22,11 @@ import java.util.stream.Stream;
 
 public class ErodeBrush extends AbstractBrush {
     private static final List<Direction> FACES_TO_CHECK;
+
+    static {
+        FACES_TO_CHECK = Arrays.asList(Direction.SOUTH, Direction.NORTH, Direction.UP, Direction.DOWN, Direction.EAST, Direction.WEST);
+    }
+
     private ErosionPreset currentPreset;
 
     public ErodeBrush() {
@@ -34,7 +37,7 @@ public class ErodeBrush extends AbstractBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
+        for (int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(ChatFormatting.GOLD + "Erode Brush Parameters:");
@@ -137,18 +140,18 @@ public class ErodeBrush extends AbstractBrush {
         BlockChangeTracker blockChangeTracker = new BlockChangeTracker(this.getEditSession());
 
         int i;
-        for(i = 0; i < erosionPreset.getErosionRecursion(); ++i) {
+        for (i = 0; i < erosionPreset.getErosionRecursion(); ++i) {
             this.erosionIteration(toolkitProperties, erosionPreset, blockChangeTracker, targetBlock);
         }
 
-        for(i = 0; i < erosionPreset.getFillRecursion(); ++i) {
+        for (i = 0; i < erosionPreset.getFillRecursion(); ++i) {
             this.fillIteration(toolkitProperties, erosionPreset, blockChangeTracker, targetBlock);
         }
 
         Iterator var13 = blockChangeTracker.getAll().iterator();
 
-        while(var13.hasNext()) {
-            BlockWrapper blockWrapper = (BlockWrapper)var13.next();
+        while (var13.hasNext()) {
+            BlockWrapper blockWrapper = (BlockWrapper) var13.next();
             BlockState block = blockWrapper.getBlock();
             if (block != null) {
                 BlockState blockData = blockWrapper.getBlockData();
@@ -168,9 +171,9 @@ public class ErodeBrush extends AbstractBrush {
         BlockVector3 targetBlock = this.getTargetBlock();
         int brushSize = toolkitProperties.getBrushSize();
 
-        for(int x = targetBlock.getX() - brushSize; x <= targetBlock.getX() + brushSize; ++x) {
-            for(int z = targetBlock.getZ() - brushSize; z <= targetBlock.getZ() + brushSize; ++z) {
-                for(int y = targetBlock.getY() - brushSize; y <= targetBlock.getY() + brushSize; ++y) {
+        for (int x = targetBlock.getX() - brushSize; x <= targetBlock.getX() + brushSize; ++x) {
+            for (int z = targetBlock.getZ() - brushSize; z <= targetBlock.getZ() + brushSize; ++z) {
+                for (int y = targetBlock.getY() - brushSize; y <= targetBlock.getY() + brushSize; ++y) {
                     BlockVector3 currentPosition = BlockVector3.at(x, y, z);
                     if (Math.pow(currentPosition.getX() - targetBlockVector.getX(), 2.0D) + Math.pow(currentPosition.getY() - targetBlockVector.getY(), 2.0D) + Math.pow(currentPosition.getZ() - targetBlockVector.getZ(), 2.0D) <= Math.pow(brushSize, 2.0D)) {
                         BlockWrapper currentBlock = blockChangeTracker.get(currentPosition, currentIteration);
@@ -180,8 +183,8 @@ public class ErodeBrush extends AbstractBrush {
                             Iterator var15 = FACES_TO_CHECK.iterator();
 
                             BlockWrapper wrapper;
-                            while(var15.hasNext()) {
-                                Direction direction = (Direction)var15.next();
+                            while (var15.hasNext()) {
+                                Direction direction = (Direction) var15.next();
                                 BlockVector3 relativePosition = currentPosition.add(direction.toBlockVector());
                                 wrapper = blockChangeTracker.get(relativePosition, currentIteration);
                                 if (!wrapper.isEmpty() && !wrapper.isLiquid()) {
@@ -199,8 +202,8 @@ public class ErodeBrush extends AbstractBrush {
                             int amount = 0;
                             Iterator var22 = blockCount.keySet().iterator();
 
-                            while(var22.hasNext()) {
-                                wrapper = (BlockWrapper)var22.next();
+                            while (var22.hasNext()) {
+                                wrapper = (BlockWrapper) var22.next();
                                 Integer currentCount = blockCount.get(wrapper);
                                 if (amount <= currentCount) {
                                     currentBlockWrapper = wrapper;
@@ -224,14 +227,14 @@ public class ErodeBrush extends AbstractBrush {
         BlockVector3 targetBlock = this.getTargetBlock();
         int brushSize = toolkitProperties.getBrushSize();
 
-        for(int x = targetBlock.getX() - brushSize; x <= targetBlock.getX() + brushSize; ++x) {
-            for(int z = targetBlock.getZ() - brushSize; z <= targetBlock.getZ() + brushSize; ++z) {
-                for(int y = targetBlock.getY() - brushSize; y <= targetBlock.getY() + brushSize; ++y) {
+        for (int x = targetBlock.getX() - brushSize; x <= targetBlock.getX() + brushSize; ++x) {
+            for (int z = targetBlock.getZ() - brushSize; z <= targetBlock.getZ() + brushSize; ++z) {
+                for (int y = targetBlock.getY() - brushSize; y <= targetBlock.getY() + brushSize; ++y) {
                     BlockVector3 currentPosition = BlockVector3.at(x, y, z);
                     if (Math.pow(currentPosition.getX() - targetBlockVector.getX(), 2.0D) + Math.pow(currentPosition.getY() - targetBlockVector.getY(), 2.0D) + Math.pow(currentPosition.getZ() - targetBlockVector.getZ(), 2.0D) <= Math.pow(brushSize, 2.0D)) {
                         BlockWrapper currentBlock = blockChangeTracker.get(currentPosition, currentIteration);
                         if (!currentBlock.isEmpty() && !currentBlock.isLiquid()) {
-                            int count = (int)FACES_TO_CHECK.stream().map((direction) -> {
+                            int count = (int) FACES_TO_CHECK.stream().map((direction) -> {
                                 return this.getRelativeBlock(currentPosition, direction);
                             }).map((relativePosition) -> {
                                 return blockChangeTracker.get(relativePosition, currentIteration);
@@ -259,8 +262,34 @@ public class ErodeBrush extends AbstractBrush {
         messenger.sendMessage(ChatFormatting.DARK_GREEN + "Fill recursion amount set to: " + this.currentPreset.getFillRecursion());
     }
 
-    static {
-        FACES_TO_CHECK = Arrays.asList(Direction.SOUTH, Direction.NORTH, Direction.UP, Direction.DOWN, Direction.EAST, Direction.WEST);
+    private enum Preset {
+        DEFAULT("default", new ErosionPreset(0, 1, 0, 1)),
+        MELT("melt", new ErosionPreset(2, 1, 5, 1)),
+        FILL("fill", new ErosionPreset(5, 1, 2, 1)),
+        SMOOTH("smooth", new ErosionPreset(3, 1, 3, 1)),
+        LIFT("lift", new ErosionPreset(6, 0, 1, 1)),
+        FLOAT_CLEAN("floatclean", new ErosionPreset(6, 1, 6, 1));
+
+        private final String name;
+        private final ErosionPreset preset;
+
+        Preset(String name, ErosionPreset preset) {
+            this.name = name;
+            this.preset = preset;
+        }
+
+        @Nullable
+        public static Preset getPreset(String name) {
+            return Arrays.stream(values()).filter((preset) -> preset.name.equalsIgnoreCase(name)).findFirst().orElse(null);
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public ErosionPreset getPreset() {
+            return this.preset;
+        }
     }
 
     static class ErosionPreset implements Serializable {
@@ -285,7 +314,7 @@ public class ErodeBrush extends AbstractBrush {
             if (!(obj instanceof ErosionPreset)) {
                 return false;
             } else {
-                ErosionPreset other = (ErosionPreset)obj;
+                ErosionPreset other = (ErosionPreset) obj;
                 return this.erosionFaces == other.erosionFaces && this.erosionRecursion == other.erosionRecursion && this.fillFaces == other.fillFaces && this.fillRecursion == other.fillRecursion;
             }
         }
@@ -310,6 +339,7 @@ public class ErodeBrush extends AbstractBrush {
             return new ErosionPreset(this.fillFaces, this.fillRecursion, this.erosionFaces, this.erosionRecursion);
         }
     }
+
     static class BlockChangeTracker {
         private final Map<Integer, Map<BlockVector3, BlockWrapper>> blockChanges;
         private final Map<BlockVector3, BlockWrapper> flatChanges;
@@ -323,9 +353,9 @@ public class ErodeBrush extends AbstractBrush {
         }
 
         public BlockWrapper get(BlockVector3 position, int iteration) {
-            for(int i = iteration - 1; i >= 0; --i) {
+            for (int i = iteration - 1; i >= 0; --i) {
                 if (this.blockChanges.containsKey(i) && this.blockChanges.get(i).containsKey(position)) {
-                    return (BlockWrapper)((Map)this.blockChanges.get(i)).get(position);
+                    return (BlockWrapper) ((Map) this.blockChanges.get(i)).get(position);
                 }
             }
 
@@ -345,10 +375,11 @@ public class ErodeBrush extends AbstractBrush {
                 this.blockChanges.put(iteration, new HashMap<>());
             }
 
-            ((Map)this.blockChanges.get(iteration)).put(position, changedBlock);
+            ((Map) this.blockChanges.get(iteration)).put(position, changedBlock);
             this.flatChanges.put(position, changedBlock);
         }
     }
+
     static class BlockWrapper {
         private final int x;
         private final int y;
@@ -398,36 +429,6 @@ public class ErodeBrush extends AbstractBrush {
         public boolean isLiquid() {
             BlockType type = this.blockData.getBlockType();
             return Materials.isLiquid(type);
-        }
-    }
-
-    private enum Preset {
-        DEFAULT("default", new ErosionPreset(0, 1, 0, 1)),
-        MELT("melt", new ErosionPreset(2, 1, 5, 1)),
-        FILL("fill", new ErosionPreset(5, 1, 2, 1)),
-        SMOOTH("smooth", new ErosionPreset(3, 1, 3, 1)),
-        LIFT("lift", new ErosionPreset(6, 0, 1, 1)),
-        FLOAT_CLEAN("floatclean", new ErosionPreset(6, 1, 6, 1));
-
-        private final String name;
-        private final ErosionPreset preset;
-
-        Preset(String name, ErosionPreset preset) {
-            this.name = name;
-            this.preset = preset;
-        }
-
-        @Nullable
-        public static Preset getPreset(String name) {
-            return Arrays.stream(values()).filter((preset) -> preset.name.equalsIgnoreCase(name)).findFirst().orElse(null);
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public ErosionPreset getPreset() {
-            return this.preset;
         }
     }
 

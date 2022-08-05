@@ -56,17 +56,18 @@ public class PerformerRegistrar {
         PerformerProperties properties = PerformerProperties.builder().name("Material Combo No Physics").usingReplaceMaterial().alias("mcp").alias("mat-combo-nophys").creator(MaterialComboNoPhysicsPerformer::new).build();
         this.registry.register(properties);
     }
-/*
-    private void registerExcludeMaterialPerformer() {
-        PerformerProperties properties = PerformerProperties.builder().name("Exclude Material").alias("xm").alias("exclude-mat").creator(ExcludeMaterialPerformer::new).build();
-        this.registry.register(properties);
-    }
 
-    private void registerIncludeMaterialPerformer() {
-        PerformerProperties properties = PerformerProperties.builder().name("Include Material").alias("nm").alias("include-mat").creator(IncludeMaterialPerformer::new).build();
-        this.registry.register(properties);
-    }
-*/
+    /*
+        private void registerExcludeMaterialPerformer() {
+            PerformerProperties properties = PerformerProperties.builder().name("Exclude Material").alias("xm").alias("exclude-mat").creator(ExcludeMaterialPerformer::new).build();
+            this.registry.register(properties);
+        }
+
+        private void registerIncludeMaterialPerformer() {
+            PerformerProperties properties = PerformerProperties.builder().name("Include Material").alias("nm").alias("include-mat").creator(IncludeMaterialPerformer::new).build();
+            this.registry.register(properties);
+        }
+    */
     private void registerComboPerformers() {
         this.registerComboPerformer();
         this.registerComboMaterialPerformer();

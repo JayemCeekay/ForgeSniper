@@ -22,7 +22,6 @@ public class BiomeBrush extends AbstractBrush {
     private BiomeType biomeType;
 
 
-
     @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
@@ -61,7 +60,7 @@ public class BiomeBrush extends AbstractBrush {
     }
 
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
             return SuggestionHelper.limitByPrefix(BiomeType.REGISTRY.values().stream().map(BiomeType::toString), parameter);
@@ -112,7 +111,7 @@ public class BiomeBrush extends AbstractBrush {
         int highChunkZ = block1Z >= block2Z ? chunk1Z : chunk2Z;
         for (int x = lowChunkX; x <= highChunkX; x++) {
             for (int z = lowChunkZ; z <= highChunkZ; z++) {
-                snipe.getSniper().getPlayer().getServer().getPlayerList().getPlayer(snipe.getSniper().getPlayer().getUUID()).connection.send(new ClientboundForgetLevelChunkPacket(x,z));
+                snipe.getSniper().getPlayer().getServer().getPlayerList().getPlayer(snipe.getSniper().getPlayer().getUUID()).connection.send(new ClientboundForgetLevelChunkPacket(x, z));
 
                 snipe.getSniper().getPlayer().getServer().getPlayerList().getPlayer(snipe.getSniper().getPlayer().getUUID()).connection.send(new ClientboundLevelChunkWithLightPacket(snipe.getSniper().getPlayer().getLevel().getChunk(x, z), snipe.getSniper().getPlayer().getLevel().getLightEngine(), null, null, true));
             }

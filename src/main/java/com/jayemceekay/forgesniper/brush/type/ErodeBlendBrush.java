@@ -26,12 +26,12 @@ public class ErodeBlendBrush extends AbstractBrush {
 
     }
 
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length == 1) {
             String parameter = parameters[0];
-            return super.sortCompletions(Stream.concat(this.blendBall.handleCompletions(parameters).stream(), this.erode.handleCompletions(parameters).stream()), parameter, 0);
+            return super.sortCompletions(Stream.concat(this.blendBall.handleCompletions(parameters, snipe).stream(), this.erode.handleCompletions(parameters).stream()), parameter, 0);
         } else {
-            return super.handleCompletions(parameters);
+            return super.handleCompletions(parameters, snipe);
         }
     }
 

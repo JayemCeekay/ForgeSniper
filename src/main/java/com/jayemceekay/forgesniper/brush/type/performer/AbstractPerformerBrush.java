@@ -56,6 +56,7 @@ public abstract class AbstractPerformerBrush extends AbstractBrush implements Pe
         this.growthPercent = 1000;
         this.splatterRecursions = 3;
     }
+
     @Override
     public void handlePerformerCommand(String[] parameters, Snipe snipe, PerformerRegistry performerRegistry) {
         String parameter = parameters[0];
@@ -78,11 +79,13 @@ public abstract class AbstractPerformerBrush extends AbstractBrush implements Pe
 
         }
     }
+
     @Override
     public void initialize(Snipe snipe) {
         PerformerSnipe performerSnipe = new PerformerSnipe(snipe, this.performerProperties, this.performer);
         this.performer.initialize(performerSnipe);
     }
+
     @Override
     public void sendPerformerInfo(Snipe snipe) {
         PerformerSnipe performerSnipe = new PerformerSnipe(snipe, this.performerProperties, this.performer);

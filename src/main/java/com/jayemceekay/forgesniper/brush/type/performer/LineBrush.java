@@ -69,7 +69,7 @@ public class LineBrush extends AbstractPerformerBrush {
             Vector3 direction = targetClone.subtract(originClone);
             double distance = 0.0D;
 
-            for(double increment = 0.25D; distance < direction.length(); distance += increment) {
+            for (double increment = 0.25D; distance < direction.length(); distance += increment) {
                 BlockVector3 currentBlock = originClone.add(direction.normalize().multiply(distance)).toBlockPoint();
                 this.performer.perform(this.getEditSession(), currentBlock.getX(), currentBlock.getY(), currentBlock.getZ(), this.getBlock(currentBlock.getX(), currentBlock.getY(), currentBlock.getZ()));
             }

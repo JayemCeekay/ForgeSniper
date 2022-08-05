@@ -15,6 +15,11 @@ public class EraserBrush extends AbstractBrush {
     private static final MaterialSet EXCLUSIVE_MATERIALS;
     private static final MaterialSet EXCLUSIVE_LIQUIDS;
 
+    static {
+        EXCLUSIVE_MATERIALS = MaterialSet.builder().with(BlockCategories.SAND).with(MaterialSets.SANDSTONES).with(MaterialSets.RED_SANDSTONES).with(MaterialSets.AIRS).with(MaterialSets.STONES).with(MaterialSets.GRASSES).with(BlockCategories.DIRT_LIKE).add(BlockTypes.GRAVEL).build();
+        EXCLUSIVE_LIQUIDS = MaterialSet.builder().with(MaterialSets.LIQUIDS).build();
+    }
+
     public EraserBrush() {
     }
 
@@ -42,13 +47,13 @@ public class EraserBrush extends AbstractBrush {
         int brushSizeDoubled = 2 * brushSize;
         BlockVector3 targetBlock = this.getTargetBlock();
 
-        for(int x = brushSizeDoubled; x >= 0; --x) {
+        for (int x = brushSizeDoubled; x >= 0; --x) {
             int currentX = targetBlock.getX() - brushSize + x;
 
-            for(int y = 0; y <= brushSizeDoubled; ++y) {
+            for (int y = 0; y <= brushSizeDoubled; ++y) {
                 int currentY = targetBlock.getY() - brushSize + y;
 
-                for(int z = brushSizeDoubled; z >= 0; --z) {
+                for (int z = brushSizeDoubled; z >= 0; --z) {
                     int currentZ = targetBlock.getZ() - brushSize + z;
                     BlockState currentBlock = this.getBlock(currentX, currentY, currentZ);
                     if (!EXCLUSIVE_MATERIALS.contains(currentBlock) && (!keepWater || !EXCLUSIVE_LIQUIDS.contains(currentBlock))) {
@@ -64,10 +69,5 @@ public class EraserBrush extends AbstractBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         messenger.sendBrushNameMessage();
         messenger.sendBrushSizeMessage();
-    }
-
-    static {
-        EXCLUSIVE_MATERIALS = MaterialSet.builder().with(BlockCategories.SAND).with(MaterialSets.SANDSTONES).with(MaterialSets.RED_SANDSTONES).with(MaterialSets.AIRS).with(MaterialSets.STONES).with(MaterialSets.GRASSES).with(BlockCategories.DIRT_LIKE).add(BlockTypes.GRAVEL).build();
-        EXCLUSIVE_LIQUIDS = MaterialSet.builder().with(MaterialSets.LIQUIDS).build();
     }
 }

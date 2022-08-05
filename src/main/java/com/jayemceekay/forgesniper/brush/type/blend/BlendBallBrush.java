@@ -10,7 +10,6 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import net.minecraft.ChatFormatting;
 
-
 import java.util.*;
 
 public class BlendBallBrush extends AbstractBlendBrush {
@@ -22,7 +21,7 @@ public class BlendBallBrush extends AbstractBlendBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
+        for (int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(ChatFormatting.GOLD + "Blend Ball Brush Parameters:");
@@ -34,12 +33,13 @@ public class BlendBallBrush extends AbstractBlendBrush {
         }
 
     }
+
     @Override
     public void blend(Snipe snipe) throws MaxChangedBlocksException {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
         BlockVector3 targetBlock = this.getTargetBlock();
-        int smallSphereVolume = (int)MathHelper.sphereVolume(brushSize);
+        int smallSphereVolume = (int) MathHelper.sphereVolume(brushSize);
         Set<BlockVector3> smallSphere = new HashSet(smallSphereVolume);
         Map<BlockVector3, BlockType> smallSphereBlockTypes = new HashMap(smallSphereVolume);
         Painters.sphere().center(targetBlock).radius(brushSize).blockSetter((position) -> {
@@ -49,8 +49,8 @@ public class BlendBallBrush extends AbstractBlendBrush {
         }).paint();
         Iterator var8 = smallSphere.iterator();
 
-        while(var8.hasNext()) {
-            BlockVector3 smallSphereBlock = (BlockVector3)var8.next();
+        while (var8.hasNext()) {
+            BlockVector3 smallSphereBlock = (BlockVector3) var8.next();
             Map<BlockType, Integer> blockTypesFrequencies = new HashMap();
             Painters.cube().center(smallSphereBlock).radius(1).blockSetter((position) -> {
                 if (!position.equals(smallSphereBlock)) {

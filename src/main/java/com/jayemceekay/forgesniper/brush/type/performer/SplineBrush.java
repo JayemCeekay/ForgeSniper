@@ -1,4 +1,3 @@
-
 package com.jayemceekay.forgesniper.brush.type.performer;
 
 import com.jayemceekay.forgesniper.sniper.snipe.Snipe;

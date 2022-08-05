@@ -8,7 +8,6 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-
 import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
@@ -23,6 +22,7 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
 
     public AbstractBlendBrush() {
     }
+
     @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();
@@ -36,8 +36,9 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
         }
 
     }
+
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
             return SuggestionHelper.limitByPrefix(Stream.of("water"), parameter);
@@ -45,6 +46,7 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
             return SuggestionHelper.limitByPrefix(Stream.of("water"), "");
         }
     }
+
     @Override
     public void handleArrowAction(Snipe snipe) {
         this.airExcluded = false;
@@ -56,6 +58,7 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
         }
 
     }
+
     @Override
     public void handleGunpowderAction(Snipe snipe) {
         this.airExcluded = true;
@@ -90,7 +93,7 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
     protected CommonMaterial findCommonMaterial(Map<BlockType, Integer> blockTypesFrequencies) {
         CommonMaterial commonMaterial = new CommonMaterial();
 
-       for(Entry<BlockType, Integer> entry : blockTypesFrequencies.entrySet()) {
+        for (Entry<BlockType, Integer> entry : blockTypesFrequencies.entrySet()) {
             BlockType type = entry.getKey();
             int frequency = entry.getValue();
             if (frequency > commonMaterial.getFrequency() && this.checkExclusions(type)) {

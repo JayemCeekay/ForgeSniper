@@ -139,12 +139,12 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
     }
 
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length == 1) {
             String parameter = parameters[0];
             return super.sortCompletions(Stream.of("all", "some", "d", "s", "g", "r", "randh", "yoff"), parameter, 0);
         }
-        return super.handleCompletions(parameters);
+        return super.handleCompletions(parameters, snipe);
     }
 
     @Override

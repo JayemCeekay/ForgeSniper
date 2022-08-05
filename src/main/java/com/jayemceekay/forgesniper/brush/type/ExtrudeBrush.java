@@ -7,7 +7,6 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.util.Direction;
 import com.sk89q.worldedit.world.block.BlockState;
-
 import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 

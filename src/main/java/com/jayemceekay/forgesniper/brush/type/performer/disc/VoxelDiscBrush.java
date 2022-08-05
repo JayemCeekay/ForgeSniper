@@ -38,8 +38,8 @@ public class VoxelDiscBrush extends AbstractPerformerBrush {
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= -toolkitProperties.getBrushSize(); --x) {
-            for(int z = toolkitProperties.getBrushSize(); z >= -toolkitProperties.getBrushSize(); --z) {
+        for (int x = brushSize; x >= -toolkitProperties.getBrushSize(); --x) {
+            for (int z = toolkitProperties.getBrushSize(); z >= -toolkitProperties.getBrushSize(); --z) {
                 this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ + z, this.getBlock(blockX + x, blockY, blockZ + z));
             }
         }

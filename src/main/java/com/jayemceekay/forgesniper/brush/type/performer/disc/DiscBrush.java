@@ -65,15 +65,15 @@ public class DiscBrush extends AbstractPerformerBrush {
     private void disc(Snipe snipe, BlockVector3 targetBlock) {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double radiusSquared = ((double)brushSize + this.trueCircle) * ((double)brushSize + this.trueCircle);
+        double radiusSquared = ((double) brushSize + this.trueCircle) * ((double) brushSize + this.trueCircle);
         BlockVector3 currentPoint = targetBlock;
 
-        for(int x = -brushSize; x <= brushSize; ++x) {
+        for (int x = -brushSize; x <= brushSize; ++x) {
             currentPoint = currentPoint.withX(targetBlock.getX() + x);
 
-            for(int z = -brushSize; z <= brushSize; ++z) {
+            for (int z = -brushSize; z <= brushSize; ++z) {
                 currentPoint = currentPoint.withZ(targetBlock.getZ() + z);
-                if ((double)targetBlock.distanceSq(currentPoint) <= radiusSquared) {
+                if ((double) targetBlock.distanceSq(currentPoint) <= radiusSquared) {
                     try {
                         this.performer.perform(this.getEditSession(), currentPoint.getBlockX(), this.clampY(currentPoint.getBlockY()), currentPoint.getBlockZ(), this.clampY(currentPoint.getBlockX(), currentPoint.getBlockY(), currentPoint.getBlockZ()));
                     } catch (MaxChangedBlocksException var11) {

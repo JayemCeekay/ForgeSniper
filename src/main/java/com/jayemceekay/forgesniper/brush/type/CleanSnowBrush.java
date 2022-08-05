@@ -41,8 +41,9 @@ public class CleanSnowBrush extends AbstractBrush {
         }
 
     }
+
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
             return SuggestionHelper.limitByPrefix(Stream.of("true", "false"), parameter);
@@ -50,10 +51,12 @@ public class CleanSnowBrush extends AbstractBrush {
             return SuggestionHelper.limitByPrefix(Stream.of("true", "false"), "");
         }
     }
+
     @Override
     public void handleArrowAction(Snipe snipe) {
         this.cleanSnow(snipe);
     }
+
     @Override
     public void handleGunpowderAction(Snipe snipe) {
         this.cleanSnow(snipe);
@@ -62,16 +65,16 @@ public class CleanSnowBrush extends AbstractBrush {
     private void cleanSnow(Snipe snipe) {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
 
-        for(int y = (brushSize + 1) * 2; y >= 0; --y) {
+        for (int y = (brushSize + 1) * 2; y >= 0; --y) {
             double ySquared = MathHelper.square(y - brushSize);
 
-            for(int x = (brushSize + 1) * 2; x >= 0; --x) {
+            for (int x = (brushSize + 1) * 2; x >= 0; --x) {
                 double xSquared = MathHelper.square(x - brushSize);
 
-                for(int z = (brushSize + 1) * 2; z >= 0; --z) {
-                    if (xSquared + (double)MathHelper.square(z - brushSize) + ySquared <= brushSizeSquared) {
+                for (int z = (brushSize + 1) * 2; z >= 0; --z) {
+                    if (xSquared + (double) MathHelper.square(z - brushSize) + ySquared <= brushSizeSquared) {
                         BlockVector3 targetBlock = this.getTargetBlock();
                         int targetBlockX = targetBlock.getX();
                         int targetBlockY = targetBlock.getY();
@@ -89,6 +92,7 @@ public class CleanSnowBrush extends AbstractBrush {
         }
 
     }
+
     @Override
     public void sendInfo(Snipe snipe) {
         SnipeMessenger messenger = snipe.createMessenger();

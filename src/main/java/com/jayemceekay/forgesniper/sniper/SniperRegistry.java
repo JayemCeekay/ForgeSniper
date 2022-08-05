@@ -19,14 +19,10 @@ public class SniperRegistry {
 
     public Sniper getOrRegisterSniper(Player player) {
 
-        if(getSniper(player.getUUID()) == null) {
+        if (getSniper(player.getUUID()) == null) {
             return this.snipers.put(player.getUUID(), new Sniper(player));
         }
         return getSniper(player.getUUID());
-    }
-
-    public void removeSniper(PlayerEntity player) {
-        snipers.remove(player.getUniqueID());
     }
 
     public Sniper getSniper(UUID uuid) {

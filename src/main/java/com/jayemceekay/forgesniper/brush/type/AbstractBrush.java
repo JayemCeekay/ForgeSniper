@@ -28,11 +28,11 @@ import java.util.stream.Stream;
 public abstract class AbstractBrush implements Brush {
     protected static final int CHUNK_SIZE = 16;
     protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(".##");
+    public final HashMap<String, String> settings = new HashMap<>();
     private BrushProperties properties;
     private EditSession editSession;
     private BlockVector3 targetBlock;
     private BlockVector3 lastBlock;
-    public final HashMap<String, String> settings = new HashMap<>();
 
     @Override
     public void handleCommand(String[] parameters, Snipe snipe) {
@@ -42,7 +42,7 @@ public abstract class AbstractBrush implements Brush {
     }
 
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         return parameters.length == 0 ? this.sortCompletions(Stream.empty(), "", 0) : Collections.emptyList();
     }
 
@@ -147,7 +147,7 @@ public abstract class AbstractBrush implements Brush {
     }
 
     public void setBlockData(int x, int y, int z, BlockState blockState) throws MaxChangedBlocksException {
-        this.editSession.setBlock(BlockVector3.at(x,y,z), blockState);
+        this.editSession.setBlock(BlockVector3.at(x, y, z), blockState);
     }
 
     public void setBlockData(BlockVector3 position, BlockState blockState) throws MaxChangedBlocksException {
