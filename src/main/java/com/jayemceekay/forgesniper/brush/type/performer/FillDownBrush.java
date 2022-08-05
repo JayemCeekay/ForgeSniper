@@ -92,19 +92,19 @@ public class FillDownBrush extends AbstractPerformerBrush {
     private void fillDown(Snipe snipe) throws MaxChangedBlocksException {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
         BlockVector3 targetBlock = this.getTargetBlock();
 
-        for(int x = -brushSize; x <= brushSize; ++x) {
+        for (int x = -brushSize; x <= brushSize; ++x) {
             double currentXSquared = Math.pow(x, 2.0D);
 
-            for(int z = -brushSize; z <= brushSize; ++z) {
+            for (int z = -brushSize; z <= brushSize; ++z) {
                 if (currentXSquared + Math.pow(z, 2.0D) <= brushSizeSquared) {
                     int y = 0;
                     if (this.fromExisting) {
                         boolean found = false;
 
-                        for(y = -toolkitProperties.getVoxelHeight(); y < toolkitProperties.getVoxelHeight(); ++y) {
+                        for (y = -toolkitProperties.getVoxelHeight(); y < toolkitProperties.getVoxelHeight(); ++y) {
                             BlockType currentBlockType = this.getBlockType(targetBlock.getX() + x, targetBlock.getY() + y, targetBlock.getZ() + z);
                             if (!Materials.isEmpty(currentBlockType)) {
                                 found = true;
@@ -119,7 +119,7 @@ public class FillDownBrush extends AbstractPerformerBrush {
                         --y;
                     }
 
-                    while(y >= -targetBlock.getY()) {
+                    while (y >= -targetBlock.getY()) {
                         BlockType currentBlockType = this.getBlockType(targetBlock.getX() + x, targetBlock.getY() + y, targetBlock.getZ() + z);
                         if (!Materials.isEmpty(currentBlockType) && (!this.fillLiquid || !Materials.isLiquid(currentBlockType))) {
                             break;

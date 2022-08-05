@@ -7,7 +7,6 @@ import com.jayemceekay.forgesniper.sniper.ToolKit.ToolAction;
 import com.jayemceekay.forgesniper.sniper.ToolKit.Toolkit;
 import com.jayemceekay.forgesniper.sniper.ToolKit.ToolkitProperties;
 import com.jayemceekay.forgesniper.sniper.snipe.Snipe;
-import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.material.Materials;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
@@ -37,8 +36,8 @@ import java.util.UUID;
 public class Sniper {
     private static final String DEFAULT_TOOLKIT_NAME = "default";
     private final List<Toolkit> toolkits = new ArrayList<>();
-    private boolean enabled = false;
     private final Player player;
+    private boolean enabled = false;
 
     public Sniper(Player player) {
         this.player = player;
@@ -64,6 +63,10 @@ public class Sniper {
         return this.player;
     }
 
+    public UUID getUuid() {
+        return this.player.getUUID();
+    }
+
     @Nullable
     public Toolkit getCurrentToolkit() {
         Player player = this.getPlayer();
@@ -77,7 +80,7 @@ public class Sniper {
 
     @Nullable
     public Toolkit getToolkit(ItemStack itemType) {
-        if(itemType.hasTag() && itemType.getTag().contains("toolkit")) {
+        if (itemType.hasTag() && itemType.getTag().contains("toolkit")) {
             return this.toolkits.stream().filter((toolkit) -> toolkit.hasToolAction(itemType)).findFirst().orElse(null);
         }
         return null;
@@ -210,7 +213,7 @@ public class Sniper {
 
                 this.getPlayer().getInventory().removeItem(toolMaterial);
 
-                toolMaterial.setHoverName(new TextComponent(ChatFormatting.AQUA + "" + ChatFormatting.BOLD + "" +ChatFormatting.UNDERLINE + "" + toolkit.getCurrentBrushProperties().getName() + "-" +ChatFormatting.ITALIC + action.toString()));
+                toolMaterial.setHoverName(new TextComponent(ChatFormatting.AQUA + "" + ChatFormatting.BOLD + "" + ChatFormatting.UNDERLINE + "" + toolkit.getCurrentBrushProperties().getName() + "-" + ChatFormatting.ITALIC + action.toString()));
                 CompoundTag display = toolMaterial.getOrCreateTagElement("display");
                 ListTag tag = display.getList("Lore", 8);
                 tag.clear();
@@ -222,7 +225,7 @@ public class Sniper {
                 tag.add(StringTag.valueOf(TextComponent.Serializer.toJson(new TextComponent(ChatFormatting.BLUE + "Replacing: " + toolkit.getProperties().getReplaceBlockData().toString()))));
                 display.put("Lore", tag);
 
-                if(index >= 0) {
+                if (index >= 0) {
                     this.getPlayer().getInventory().setItem(index, toolMaterial.copy());
                 }
 
@@ -241,10 +244,10 @@ public class Sniper {
 
     public void cleanToolkits() {
         this.toolkits.forEach(toolkit -> {
-           if(toolkit.getToolActions().size() == 0) {
-               this.removeToolkit(toolkit);
-               this.player.sendMessage(new TextComponent("Removed toolkit " + toolkit.getToolkitName() + " because it has no actions."), this.player.getUUID());
-           }
+            if (toolkit.getToolActions().size() == 0) {
+                this.removeToolkit(toolkit);
+                this.player.sendMessage(new TextComponent("Removed toolkit " + toolkit.getToolkitName() + " because it has no actions."), this.player.getUUID());
+            }
         });
     }
 }

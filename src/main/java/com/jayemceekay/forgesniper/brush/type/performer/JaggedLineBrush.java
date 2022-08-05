@@ -114,13 +114,13 @@ public class JaggedLineBrush extends AbstractPerformerBrush {
                 var15.printStackTrace();
             }
         } else {
-            for(double distance = 0.0D; distance < direction.length(); distance += 0.25D) {
+            for (double distance = 0.0D; distance < direction.length(); distance += 0.25D) {
                 BlockVector3 block = originClone.add(direction.normalize().multiply(distance)).toBlockPoint();
 
-                for(int i = 0; i < this.recursions; ++i) {
-                    int x = Math.round((float)(block.getX() + this.random.nextInt(this.spread * 2) - this.spread));
-                    int y = Math.round((float)(block.getY() + this.random.nextInt(this.spread * 2) - this.spread));
-                    int z = Math.round((float)(block.getZ() + this.random.nextInt(this.spread * 2) - this.spread));
+                for (int i = 0; i < this.recursions; ++i) {
+                    int x = Math.round((float) (block.getX() + this.random.nextInt(this.spread * 2) - this.spread));
+                    int y = Math.round((float) (block.getY() + this.random.nextInt(this.spread * 2) - this.spread));
+                    int z = Math.round((float) (block.getZ() + this.random.nextInt(this.spread * 2) - this.spread));
 
                     try {
                         this.performer.perform(this.getEditSession(), x, this.clampY(y), z, this.clampY(x, y, z));

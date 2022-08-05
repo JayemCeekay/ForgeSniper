@@ -89,23 +89,23 @@ public class OverlayBrush extends AbstractPerformerBrush {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         EditSession editSession = this.getEditSession();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + 0.5D, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + 0.5D, 2.0D);
 
-        for(int z = brushSize; z >= -brushSize; --z) {
+        for (int z = brushSize; z >= -brushSize; --z) {
             label51:
-            for(int x = brushSize; x >= -brushSize; --x) {
+            for (int x = brushSize; x >= -brushSize; --x) {
                 BlockVector3 targetBlock = this.getTargetBlock();
                 int blockX = targetBlock.getX();
                 int blockY = targetBlock.getY();
                 int blockZ = targetBlock.getZ();
                 BlockType type = this.getBlockType(blockX + x, blockY + 1, blockZ + z);
                 if (this.isIgnoredBlock(type) && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared) {
-                    for(int y = blockY; y >= editSession.getMinimumPoint().getY(); --y) {
+                    for (int y = blockY; y >= editSession.getMinimumPoint().getY(); --y) {
                         BlockType layerBlockType = this.getBlockType(blockX + x, y, blockZ + z);
                         if (!this.isIgnoredBlock(layerBlockType)) {
                             int currentDepth = y;
 
-                            while(true) {
+                            while (true) {
                                 if (y - currentDepth >= this.depth) {
                                     continue label51;
                                 }
@@ -141,21 +141,21 @@ public class OverlayBrush extends AbstractPerformerBrush {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         EditSession editSession = this.getEditSession();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + 0.5D, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + 0.5D, 2.0D);
         int[][] memory = new int[brushSize * 2 + 1][brushSize * 2 + 1];
 
-        for(int z = brushSize; z >= -brushSize; --z) {
-            for(int x = brushSize; x >= -brushSize; --x) {
+        for (int z = brushSize; z >= -brushSize; --z) {
+            for (int x = brushSize; x >= -brushSize; --x) {
                 boolean surfaceFound = false;
                 BlockVector3 targetBlock = this.getTargetBlock();
                 int blockX = targetBlock.getX();
                 int blockY = targetBlock.getY();
                 int blockZ = targetBlock.getZ();
 
-                for(int y = blockY; y >= editSession.getMinimumPoint().getY() && !surfaceFound; --y) {
+                for (int y = blockY; y >= editSession.getMinimumPoint().getY() && !surfaceFound; --y) {
                     if (memory[x + brushSize][z + brushSize] != 1 && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared && !Materials.isEmpty(this.getBlockType(blockX + x, y - 1, blockZ + z)) && Materials.isEmpty(this.getBlockType(blockX + x, y + 1, blockZ + z))) {
                         if (this.allBlocks) {
-                            for(int index = 1; index < this.depth + 1; ++index) {
+                            for (int index = 1; index < this.depth + 1; ++index) {
                                 try {
                                     this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y + index), blockZ + z, this.clampY(blockX + x, y + index, blockZ + z));
                                 } catch (MaxChangedBlocksException var19) {
@@ -169,7 +169,7 @@ public class OverlayBrush extends AbstractPerformerBrush {
                         } else {
                             BlockType type = this.getBlockType(blockX + x, y, blockZ + z);
                             if (MaterialSets.OVERRIDEABLE_WITH_ORES.contains(type)) {
-                                for(int index = 1; index < this.depth + 1; ++index) {
+                                for (int index = 1; index < this.depth + 1; ++index) {
                                     try {
                                         this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y + index), blockZ + z, this.clampY(blockX + x, y + index, blockZ + z));
                                     } catch (MaxChangedBlocksException var20) {

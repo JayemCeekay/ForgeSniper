@@ -97,27 +97,27 @@ public class UnderlayBrush extends AbstractPerformerBrush {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
         int[][] memory = new int[brushSize * 2 + 1][brushSize * 2 + 1];
-        double brushSizeSquared = Math.pow((double)brushSize + 0.5D, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + 0.5D, 2.0D);
 
-        for(int z = brushSize; z >= -brushSize; --z) {
-            for(int x = brushSize; x >= -brushSize; --x) {
+        for (int z = brushSize; z >= -brushSize; --z) {
+            for (int x = brushSize; x >= -brushSize; --x) {
                 BlockVector3 targetBlock = this.getTargetBlock();
                 int blockX = targetBlock.getX();
                 int blockY = targetBlock.getY();
                 int blockZ = targetBlock.getZ();
 
-                for(int y = blockY; y < blockY + this.depth; ++y) {
+                for (int y = blockY; y < blockY + this.depth; ++y) {
                     if (memory[x + brushSize][z + brushSize] != 1 && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared) {
                         int i;
                         if (this.allBlocks) {
-                            for(i = 0; i < this.depth; ++i) {
+                            for (i = 0; i < this.depth; ++i) {
                                 if (!this.clampY(blockX + x, y + i, blockZ + z).getBlockType().getMaterial().isAir()) {
                                     this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y + i), blockZ + z, this.clampY(blockX + x, y + i, blockZ + z));
                                     memory[x + brushSize][z + brushSize] = 1;
                                 }
                             }
                         } else if (MaterialSets.OVERRIDEABLE.contains(this.getBlockType(blockX + x, y, blockZ + z))) {
-                            for(i = 0; i < this.depth; ++i) {
+                            for (i = 0; i < this.depth; ++i) {
                                 if (!this.clampY(blockX + x, y + i, blockZ + z).getBlockType().getMaterial().isAir()) {
                                     this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y + i), blockZ + z, this.clampY(blockX + x, y + i, blockZ + z));
                                     memory[x + brushSize][z + brushSize] = 1;
@@ -135,25 +135,25 @@ public class UnderlayBrush extends AbstractPerformerBrush {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
         int[][] memory = new int[brushSize * 2 + 1][brushSize * 2 + 1];
-        double brushSizeSquared = Math.pow((double)brushSize + 0.5D, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + 0.5D, 2.0D);
 
-        for(int z = brushSize; z >= -brushSize; --z) {
-            for(int x = brushSize; x >= -brushSize; --x) {
+        for (int z = brushSize; z >= -brushSize; --z) {
+            for (int x = brushSize; x >= -brushSize; --x) {
                 BlockVector3 targetBlock = this.getTargetBlock();
                 int blockX = targetBlock.getX();
                 int blockY = targetBlock.getY();
                 int blockZ = targetBlock.getZ();
 
-                for(int y = blockY; y < blockY + this.depth; ++y) {
+                for (int y = blockY; y < blockY + this.depth; ++y) {
                     if (memory[x + brushSize][z + brushSize] != 1 && Math.pow(x, 2.0D) + Math.pow(z, 2.0D) <= brushSizeSquared) {
                         int i;
                         if (this.allBlocks) {
-                            for(i = -1; i < this.depth - 1; ++i) {
+                            for (i = -1; i < this.depth - 1; ++i) {
                                 this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y - i), blockZ + z, this.clampY(blockX + x, y - i, blockZ + z));
                                 memory[x + brushSize][z + brushSize] = 1;
                             }
                         } else if (MaterialSets.OVERRIDEABLE_WITH_ORES.contains(this.getBlockType(blockX + x, y, blockZ + z))) {
-                            for(i = -1; i < this.depth - 1; ++i) {
+                            for (i = -1; i < this.depth - 1; ++i) {
                                 this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y - i), blockZ + z, this.clampY(blockX + x, y - i, blockZ + z));
                                 memory[x + brushSize][z + brushSize] = 1;
                             }

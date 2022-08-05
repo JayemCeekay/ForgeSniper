@@ -12,7 +12,7 @@ import java.util.List;
 public interface Brush {
     void handleCommand(String[] parameters, Snipe snipe);
 
-    List<String> handleCompletions(String[] var1);
+    List<String> handleCompletions(String[] var1, Snipe snipe);
 
     void perform(Snipe snipe, ToolAction action, EditSession editSession, BlockVector3 clickedBlock, BlockVector3 LastBlock);
 

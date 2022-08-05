@@ -122,7 +122,7 @@ public class CopyPastaBrush extends AbstractBrush {
     }
 
     private void doCopy(Snipe snipe) {
-        for(int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 3; ++i) {
             this.arraySize[i] = Math.abs(this.firstPoint[i] - this.secondPoint[i]) + 1;
             this.minPoint[i] = Math.min(this.firstPoint[i], this.secondPoint[i]);
             this.offsetPoint[i] = this.minPoint[i] - this.firstPoint[i];
@@ -134,9 +134,9 @@ public class CopyPastaBrush extends AbstractBrush {
             this.blockArray = new BlockType[this.numBlocks];
             this.dataArray = new BlockState[this.numBlocks];
 
-            for(int i = 0; i < this.arraySize[0]; ++i) {
-                for(int j = 0; j < this.arraySize[1]; ++j) {
-                    for(int k = 0; k < this.arraySize[2]; ++k) {
+            for (int i = 0; i < this.arraySize[0]; ++i) {
+                for (int j = 0; j < this.arraySize[1]; ++j) {
+                    for (int k = 0; k < this.arraySize[2]; ++k) {
                         int currentPosition = i + this.arraySize[0] * j + this.arraySize[0] * this.arraySize[1] * k;
                         BlockState block = this.getBlock(this.minPoint[0] + i, this.minPoint[1] + j, this.minPoint[2] + k);
                         this.blockArray[currentPosition] = block.getBlockType();
@@ -154,33 +154,33 @@ public class CopyPastaBrush extends AbstractBrush {
     }
 
     private void doPasta(Snipe snipe) {
-        for(int i = 0; i < this.arraySize[0]; ++i) {
-            for(int j = 0; j < this.arraySize[1]; ++j) {
-                for(int k = 0; k < this.arraySize[2]; ++k) {
+        for (int i = 0; i < this.arraySize[0]; ++i) {
+            for (int j = 0; j < this.arraySize[1]; ++j) {
+                for (int k = 0; k < this.arraySize[2]; ++k) {
                     int currentPosition = i + this.arraySize[0] * j + this.arraySize[0] * this.arraySize[1] * k;
                     int x;
                     int y;
                     int z;
-                    switch(this.pivot) {
-                    case 90:
-                        x = this.pastePoint[0] - this.offsetPoint[2] - k;
-                        y = this.pastePoint[1] + this.offsetPoint[1] + j;
-                        z = this.pastePoint[2] + this.offsetPoint[0] + i;
-                        break;
-                    case 180:
-                        x = this.pastePoint[0] - this.offsetPoint[0] - i;
-                        y = this.pastePoint[1] + this.offsetPoint[1] + j;
-                        z = this.pastePoint[2] - this.offsetPoint[2] - k;
-                        break;
-                    case 270:
-                        x = this.pastePoint[0] + this.offsetPoint[2] + k;
-                        y = this.pastePoint[1] + this.offsetPoint[1] + j;
-                        z = this.pastePoint[2] - this.offsetPoint[0] - i;
-                        break;
-                    default:
-                        x = this.pastePoint[0] + this.offsetPoint[0] + i;
-                        y = this.pastePoint[1] + this.offsetPoint[1] + j;
-                        z = this.pastePoint[2] + this.offsetPoint[2] + k;
+                    switch (this.pivot) {
+                        case 90:
+                            x = this.pastePoint[0] - this.offsetPoint[2] - k;
+                            y = this.pastePoint[1] + this.offsetPoint[1] + j;
+                            z = this.pastePoint[2] + this.offsetPoint[0] + i;
+                            break;
+                        case 180:
+                            x = this.pastePoint[0] - this.offsetPoint[0] - i;
+                            y = this.pastePoint[1] + this.offsetPoint[1] + j;
+                            z = this.pastePoint[2] - this.offsetPoint[2] - k;
+                            break;
+                        case 270:
+                            x = this.pastePoint[0] + this.offsetPoint[2] + k;
+                            y = this.pastePoint[1] + this.offsetPoint[1] + j;
+                            z = this.pastePoint[2] - this.offsetPoint[0] - i;
+                            break;
+                        default:
+                            x = this.pastePoint[0] + this.offsetPoint[0] + i;
+                            y = this.pastePoint[1] + this.offsetPoint[1] + j;
+                            z = this.pastePoint[2] + this.offsetPoint[2] + k;
                     }
 
                     if (!Materials.isEmpty(this.blockArray[currentPosition]) || this.pasteAir) {

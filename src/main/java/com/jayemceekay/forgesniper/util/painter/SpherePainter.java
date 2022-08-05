@@ -49,21 +49,21 @@ public class SpherePainter implements Painter {
 
     private void paintSphere() {
         Painters.block(this).at(0, 0, 0).paint();
-        double radiusSquared = MathHelper.square(this.trueCircle ? (double)this.radius + 0.5D : (double)this.radius);
+        double radiusSquared = MathHelper.square(this.trueCircle ? (double) this.radius + 0.5D : (double) this.radius);
 
-        for(int first = 1; first <= this.radius; ++first) {
+        for (int first = 1; first <= this.radius; ++first) {
             Painters.block(this).at(first, 0, 0).at(-first, 0, 0).at(0, first, 0).at(0, -first, 0).at(0, 0, first).at(0, 0, -first).paint();
             double firstSquared = MathHelper.square(first);
 
-            for(int second = 1; second <= this.radius; ++second) {
+            for (int second = 1; second <= this.radius; ++second) {
                 double secondSquared = MathHelper.square(second);
                 if (firstSquared + secondSquared <= radiusSquared) {
                     Painters.block(this).at(first, second, 0).at(first, -second, 0).at(-first, second, 0).at(-first, -second, 0).at(first, 0, second).at(first, 0, -second).at(-first, 0, second).at(-first, 0, -second).at(0, first, second).at(0, first, -second).at(0, -first, second).at(0, -first, -second).paint();
                 }
 
-                for(int third = 1; third <= this.radius; ++third) {
+                for (int third = 1; third <= this.radius; ++third) {
                     int thirdSquared = MathHelper.square(third);
-                    if (firstSquared + secondSquared + (double)thirdSquared <= radiusSquared) {
+                    if (firstSquared + secondSquared + (double) thirdSquared <= radiusSquared) {
                         Painters.block(this).at(first, second, third).at(first, second, -third).at(first, -second, third).at(first, -second, -third).at(-first, second, third).at(-first, second, -third).at(-first, -second, third).at(-first, -second, -third).paint();
                     }
                 }

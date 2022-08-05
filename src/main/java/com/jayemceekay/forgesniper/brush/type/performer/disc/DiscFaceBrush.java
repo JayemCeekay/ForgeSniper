@@ -76,15 +76,15 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
     private void discUpDown(Snipe snipe, BlockVector3 targetBlock) throws MaxChangedBlocksException {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
         int blockX = targetBlock.getX();
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= 0; --x) {
+        for (int x = brushSize; x >= 0; --x) {
             double xSquared = Math.pow(x, 2.0D);
 
-            for(int z = brushSize; z >= 0; --z) {
+            for (int z = brushSize; z >= 0; --z) {
                 if (xSquared + Math.pow(z, 2.0D) <= brushSizeSquared) {
                     this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ + z, this.getBlock(blockX + x, blockY, blockZ + z));
                     this.performer.perform(this.getEditSession(), blockX + x, blockY, blockZ - z, this.getBlock(blockX + x, blockY, blockZ - z));
@@ -99,15 +99,15 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
     private void discNorthSouth(Snipe snipe, BlockVector3 targetBlock) throws MaxChangedBlocksException {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
         int blockX = targetBlock.getX();
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= 0; --x) {
+        for (int x = brushSize; x >= 0; --x) {
             double xSquared = Math.pow(x, 2.0D);
 
-            for(int y = brushSize; y >= 0; --y) {
+            for (int y = brushSize; y >= 0; --y) {
                 if (xSquared + Math.pow(y, 2.0D) <= brushSizeSquared) {
                     this.performer.perform(this.getEditSession(), blockX + x, blockY + y, blockZ, this.getBlock(blockX + x, blockY + y, blockZ));
                     this.performer.perform(this.getEditSession(), blockX + x, blockY - y, blockZ, this.getBlock(blockX + x, blockY - y, blockZ));
@@ -122,15 +122,15 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
     private void discEastWest(Snipe snipe, BlockVector3 targetBlock) throws MaxChangedBlocksException {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
         int blockX = targetBlock.getX();
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int x = brushSize; x >= 0; --x) {
+        for (int x = brushSize; x >= 0; --x) {
             double xSquared = Math.pow(x, 2.0D);
 
-            for(int y = brushSize; y >= 0; --y) {
+            for (int y = brushSize; y >= 0; --y) {
                 if (xSquared + Math.pow(y, 2.0D) <= brushSizeSquared) {
                     this.performer.perform(this.getEditSession(), blockX, blockY + x, blockZ + y, this.getBlock(blockX, blockY + x, blockZ + y));
                     this.performer.perform(this.getEditSession(), blockX, blockY + x, blockZ - y, this.getBlock(blockX, blockY + x, blockZ - y));

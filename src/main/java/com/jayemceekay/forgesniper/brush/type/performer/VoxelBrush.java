@@ -28,9 +28,9 @@ public class VoxelBrush extends AbstractPerformerBrush {
         int blockY = targetBlock.getY();
         int blockZ = targetBlock.getZ();
 
-        for(int z = brushSize; z >= -brushSize; --z) {
-            for(int x = brushSize; x >= -brushSize; --x) {
-                for(int y = brushSize; y >= -brushSize; --y) {
+        for (int z = brushSize; z >= -brushSize; --z) {
+            for (int x = brushSize; x >= -brushSize; --x) {
+                for (int y = brushSize; y >= -brushSize; --y) {
                     try {
                         this.performer.perform(this.getEditSession(), blockX + x, this.clampY(blockY + z), blockZ + y, this.clampY(blockX + x, blockY + z, blockZ + y));
                     } catch (MaxChangedBlocksException var12) {

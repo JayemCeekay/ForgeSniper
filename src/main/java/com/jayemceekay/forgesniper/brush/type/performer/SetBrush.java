@@ -80,9 +80,9 @@ public class SetBrush extends AbstractPerformerBrush {
                 if (Math.abs(highX - lowX) * Math.abs(highZ - lowZ) * Math.abs(highY - lowY) > this.selectionSizeMax) {
                     messenger.sendMessage(ChatFormatting.RED + "Selection size above " + this.selectionSizeMax + " limit, please use a smaller selection.");
                 } else {
-                    for(int y = lowY; y <= highY; ++y) {
-                        for(int x = lowX; x <= highX; ++x) {
-                            for(int z = lowZ; z <= highZ; ++z) {
+                    for (int y = lowY; y <= highY; ++y) {
+                        for (int x = lowX; x <= highX; ++x) {
+                            for (int z = lowZ; z <= highZ; ++z) {
                                 this.performer.perform(this.getEditSession(), x, this.clampY(y), z, this.clampY(x, y, z));
                             }
                         }

@@ -10,7 +10,6 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import net.minecraft.ChatFormatting;
 
-
 import java.util.*;
 
 public class BlendVoxelBrush extends AbstractBlendBrush {
@@ -21,7 +20,7 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
+        for (int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(ChatFormatting.GOLD + "Blend Voxel Brush Parameters:");
@@ -48,8 +47,8 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
         }).paint();
         Iterator var9 = smallCube.iterator();
 
-        while(var9.hasNext()) {
-            BlockVector3 smallCubeBlock = (BlockVector3)var9.next();
+        while (var9.hasNext()) {
+            BlockVector3 smallCubeBlock = (BlockVector3) var9.next();
             Map<BlockType, Integer> blockTypesFrequencies = new HashMap();
             Painters.cube().center(smallCubeBlock).radius(1).blockSetter((position) -> {
                 if (!position.equals(smallCubeBlock)) {

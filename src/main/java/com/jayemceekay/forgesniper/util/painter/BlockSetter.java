@@ -1,4 +1,3 @@
-
 package com.jayemceekay.forgesniper.util.painter;
 
 import com.sk89q.worldedit.math.BlockVector3;

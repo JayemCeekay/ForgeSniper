@@ -7,7 +7,6 @@ import com.jayemceekay.forgesniper.sniper.snipe.message.SnipeMessenger;
 import com.jayemceekay.forgesniper.util.text.NumericParser;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
-
 import net.minecraft.ChatFormatting;
 
 import java.util.HashMap;
@@ -76,12 +75,12 @@ public class SplatterBallBrush extends AbstractPerformerBrush {
     }
 
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length == 1) {
             String parameter = parameters[0];
             return super.sortCompletions(Stream.of("s", "g", "r"), parameter, 0);
         }
-        return super.handleCompletions(parameters);
+        return super.handleCompletions(parameters, snipe);
     }
 
     @Override

@@ -13,6 +13,11 @@ import java.util.Map;
 
 public class Toolkit {
     private static final BrushProperties DEFAULT_BRUSH_PROPERTIES;
+
+    static {
+        DEFAULT_BRUSH_PROPERTIES = BrushRegistrar.DEFAULT_BRUSH_PROPERTIES;
+    }
+
     private final String toolkitName;
     private final Map<ItemStack, ToolAction> toolActions = new HashMap<>();
     private final Map<BrushProperties, Brush> brushes = new HashMap<>();
@@ -45,8 +50,8 @@ public class Toolkit {
 
     @Nullable
     public ToolAction getToolAction(ItemStack toolMaterial) {
-        for(ItemStack stack : this.toolActions.keySet()) {
-            if(stack.sameItemStackIgnoreDurability(toolMaterial)) {
+        for (ItemStack stack : this.toolActions.keySet()) {
+            if (stack.sameItemStackIgnoreDurability(toolMaterial)) {
                 return this.toolActions.get(stack);
             }
         }
@@ -105,9 +110,5 @@ public class Toolkit {
 
     public ToolkitProperties getProperties() {
         return this.properties;
-    }
-
-    static {
-        DEFAULT_BRUSH_PROPERTIES = BrushRegistrar.DEFAULT_BRUSH_PROPERTIES;
     }
 }

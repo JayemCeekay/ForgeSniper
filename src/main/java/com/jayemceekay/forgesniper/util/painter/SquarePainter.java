@@ -38,10 +38,10 @@ public class SquarePainter implements Painter {
     private void paintCube() {
         Painters.block(this).at(0, 0, 0).paint();
 
-        for(int first = 1; first <= this.radius; ++first) {
+        for (int first = 1; first <= this.radius; ++first) {
             Painters.block(this).at(first, 0, 0).at(-first, 0, 0).at(0, 0, first).at(0, 0, -first).paint();
 
-            for(int second = 1; second <= this.radius; ++second) {
+            for (int second = 1; second <= this.radius; ++second) {
                 Painters.block(this).at(first, 0, second).at(first, 0, -second).at(-first, 0, second).at(-first, 0, -second).paint();
             }
         }

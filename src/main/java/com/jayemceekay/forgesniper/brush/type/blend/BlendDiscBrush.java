@@ -10,7 +10,6 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import net.minecraft.ChatFormatting;
 
-
 import java.util.*;
 
 public class BlendDiscBrush extends AbstractBlendBrush {
@@ -21,7 +20,7 @@ public class BlendDiscBrush extends AbstractBlendBrush {
         SnipeMessenger messenger = snipe.createMessenger();
         int var5 = parameters.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
+        for (int var6 = 0; var6 < var5; ++var6) {
             String parameter = parameters[var6];
             if (parameter.equalsIgnoreCase("info")) {
                 messenger.sendMessage(ChatFormatting.GOLD + "Blend Disc Brush Parameters:");
@@ -37,7 +36,7 @@ public class BlendDiscBrush extends AbstractBlendBrush {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
         BlockVector3 targetBlock = this.getTargetBlock();
-        int smallCircleArea = (int)MathHelper.circleArea(brushSize);
+        int smallCircleArea = (int) MathHelper.circleArea(brushSize);
         Set<BlockVector3> smallCircle = new HashSet(smallCircleArea);
         Map<BlockVector3, BlockType> smallCircleBlockTypes = new HashMap(smallCircleArea);
         Painters.circle().center(targetBlock).radius(brushSize).blockSetter((position) -> {
@@ -47,8 +46,8 @@ public class BlendDiscBrush extends AbstractBlendBrush {
         }).paint();
         Iterator var8 = smallCircle.iterator();
 
-        while(var8.hasNext()) {
-            BlockVector3 smallCircleBlock = (BlockVector3)var8.next();
+        while (var8.hasNext()) {
+            BlockVector3 smallCircleBlock = (BlockVector3) var8.next();
             Map<BlockType, Integer> blockTypesFrequencies = new HashMap();
             Painters.square().center(smallCircleBlock).radius(1).blockSetter((position) -> {
                 if (!position.equals(smallCircleBlock)) {

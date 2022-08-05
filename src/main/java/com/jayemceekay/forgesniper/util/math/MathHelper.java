@@ -6,11 +6,11 @@ public final class MathHelper {
     }
 
     public static double circleArea(int radius) {
-        return 3.141592653589793D * (double)square(radius);
+        return 3.141592653589793D * (double) square(radius);
     }
 
     public static double sphereVolume(int radius) {
-        return 4.1887902047863905D * (double)cube(radius);
+        return 4.1887902047863905D * (double) cube(radius);
     }
 
     public static int square(int number) {

@@ -51,7 +51,7 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
     }
 
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
             return SuggestionHelper.limitByPrefix(Stream.of("true", "false"), parameter);
@@ -76,8 +76,8 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
 
-        for(int x = brushSize; x >= -brushSize; --x) {
-            for(int y = brushSize; y >= -brushSize; --y) {
+        for (int x = brushSize; x >= -brushSize; --x) {
+            for (int y = brushSize; y >= -brushSize; --y) {
                 int sum = this.useWorldCoordinates ? target.getX() + x + target.getZ() + y : x + y;
                 if (sum % 2 != 0) {
                     try {

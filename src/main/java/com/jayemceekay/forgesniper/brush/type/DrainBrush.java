@@ -9,7 +9,6 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-
 import net.minecraft.ChatFormatting;
 import org.enginehub.piston.converter.SuggestionHelper;
 
@@ -84,7 +83,7 @@ public class DrainBrush extends AbstractBrush {
     private void drain(Snipe snipe) throws MaxChangedBlocksException {
         ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
         int brushSize = toolkitProperties.getBrushSize();
-        double brushSizeSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double brushSizeSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
         BlockVector3 targetBlock = this.getTargetBlock();
         int targetBlockX = targetBlock.getX();
         int targetBlockY = targetBlock.getY();
@@ -95,10 +94,10 @@ public class DrainBrush extends AbstractBrush {
         double xSquared;
         BlockType type;
         if (this.disc) {
-            for(x = brushSize; x >= 0; --x) {
+            for (x = brushSize; x >= 0; --x) {
                 ySquared = MathHelper.square(x);
 
-                for(y = brushSize; y >= 0; --y) {
+                for (y = brushSize; y >= 0; --y) {
                     xSquared = MathHelper.square(y);
                     if (ySquared + xSquared <= brushSizeSquared) {
                         BlockType typePlusPlus = this.getBlockType(targetBlock.add(x, 0, y));
@@ -124,14 +123,14 @@ public class DrainBrush extends AbstractBrush {
                 }
             }
         } else {
-            for(x = (brushSize + 1) * 2; x >= 0; --x) {
+            for (x = (brushSize + 1) * 2; x >= 0; --x) {
                 ySquared = MathHelper.square(x - brushSize);
 
-                for(y = (brushSize + 1) * 2; y >= 0; --y) {
+                for (y = (brushSize + 1) * 2; y >= 0; --y) {
                     xSquared = MathHelper.square(y - brushSize);
 
-                    for(int z = (brushSize + 1) * 2; z >= 0; --z) {
-                        if (xSquared + (double)MathHelper.square(z - brushSize) + ySquared <= brushSizeSquared) {
+                    for (int z = (brushSize + 1) * 2; z >= 0; --z) {
+                        if (xSquared + (double) MathHelper.square(z - brushSize) + ySquared <= brushSizeSquared) {
                             type = this.getBlockType(targetBlockX + y - brushSize, targetBlockY + z - brushSize, targetBlockZ + x - brushSize);
                             if (Materials.isLiquid(type)) {
                                 this.setBlockType(targetBlockX + y - brushSize, targetBlockY + z - brushSize, targetBlockZ + x - brushSize, BlockTypes.AIR);

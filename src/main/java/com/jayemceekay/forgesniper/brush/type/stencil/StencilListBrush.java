@@ -97,14 +97,14 @@ public class StencilListBrush extends AbstractBrush {
     }
 
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length > 0) {
-            String parameter = parameters[parameters.length-1];
-            return SuggestionHelper.limitByPrefix(Stream.of("full", "fill", "replace"), parameter );
+            String parameter = parameters[parameters.length - 1];
+            return SuggestionHelper.limitByPrefix(Stream.of("full", "fill", "replace"), parameter);
         } else {
             return SuggestionHelper.limitByPrefix(Stream.of("full", "fill", "replace"), "");
         }
-       
+
     }
 
     @Override
@@ -196,7 +196,7 @@ public class StencilListBrush extends AbstractBrush {
                                     targetBlock.getX() + currX,
                                     clampY(targetBlock.getY() + currY),
                                     targetBlock.getZ() + currZ,
-                                  readBlockData(in, snipe)
+                                    readBlockData(in, snipe)
                             );
                             currX++;
                             if (currX == this.x - this.xRef) {
@@ -372,7 +372,7 @@ public class StencilListBrush extends AbstractBrush {
                                     targetBlock.getX() + currX,
                                     clampY(targetBlock.getY() + currY),
                                     targetBlock.getZ() + currZ,
-                                  readBlockData(in, snipe)
+                                    readBlockData(in, snipe)
                             );
                             currX--;
                             if (currX == -this.x + this.xRef) {
@@ -548,7 +548,7 @@ public class StencilListBrush extends AbstractBrush {
                                     targetBlock.getX() + currX,
                                     clampY(targetBlock.getY() + currY),
                                     targetBlock.getZ() + currZ,
-                                  readBlockData(in, snipe)
+                                    readBlockData(in, snipe)
                             );
                             currZ++;
                             currZ++;
@@ -732,7 +732,7 @@ public class StencilListBrush extends AbstractBrush {
                                     targetBlock.getX() + currX,
                                     clampY(targetBlock.getY() + currY),
                                     targetBlock.getZ() + currZ,
-                                  readBlockData(in, snipe)
+                                    readBlockData(in, snipe)
                             );
                             currZ--;
                             if (currZ == -this.x + this.xRef) {

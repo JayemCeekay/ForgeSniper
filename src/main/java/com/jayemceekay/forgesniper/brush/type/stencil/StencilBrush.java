@@ -14,7 +14,6 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerPlayer;
 import org.enginehub.piston.converter.SuggestionHelper;
@@ -88,7 +87,7 @@ public class StencilBrush extends AbstractBrush {
                 pasteOption = 1;
                 pasteParam = 0;
             }
-            if(firstParameter.equalsIgnoreCase("legacy")) {
+            if (firstParameter.equalsIgnoreCase("legacy")) {
                 this.legacy = !this.legacy;
                 messenger.sendMessage(ChatFormatting.GREEN + "Legacy stencil format " + (this.legacy ? "enabled" : "disabled"));
                 return;
@@ -115,7 +114,7 @@ public class StencilBrush extends AbstractBrush {
     }
 
     @Override
-    public List<String> handleCompletions(String[] parameters) {
+    public List<String> handleCompletions(String[] parameters, Snipe snipe) {
         if (parameters.length > 0) {
             String parameter = parameters[parameters.length - 1];
             return SuggestionHelper.limitByPrefix(Stream.of("full", "fill", "replace"), parameter);
@@ -352,7 +351,7 @@ public class StencilBrush extends AbstractBrush {
             parserContext.setActor(ForgeAdapter.adaptPlayer((ServerPlayer) snipe.getSniper().getPlayer()));
             parserContext.setExtent(getEditSession());
             try {
-                return WorldEdit.getInstance().getBlockFactory().parseFromInput(ID+":"+data, parserContext).toImmutableState();
+                return WorldEdit.getInstance().getBlockFactory().parseFromInput(ID + ":" + data, parserContext).toImmutableState();
             } catch (InputParseException ignored) {
             }
         } else {

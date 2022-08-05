@@ -136,13 +136,13 @@ public class CylinderBrush extends AbstractPerformerBrush {
 
         blockX = targetBlock.getX();
         int blockZ = targetBlock.getZ();
-        double bSquared = Math.pow((double)brushSize + this.trueCircle, 2.0D);
+        double bSquared = Math.pow((double) brushSize + this.trueCircle, 2.0D);
 
-        for(int y = yEndPoint; y >= yStartingPoint; --y) {
-            for(int x = brushSize; x >= 0; --x) {
+        for (int y = yEndPoint; y >= yStartingPoint; --y) {
+            for (int x = brushSize; x >= 0; --x) {
                 double xSquared = Math.pow(x, 2.0D);
 
-                for(int z = brushSize; z >= 0; --z) {
+                for (int z = brushSize; z >= 0; --z) {
                     if (xSquared + Math.pow(z, 2.0D) <= bSquared) {
                         this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y), blockZ + z, this.clampY(blockX + x, y, blockZ + z));
                         this.performer.perform(this.getEditSession(), blockX + x, this.clampY(y), blockZ - z, this.clampY(blockX + x, y, blockZ - z));
